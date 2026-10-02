@@ -1,0 +1,18 @@
+[
+  {
+    "id": "learning_rate_seed3_001",
+    "hypothesis_case_id": "learning_rate_outcome_001",
+    "model_seed": 244,
+    "shuffle_seed": 243,
+    "low_run_id": "lr_005_seed3",
+    "high_run_id": "lr_01_seed3"
+  },
+  {
+    "id": "learning_rate_seed4_001",
+    "hypothesis_case_id": "learning_rate_outcome_002",
+    "model_seed": 344,
+    "shuffle_seed": 343,
+    "low_run_id": "lr_005_seed4",
+    "high_run_id": "lr_01_seed4"
+  }
+]

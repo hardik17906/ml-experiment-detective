@@ -1,0 +1,19 @@
+# Hypothesis generation request
+
+Question: Did raising the learning rate contribute to worse final validation accuracy?
+
+The evidence items are descriptive facts calculated from saved run JSON. A valid evidence ID does not by itself make a causal explanation true.
+
+- E1: For model/shuffle seeds 44/43, the recorded configurations differ only in learning rate (0.05 versus 0.1). Sources: lr_005_gap_001, baseline_gap_001.
+- E2: For model/shuffle seeds 44/43, the largest one-epoch validation-loss rise was none at learning rate 0.05 and +0.5489 (epochs 1→2) at 0.1. Sources: lr_005_gap_001, baseline_gap_001.
+- E3: For model/shuffle seeds 44/43, final validation accuracy was 75.15% at learning rate 0.05 and 71.25% at 0.1 (-3.90 percentage points for high minus low). Sources: lr_005_gap_001, baseline_gap_001.
+- E4: For model/shuffle seeds 144/143, the recorded configurations differ only in learning rate (0.05 versus 0.1). Sources: lr_005_seed2, lr_01_seed2.
+- E5: For model/shuffle seeds 144/143, the largest one-epoch validation-loss rise was +0.0012 (epochs 3→4) at learning rate 0.05 and +0.1005 (epochs 3→4) at 0.1. Sources: lr_005_seed2, lr_01_seed2.
+- E6: For model/shuffle seeds 144/143, final validation accuracy was 76.05% at learning rate 0.05 and 76.35% at 0.1 (+0.30 percentage points for high minus low). Sources: lr_005_seed2, lr_01_seed2.
+- E7: The high-minus-low final validation-accuracy difference changed from -3.90 to +0.30 percentage points across the two matched seed blocks. Sources: lr_005_gap_001, baseline_gap_001, lr_005_seed2, lr_01_seed2.
+
+Return exactly two distinct, tentative hypotheses in JSON:
+- Type `loss_rise_mechanism`: a possible explanation for larger temporary validation-loss rises at the higher learning rate. Support it with E2 and E5. Keep this description about loss rises; do not claim they worsened final accuracy.
+- Type `seed_moderation`: a possible explanation for why the final accuracy effect differs across seed blocks. Support it with E3, E6, and E7. Mention both seeds and accuracy in the description.
+
+For each, give `type`, a short `description`, `support_ids`, `against_ids`, and `missing_evidence`. Choose any additional IDs only if they actually bear on that specific hypothesis; an against-ID list may be empty if these records contain no direct counterexample. Two matched seed blocks already exist. State what new matched seed blocks or finer measurements would test each possibility. Do not invent measurements, put numbers in free text, say a future test will confirm a cause, claim proof of causation, or call evidence IDs probabilities.

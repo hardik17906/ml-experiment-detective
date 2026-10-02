@@ -1,0 +1,54 @@
+{
+  "plan_id": "learning_rate_seed3_001",
+  "hypothesis_case_id": "learning_rate_outcome_001",
+  "phase0_sha256": "a2de5de5ad8fa31eda8d1905003ba591eed7c74e77ee36d29a7cfb4bc54c383e",
+  "changed_setting": "learning_rate",
+  "older_record_fields_not_explicit": [
+    "dropout",
+    "validation_start"
+  ],
+  "planned_runs": [
+    {
+      "config": {
+        "run_id": "lr_005_seed3",
+        "dataset": "FashionMNIST",
+        "source_partition": "train",
+        "preprocessing": "ToTensor",
+        "train_size": 10000,
+        "val_size": 2000,
+        "split_seed": 42,
+        "batch_size": 128,
+        "hidden_units": 128,
+        "optimizer": "SGD",
+        "epochs": 5,
+        "validation_start": 10000,
+        "dropout": 0.0,
+        "model_seed": 244,
+        "shuffle_seed": 243,
+        "learning_rate": 0.05
+      },
+      "command": "python phase0.py --run-id lr_005_seed3 --learning-rate 0.05 --model-seed 244 --shuffle-seed 243 --train-size 10000 --epochs 5 --dropout 0"
+    },
+    {
+      "config": {
+        "run_id": "lr_01_seed3",
+        "dataset": "FashionMNIST",
+        "source_partition": "train",
+        "preprocessing": "ToTensor",
+        "train_size": 10000,
+        "val_size": 2000,
+        "split_seed": 42,
+        "batch_size": 128,
+        "hidden_units": 128,
+        "optimizer": "SGD",
+        "epochs": 5,
+        "validation_start": 10000,
+        "dropout": 0.0,
+        "model_seed": 244,
+        "shuffle_seed": 243,
+        "learning_rate": 0.1
+      },
+      "command": "python phase0.py --run-id lr_01_seed3 --learning-rate 0.1 --model-seed 244 --shuffle-seed 243 --train-size 10000 --epochs 5 --dropout 0"
+    }
+  ]
+}

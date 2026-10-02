@@ -1,0 +1,80 @@
+{
+  "plan_id": "learning_rate_seed4_001",
+  "hypothesis_case_id": "learning_rate_outcome_002",
+  "phase0_sha256": "a2de5de5ad8fa31eda8d1905003ba591eed7c74e77ee36d29a7cfb4bc54c383e",
+  "changed_setting": "learning_rate",
+  "older_record_fields_not_explicit": [
+    "dropout",
+    "validation_start"
+  ],
+  "source_outcomes": [
+    {
+      "low_run_id": "lr_005_gap_001",
+      "high_run_id": "baseline_gap_001",
+      "model_seed": 44,
+      "shuffle_seed": 43,
+      "accuracy_delta_pp": -3.9,
+      "larger_loss_rise_at_high": true
+    },
+    {
+      "low_run_id": "lr_005_seed2",
+      "high_run_id": "lr_01_seed2",
+      "model_seed": 144,
+      "shuffle_seed": 143,
+      "accuracy_delta_pp": 0.3,
+      "larger_loss_rise_at_high": true
+    },
+    {
+      "low_run_id": "lr_005_seed3",
+      "high_run_id": "lr_01_seed3",
+      "model_seed": 244,
+      "shuffle_seed": 243,
+      "accuracy_delta_pp": -4.45,
+      "larger_loss_rise_at_high": true
+    }
+  ],
+  "planned_runs": [
+    {
+      "config": {
+        "run_id": "lr_005_seed4",
+        "dataset": "FashionMNIST",
+        "source_partition": "train",
+        "preprocessing": "ToTensor",
+        "train_size": 10000,
+        "val_size": 2000,
+        "split_seed": 42,
+        "batch_size": 128,
+        "hidden_units": 128,
+        "optimizer": "SGD",
+        "epochs": 5,
+        "validation_start": 10000,
+        "dropout": 0.0,
+        "model_seed": 344,
+        "shuffle_seed": 343,
+        "learning_rate": 0.05
+      },
+      "command": "python phase0.py --run-id lr_005_seed4 --learning-rate 0.05 --model-seed 344 --shuffle-seed 343 --train-size 10000 --epochs 5 --dropout 0"
+    },
+    {
+      "config": {
+        "run_id": "lr_01_seed4",
+        "dataset": "FashionMNIST",
+        "source_partition": "train",
+        "preprocessing": "ToTensor",
+        "train_size": 10000,
+        "val_size": 2000,
+        "split_seed": 42,
+        "batch_size": 128,
+        "hidden_units": 128,
+        "optimizer": "SGD",
+        "epochs": 5,
+        "validation_start": 10000,
+        "dropout": 0.0,
+        "model_seed": 344,
+        "shuffle_seed": 343,
+        "learning_rate": 0.1
+      },
+      "command": "python phase0.py --run-id lr_01_seed4 --learning-rate 0.1 --model-seed 344 --shuffle-seed 343 --train-size 10000 --epochs 5 --dropout 0"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+[
+  {
+    "id": "learning_rate_outcome_001",
+    "question": "Did raising the learning rate contribute to worse final validation accuracy?",
+    "pairs": [
+      {"low": "lr_005_gap_001", "high": "baseline_gap_001"},
+      {"low": "lr_005_seed2", "high": "lr_01_seed2"}
+    ]
+  },
+  {
+    "id": "learning_rate_outcome_002",
+    "question": "Across three matched seed blocks, did raising the learning rate consistently lower final validation accuracy?",
+    "pairs": [
+      {"low": "lr_005_gap_001", "high": "baseline_gap_001"},
+      {"low": "lr_005_seed2", "high": "lr_01_seed2"},
+      {"low": "lr_005_seed3", "high": "lr_01_seed3"}
+    ]
+  }
+]
