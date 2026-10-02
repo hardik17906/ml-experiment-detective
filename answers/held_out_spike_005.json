@@ -1,0 +1,30 @@
+{
+  "prompt_id": "held_out_spike_005",
+  "source_packet_id": "held_out_spike_002",
+  "prompt_path": "D:\\Agentic_ai_rag projects\\prompts\\held_out_spike_005.md",
+  "prompt_sha256": "9ad2ddd58a504a7c008b4d0dbc130fe327ae4a53d01c93e496d479c1fabaa254",
+  "model": "qwen3:1.7b",
+  "options": {
+    "temperature": 0,
+    "num_ctx": 4096,
+    "num_predict": 512
+  },
+  "thinking_enabled": false,
+  "generated_at_utc": "2026-10-02T14:14:12.231961+00:00",
+  "done_reason": "stop",
+  "prompt_tokens": 1648,
+  "answer_tokens": 192,
+  "model_response": {
+    "answer": "Yes, the held-out error (validation loss) spiked and recovered.",
+    "observed_facts": [
+      {
+        "run_id": "baseline_gap_001",
+        "claim": "Validation loss rose from 0.8696 at epoch 1 to 1.4186 at epoch 2, then fell to 0.6663 at epoch 3. At epoch 5, post-epoch training loss was 0.8092 and validation loss was 0.8208."
+      },
+      {
+        "run_id": "lr_01_seed2",
+        "claim": "Validation loss rose from 0.7136 at epoch 3 to 0.8142 at epoch 4, then fell to 0.6793 at epoch 5."
+      }
+    ]
+  }
+}

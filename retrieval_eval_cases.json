@@ -1,0 +1,32 @@
+[
+  {
+    "id": "held_out_spike",
+    "query": "Did the held-out error spike and recover?",
+    "relevant": ["baseline_gap_001", "lr_01_seed2"],
+    "reason": "Both observations record validation loss rising and then falling."
+  },
+  {
+    "id": "dropout_applied",
+    "query": "Which small-data run trained with dropout 0.5?",
+    "relevant": ["small_dropout_05_001"],
+    "reason": "Only this run applied dropout 0.5."
+  },
+  {
+    "id": "no_dropout",
+    "query": "Which small-data run trained without dropout?",
+    "relevant": ["small_no_dropout_001"],
+    "reason": "This run explicitly used no dropout; the matched run used dropout 0.5."
+  },
+  {
+    "id": "steady_loss",
+    "query": "Which learning-rate run had validation loss decrease every epoch?",
+    "relevant": ["lr_005_gap_001"],
+    "reason": "Its observation says validation loss decreased in each of five epochs."
+  },
+  {
+    "id": "alternate_seed_spike",
+    "query": "Which alternate-seed run had a temporary validation loss increase?",
+    "relevant": ["lr_01_seed2"],
+    "reason": "This note mentions alternate seeds and a validation-loss rise followed by a fall."
+  }
+]

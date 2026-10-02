@@ -1,0 +1,16 @@
+{
+  "packet_id": "held_out_spike_001",
+  "prompt_path": "D:\\Agentic_ai_rag projects\\prompts\\held_out_spike_001.md",
+  "prompt_sha256": "15119e8b753dd33ecf30caa5e568906b10625965ef627064c6d8b7f6b78ec623",
+  "model": "qwen3:1.7b",
+  "options": {
+    "temperature": 0,
+    "num_ctx": 4096,
+    "num_predict": 512
+  },
+  "thinking_enabled": false,
+  "generated_at_utc": "2026-10-02T14:01:37.502581+00:00",
+  "done_reason": "stop",
+  "prompt_tokens": 1412,
+  "answer_tokens": 264
+}

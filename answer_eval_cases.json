@@ -1,0 +1,16 @@
+[
+  {
+    "id": "spike_and_recovery",
+    "answer_id": "held_out_spike_008",
+    "expected_runs": ["baseline_gap_001", "lr_01_seed2"],
+    "expected_answer": "yes",
+    "reason": "Each cited run has a validation-loss increase followed by a decrease."
+  },
+  {
+    "id": "steady_validation_loss",
+    "answer_id": "steady_no_spike_002",
+    "expected_runs": ["lr_005_gap_001"],
+    "expected_answer": "no",
+    "reason": "Validation loss decreases at every recorded epoch of this run."
+  }
+]

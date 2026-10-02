@@ -1,0 +1,96 @@
+{
+  "prompt_id": "held_out_spike_007",
+  "source_packet_id": "held_out_spike_002",
+  "prompt_path": "D:\\Agentic_ai_rag projects\\prompts\\held_out_spike_007.md",
+  "prompt_sha256": "f14663fafce398a574cc95d51ab18989f2f37eb299866678256f3321f93c386c",
+  "model": "qwen3:1.7b",
+  "options": {
+    "temperature": 0,
+    "num_ctx": 4096,
+    "num_predict": 512
+  },
+  "thinking_enabled": false,
+  "generated_at_utc": "2026-10-02T16:05:04.760093+00:00",
+  "done_reason": "stop",
+  "prompt_tokens": 1714,
+  "answer_tokens": 281,
+  "model_response": {
+    "answer": "Yes",
+    "observations": [
+      {
+        "run_id": "baseline_gap_001",
+        "epoch": 1,
+        "metric": "val_loss",
+        "value": "0.8696"
+      },
+      {
+        "run_id": "baseline_gap_001",
+        "epoch": 2,
+        "metric": "val_loss",
+        "value": "1.4186"
+      },
+      {
+        "run_id": "baseline_gap_001",
+        "epoch": 3,
+        "metric": "val_loss",
+        "value": "0.6663"
+      },
+      {
+        "run_id": "lr_01_seed2",
+        "epoch": 3,
+        "metric": "val_loss",
+        "value": "0.7136"
+      },
+      {
+        "run_id": "lr_01_seed2",
+        "epoch": 4,
+        "metric": "val_loss",
+        "value": "0.8142"
+      },
+      {
+        "run_id": "lr_01_seed2",
+        "epoch": 5,
+        "metric": "val_loss",
+        "value": "0.6793"
+      }
+    ]
+  },
+  "verified_observations": [
+    {
+      "run_id": "baseline_gap_001",
+      "epoch": 1,
+      "metric": "val_loss",
+      "value": "0.8696"
+    },
+    {
+      "run_id": "baseline_gap_001",
+      "epoch": 2,
+      "metric": "val_loss",
+      "value": "1.4186"
+    },
+    {
+      "run_id": "baseline_gap_001",
+      "epoch": 3,
+      "metric": "val_loss",
+      "value": "0.6663"
+    },
+    {
+      "run_id": "lr_01_seed2",
+      "epoch": 3,
+      "metric": "val_loss",
+      "value": "0.7136"
+    },
+    {
+      "run_id": "lr_01_seed2",
+      "epoch": 4,
+      "metric": "val_loss",
+      "value": "0.8142"
+    },
+    {
+      "run_id": "lr_01_seed2",
+      "epoch": 5,
+      "metric": "val_loss",
+      "value": "0.6793"
+    }
+  ]
+}
