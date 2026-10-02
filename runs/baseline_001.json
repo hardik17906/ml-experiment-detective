@@ -1,0 +1,50 @@
+{
+  "config": {
+    "run_id": "baseline_001",
+    "dataset": "FashionMNIST",
+    "source_partition": "train",
+    "preprocessing": "ToTensor",
+    "train_size": 10000,
+    "val_size": 2000,
+    "split_seed": 42,
+    "shuffle_seed": 43,
+    "model_seed": 44,
+    "batch_size": 128,
+    "hidden_units": 128,
+    "optimizer": "SGD",
+    "learning_rate": 0.1,
+    "epochs": 5
+  },
+  "metrics": [
+    {
+      "epoch": 1,
+      "train_loss_during_epoch": 1.2743709097385407,
+      "val_loss": 0.8696367411613465,
+      "val_accuracy": 0.6635
+    },
+    {
+      "epoch": 2,
+      "train_loss_during_epoch": 0.7620800113677979,
+      "val_loss": 1.4185610065460206,
+      "val_accuracy": 0.615
+    },
+    {
+      "epoch": 3,
+      "train_loss_during_epoch": 0.6735970516681671,
+      "val_loss": 0.6662915515899658,
+      "val_accuracy": 0.751
+    },
+    {
+      "epoch": 4,
+      "train_loss_during_epoch": 0.6022407117843628,
+      "val_loss": 0.7384269852638244,
+      "val_accuracy": 0.731
+    },
+    {
+      "epoch": 5,
+      "train_loss_during_epoch": 0.5674220984458923,
+      "val_loss": 0.8207873892784119,
+      "val_accuracy": 0.7125
+    }
+  ]
+}

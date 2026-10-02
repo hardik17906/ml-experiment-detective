@@ -1,0 +1,60 @@
+{
+  "config": {
+    "run_id": "lr_gap_001",
+    "dataset": "FashionMNIST",
+    "source_partition": "train",
+    "preprocessing": "ToTensor",
+    "train_size": 10000,
+    "val_size": 2000,
+    "split_seed": 42,
+    "shuffle_seed": 43,
+    "model_seed": 44,
+    "batch_size": 128,
+    "hidden_units": 128,
+    "optimizer": "SGD",
+    "learning_rate": 0.01,
+    "epochs": 5
+  },
+  "metrics": [
+    {
+      "epoch": 1,
+      "train_loss_during_epoch": 2.1403219146728514,
+      "train_loss_after_epoch": 1.962528547668457,
+      "train_accuracy_after_epoch": 0.5846,
+      "val_loss": 1.9595996541976928,
+      "val_accuracy": 0.5855
+    },
+    {
+      "epoch": 2,
+      "train_loss_during_epoch": 1.7827047834396361,
+      "train_loss_after_epoch": 1.6019420253753662,
+      "train_accuracy_after_epoch": 0.6016,
+      "val_loss": 1.5945555429458618,
+      "val_accuracy": 0.6055
+    },
+    {
+      "epoch": 3,
+      "train_loss_during_epoch": 1.4583035793304444,
+      "train_loss_after_epoch": 1.329028130531311,
+      "train_accuracy_after_epoch": 0.6479,
+      "val_loss": 1.313155544281006,
+      "val_accuracy": 0.657
+    },
+    {
+      "epoch": 4,
+      "train_loss_during_epoch": 1.2379400568008423,
+      "train_loss_after_epoch": 1.1566417317390443,
+      "train_accuracy_after_epoch": 0.6442,
+      "val_loss": 1.14380051612854,
+      "val_accuracy": 0.645
+    },
+    {
+      "epoch": 5,
+      "train_loss_during_epoch": 1.0974908952713012,
+      "train_loss_after_epoch": 1.0449370893478394,
+      "train_accuracy_after_epoch": 0.6619,
+      "val_loss": 1.0303948459625245,
+      "val_accuracy": 0.664
+    }
+  ]
+}
