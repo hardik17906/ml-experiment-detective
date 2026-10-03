@@ -1,0 +1,65 @@
+"""Interactive CLI for V2 manual/graph agents; V1 simple mode is preserved."""
+
+import argparse
+
+from simple_agent import answer_question as answer_simple
+from v2_agent import print_trace, run_manual
+from v2_state import SessionState
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Ask questions about saved ML experiments")
+    parser.add_argument("--question", help="ask one question and exit")
+    parser.add_argument("--no-trace", action="store_true", help="hide tool requests and results")
+    parser.add_argument("--agent", choices=("manual", "graph", "simple"), default="manual")
+    parser.add_argument("--rerank", action="store_true", help="opt in to the cached cross-encoder reranker")
+    args = parser.parse_args()
+
+    print(f"ML Experiment Detective V2 ({args.agent} agent, local Ollama)")
+    if args.question is None:
+        print("Ask about runs, observations, or ML knowledge. Type clear to reset memory; exit to quit.")
+    session = SessionState()
+
+    while True:
+        if args.question is not None:
+            question = args.question
+        else:
+            try:
+                question = input("\n> ").strip()
+            except (EOFError, KeyboardInterrupt):
+                print("\nGoodbye.")
+                return
+            if question.lower() in {"exit", "quit"}:
+                print("Goodbye.")
+                return
+            if question.lower() == "clear":
+                session.clear()
+                print("Session memory cleared.")
+                continue
+            if not question:
+                continue
+
+        print(f"\nUSER -> {question}")
+        try:
+            if args.agent == "simple":
+                answer = answer_simple(question, trace=not args.no_trace)
+            else:
+                if args.agent == "manual":
+                    result = run_manual(question, session, rerank=args.rerank)
+                else:
+                    from graph_agent import run_graph
+
+                    result = run_graph(question, session, rerank=args.rerank)
+                if not args.no_trace:
+                    print_trace(result["trace"])
+                answer = result["answer"]
+            print("\nANSWER")
+            print(answer)
+        except (OSError, ValueError, RuntimeError) as exc:
+            print(f"Could not answer: {exc}")
+        if args.question is not None:
+            return
+
+
+if __name__ == "__main__":
+    main()

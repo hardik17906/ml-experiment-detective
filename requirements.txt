@@ -1,0 +1,4 @@
+# Local V2 UI, retrieval, and graph orchestration. Ollama uses Python's standard library.
+sentence-transformers==6.1.0
+streamlit==1.65.0
+langgraph==1.2.12
