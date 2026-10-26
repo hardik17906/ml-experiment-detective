@@ -1,4 +1,41 @@
-# ML Experiment Detective V2
+# ML Experiment Detective V3
+
+V3 adds a persistent **Agentic Research Investigator** alongside the preserved V1/V2 agents. It plans investigations, checks exact run metrics and controls, considers competing hypotheses, proposes a controlled experiment, and pauses for an explicit human decision. SQLite/LangGraph checkpoints let an investigation survive application restarts.
+
+## Use V3
+
+```powershell
+cd "D:\Agentic_ai_rag projects"
+.\.venv\Scripts\streamlit.exe run ui.py
+```
+
+Open the displayed local address and use **Investigations (V3)**. Start a question, inspect the plan/evidence/hypotheses, and review the proposed settings. **Approve dry run** exercises the workflow without training. Live training requires selecting the explicit live-training checkbox and approving that exact proposal. Editing invalidates earlier approval. **Chat and runs (V1/V2)** retains the existing agents and run charts.
+
+```powershell
+.\.venv\Scripts\python.exe app.py --agent research --question "Investigate why lr_01_seed3 performed worse than lr_005_seed3."
+.\.venv\Scripts\python.exe -m v3.cli list
+.\.venv\Scripts\python.exe -m v3.cli resume "INV-ID-FROM-START"
+.\.venv\Scripts\python.exe -m v3.cli show "INV-ID-FROM-START"
+.\.venv\Scripts\python.exe -m v3.cli export "INV-ID-FROM-START"
+```
+
+Replace the quoted investigation-ID placeholder with the ID printed by `start`/`list`. Reopening/resuming does not approve training. The CLI also supports `decide` and `modify`; see [the complete V3 reference](docs/V3_COMPLETE_IMPLEMENTATION_CONTEXT.md) for exact commands and permissions.
+
+```powershell
+.\.venv\Scripts\python.exe evaluate_v3.py
+.\.venv\Scripts\python.exe evaluate_v3_retrieval.py
+.\.venv\Scripts\python.exe validate_v3_ui.py
+.\.venv\Scripts\python.exe validate_v3_live.py
+.\.venv\Scripts\python.exe -m v3.demo
+```
+
+The demo reads real saved data and grants **development dry-run permission only**. It creates no training measurements. Test fixtures are explicitly labeled. Live end-to-end training has not been performed during V3 development; fixture ingestion, failures/timeouts, approval enforcement, persistence and UI behavior have been exercised separately. The executor supports the existing bounded Fashion-MNIST MLP learning-rate intervention, rather than arbitrary training jobs.
+
+Runtime investigation state/logs/exports are stored under ignored `investigations/` on D:. Reviewable demonstrations and evaluation results are under `reports/v3_*`. Human notes, original run JSON and ML-knowledge files are preserved. The original V2 retrieval benchmark remains available; V3's measured source-priority policy keeps generated summaries supplementary because flat mixing degraded those labels. Reranking remains off by default.
+
+Study [V3 architecture](docs/V3_ARCHITECTURE.md), [the learning order](docs/STUDY_V3.md), [the verified trace](docs/V3_COMPLETE_TRACE.md), [evaluation and limitations](docs/V3_EVALUATION.md), and the single uploadable [complete implementation context](docs/V3_COMPLETE_IMPLEMENTATION_CONTEXT.md).
+
+## Preserved V1/V2 project
 
 A local learning project for RAG and tool-using agents over saved Fashion-MNIST experiments. It keeps the original explicit agent loop and adds bounded conversation memory, hybrid note retrieval, optional reranking, deterministic analysis tools, separate ML-knowledge retrieval, a Streamlit UI, and a LangGraph version.
 
