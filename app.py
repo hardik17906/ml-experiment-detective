@@ -11,9 +11,17 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Ask questions about saved ML experiments")
     parser.add_argument("--question", help="ask one question and exit")
     parser.add_argument("--no-trace", action="store_true", help="hide tool requests and results")
-    parser.add_argument("--agent", choices=("manual", "graph", "simple"), default="manual")
+    parser.add_argument("--agent", choices=("manual", "graph", "simple", "research"), default="manual")
     parser.add_argument("--rerank", action="store_true", help="opt in to the cached cross-encoder reranker")
     args = parser.parse_args()
+
+    if args.agent == "research":
+        from v3.cli import main as research_cli
+        if args.question:
+            research_cli(["start", args.question])
+        else:
+            print('Use: python -m v3.cli start "Investigate ..."; list/show/resume/decide/export manage saved work.')
+        return
 
     print(f"ML Experiment Detective V2 ({args.agent} agent, local Ollama)")
     if args.question is None:
