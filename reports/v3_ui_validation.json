@@ -1,0 +1,14 @@
+{
+  "passed": 8,
+  "checks": [
+    "V3 empty investigation workspace renders",
+    "New-investigation form executes and persists state",
+    "Plan, evidence/charts, hypotheses, approval, execution, report, trace tabs render",
+    "Resume preserves the pending approval gate",
+    "Explicit UI approval reaches dry-run completion without training",
+    "Markdown report export writes a real file",
+    "V1/V2 workspace and saved-run charts still render",
+    "V1 simple, V2 manual and V2 graph modes remain selectable"
+  ],
+  "limitation": "Streamlit AppTest execution; no screenshot or browser visual inspection and no live training."
+}

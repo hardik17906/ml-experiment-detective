@@ -1,0 +1,90 @@
+[
+  {
+    "path": "runs/baseline_001.json",
+    "sha256": "e2e722b4ac0da8752683dd1580008d3fe90044bbe0b5d5b40e377fd328e2bd36"
+  },
+  {
+    "path": "runs/baseline_gap_001.json",
+    "sha256": "528a507bad2779f245a18957451e22531156cfb4d085f01a8e476848aafa0dc0"
+  },
+  {
+    "path": "runs/lr_001.json",
+    "sha256": "766769d27e3aac73f15a15f0fb054b8202d547dca0dbadbab9e81e9a502f122f"
+  },
+  {
+    "path": "runs/lr_005_gap_001.json",
+    "sha256": "671f5f77a8923c986c26bdc1f37d2a9cd28acb257f7e8ab7f10be4056fe90b7a"
+  },
+  {
+    "path": "runs/lr_005_seed2.json",
+    "sha256": "4b55cdcd8de7b1f1bee3b6244db66a617c3c3e2b0fd326ce71da4d432f11beb7"
+  },
+  {
+    "path": "runs/lr_005_seed3.json",
+    "sha256": "ccc5bb83a67915244b8cdd241532498f34ed4f01ae3b880e838cf3b4b6123fba"
+  },
+  {
+    "path": "runs/lr_01_seed2.json",
+    "sha256": "e5d7022c386a27d6bfe6f878c2b2ccef347b6d1ad7fb82457984b10e51c79379"
+  },
+  {
+    "path": "runs/lr_01_seed3.json",
+    "sha256": "e8b4a1a484dab10b9e92877c7f8a22e463780c7951aca53874cfef7bf36cd38b"
+  },
+  {
+    "path": "runs/lr_gap_001.json",
+    "sha256": "e9067649b55b1cca8129436e9464b4421f621d704b7f8503787b9815d2cc880d"
+  },
+  {
+    "path": "runs/small_dropout_05_001.json",
+    "sha256": "90195163be61d4f6c85c4ef8b9e159bf85ffc30841f7f1996240b034b7693639"
+  },
+  {
+    "path": "runs/small_no_dropout_001.json",
+    "sha256": "8cc3dde901ea32874d9fbe7686cf6f9b75e5fe64516f694e9ac220e447925347"
+  },
+  {
+    "path": "runs/validation_loss_seed1.png",
+    "sha256": "f7f594a8201f38ef7af67a2986495eb5c90b7552c4a3973bcffb4a19822b0252"
+  },
+  {
+    "path": "notes/baseline_gap_001.md",
+    "sha256": "7d7eca4b9cfe562700d7ffc3b40e528a9e35a0a3fd848f08d1d487225422117d"
+  },
+  {
+    "path": "notes/lr_005_gap_001.md",
+    "sha256": "fa49e3c70272bd966f19af19143f55a4de0f3b8bb372deabaf055d3c2dbb3f55"
+  },
+  {
+    "path": "notes/lr_01_seed2.md",
+    "sha256": "d7155525bc986b3a5f6ef45efa101f0891abc6673d549cad17577242ff4f48a5"
+  },
+  {
+    "path": "notes/small_dropout_05_001.md",
+    "sha256": "f22d48b0a3cc5bff977170f6430d25193846300034ba69d125a7e55e17a4e30a"
+  },
+  {
+    "path": "notes/small_no_dropout_001.md",
+    "sha256": "18f0bf897a252552b530bab1ce10356e572dd98e0288f424dc93ba4c702f5504"
+  },
+  {
+    "path": "knowledge/dropout.md",
+    "sha256": "697646075e1033773dcb5acfd36cf156bb78fa438aedfd356843b374013cf7f0"
+  },
+  {
+    "path": "knowledge/learning_rates.md",
+    "sha256": "65d13b36b4ce5b24bd387e1c2a6f976f516b666cebee3f141c646321dc5ad9f4"
+  },
+  {
+    "path": "knowledge/optimization.md",
+    "sha256": "007f85e3a1ec6d7347366ac8213c98d386fc0642f8218e9342e02dac5e47f333"
+  },
+  {
+    "path": "knowledge/overfitting.md",
+    "sha256": "8e7cfab37fd947f5fa5729a2d55c36462af9e0a0f0c624ec23df581640fef8da"
+  },
+  {
+    "path": "knowledge/validation.md",
+    "sha256": "d3fa6c738f320ad11328e9d25af1a3673bd1635f418d9c7a1bf8db2e96e40a7e"
+  }
+]

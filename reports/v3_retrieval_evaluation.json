@@ -1,0 +1,444 @@
+{
+  "scope": "Five fixed V2 labels; expanded coverage separately tests exact IDs absent from human notes. This is not a broad retrieval benchmark.",
+  "means": {
+    "v2_keyword": {
+      "recall_at_2": 0.9,
+      "mrr_at_2": 0.8
+    },
+    "v2_semantic": {
+      "recall_at_2": 1.0,
+      "mrr_at_2": 0.9
+    },
+    "v2_hybrid": {
+      "recall_at_2": 0.9,
+      "mrr_at_2": 0.9
+    },
+    "v2_reranked": {
+      "recall_at_2": 0.8,
+      "mrr_at_2": 0.7
+    },
+    "v3_normalized_human": {
+      "recall_at_2": 1.0,
+      "mrr_at_2": 0.9
+    },
+    "v3_normalized_expanded": {
+      "recall_at_2": 0.6,
+      "mrr_at_2": 0.6
+    },
+    "v3_original_keyword_expanded": {
+      "recall_at_2": 0.7,
+      "mrr_at_2": 0.6
+    },
+    "v3_human_priority_expanded": {
+      "recall_at_2": 1.0,
+      "mrr_at_2": 0.9
+    }
+  },
+  "cases": [
+    {
+      "id": "held_out_spike",
+      "query": "Did the held-out error spike and recover?",
+      "relevant": [
+        "baseline_gap_001",
+        "lr_01_seed2"
+      ],
+      "methods": {
+        "v2_keyword": {
+          "recall_at_2": 0.5,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "small_dropout_05_001",
+            "baseline_gap_001"
+          ]
+        },
+        "v2_semantic": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "baseline_gap_001",
+            "lr_01_seed2"
+          ]
+        },
+        "v2_hybrid": {
+          "recall_at_2": 0.5,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "baseline_gap_001",
+            "small_dropout_05_001"
+          ]
+        },
+        "v2_reranked": {
+          "recall_at_2": 0.0,
+          "mrr_at_2": 0,
+          "top_ids": [
+            "small_no_dropout_001",
+            "lr_005_gap_001"
+          ]
+        },
+        "v3_normalized_human": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "baseline_gap_001",
+            "lr_01_seed2"
+          ]
+        },
+        "v3_normalized_expanded": {
+          "recall_at_2": 0.0,
+          "mrr_at_2": 0,
+          "top_ids": [
+            "baseline_001",
+            "lr_005_seed2"
+          ]
+        },
+        "v3_original_keyword_expanded": {
+          "recall_at_2": 0.5,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "baseline_gap_001",
+            "baseline_001"
+          ]
+        },
+        "v3_human_priority_expanded": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "baseline_gap_001",
+            "lr_01_seed2"
+          ]
+        }
+      }
+    },
+    {
+      "id": "dropout_applied",
+      "query": "Which small-data run trained with dropout 0.5?",
+      "relevant": [
+        "small_dropout_05_001"
+      ],
+      "methods": {
+        "v2_keyword": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "lr_01_seed2"
+          ]
+        },
+        "v2_semantic": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "v2_hybrid": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "v2_reranked": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "v3_normalized_human": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "baseline_gap_001"
+          ]
+        },
+        "v3_normalized_expanded": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "lr_001"
+          ]
+        },
+        "v3_original_keyword_expanded": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "lr_001"
+          ]
+        },
+        "v3_human_priority_expanded": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "baseline_gap_001"
+          ]
+        }
+      }
+    },
+    {
+      "id": "no_dropout",
+      "query": "Which small-data run trained without dropout?",
+      "relevant": [
+        "small_no_dropout_001"
+      ],
+      "methods": {
+        "v2_keyword": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "v2_semantic": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "v2_hybrid": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "v2_reranked": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "v3_normalized_human": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "v3_normalized_expanded": {
+          "recall_at_2": 0.0,
+          "mrr_at_2": 0,
+          "top_ids": [
+            "lr_001",
+            "baseline_001"
+          ]
+        },
+        "v3_original_keyword_expanded": {
+          "recall_at_2": 0.0,
+          "mrr_at_2": 0,
+          "top_ids": [
+            "lr_001",
+            "baseline_001"
+          ]
+        },
+        "v3_human_priority_expanded": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        }
+      }
+    },
+    {
+      "id": "steady_loss",
+      "query": "Which learning-rate run had validation loss decrease every epoch?",
+      "relevant": [
+        "lr_005_gap_001"
+      ],
+      "methods": {
+        "v2_keyword": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_005_gap_001",
+            "small_dropout_05_001"
+          ]
+        },
+        "v2_semantic": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_005_gap_001",
+            "baseline_gap_001"
+          ]
+        },
+        "v2_hybrid": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_005_gap_001",
+            "baseline_gap_001"
+          ]
+        },
+        "v2_reranked": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_005_gap_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "v3_normalized_human": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_005_gap_001",
+            "baseline_gap_001"
+          ]
+        },
+        "v3_normalized_expanded": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_005_gap_001",
+            "lr_001"
+          ]
+        },
+        "v3_original_keyword_expanded": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "lr_001",
+            "lr_005_gap_001"
+          ]
+        },
+        "v3_human_priority_expanded": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_005_gap_001",
+            "baseline_gap_001"
+          ]
+        }
+      }
+    },
+    {
+      "id": "alternate_seed_spike",
+      "query": "Which alternate-seed run had a temporary validation loss increase?",
+      "relevant": [
+        "lr_01_seed2"
+      ],
+      "methods": {
+        "v2_keyword": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_01_seed2",
+            "small_dropout_05_001"
+          ]
+        },
+        "v2_semantic": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_01_seed2",
+            "baseline_gap_001"
+          ]
+        },
+        "v2_hybrid": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_01_seed2",
+            "baseline_gap_001"
+          ]
+        },
+        "v2_reranked": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_01_seed2",
+            "lr_005_gap_001"
+          ]
+        },
+        "v3_normalized_human": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_01_seed2",
+            "baseline_gap_001"
+          ]
+        },
+        "v3_normalized_expanded": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_01_seed2",
+            "baseline_001"
+          ]
+        },
+        "v3_original_keyword_expanded": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "baseline_001",
+            "lr_01_seed2"
+          ]
+        },
+        "v3_human_priority_expanded": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_01_seed2",
+            "baseline_gap_001"
+          ]
+        }
+      }
+    }
+  ],
+  "unnoted_run_coverage": [
+    {
+      "query": "Show the recorded validation behavior of baseline_001",
+      "relevant": "baseline_001",
+      "v2_found": false,
+      "v3_found": true
+    },
+    {
+      "query": "Show the recorded validation behavior of lr_001",
+      "relevant": "lr_001",
+      "v2_found": false,
+      "v3_found": true
+    },
+    {
+      "query": "Show the recorded validation behavior of lr_005_seed2",
+      "relevant": "lr_005_seed2",
+      "v2_found": false,
+      "v3_found": true
+    },
+    {
+      "query": "Show the recorded validation behavior of lr_005_seed3",
+      "relevant": "lr_005_seed3",
+      "v2_found": false,
+      "v3_found": true
+    },
+    {
+      "query": "Show the recorded validation behavior of lr_01_seed3",
+      "relevant": "lr_01_seed3",
+      "v2_found": false,
+      "v3_found": true
+    },
+    {
+      "query": "Show the recorded validation behavior of lr_gap_001",
+      "relevant": "lr_gap_001",
+      "v2_found": false,
+      "v3_found": true
+    }
+  ],
+  "reranker_status": "cross-encoder/ms-marco-MiniLM-L2-v2 (local cache)"
+}

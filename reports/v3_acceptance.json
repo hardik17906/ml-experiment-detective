@@ -1,0 +1,84 @@
+{
+  "checks": [
+    {
+      "requirement": "V1/V2 still run",
+      "verified": true
+    },
+    {
+      "requirement": "Original data unchanged",
+      "verified": true,
+      "original_files_checked": 22
+    },
+    {
+      "requirement": "Persistent investigations survive restart",
+      "verified": true
+    },
+    {
+      "requirement": "Plans structured and traceable",
+      "verified": true
+    },
+    {
+      "requirement": "Hypotheses cite real evidence",
+      "verified": true
+    },
+    {
+      "requirement": "Controlled proposals valid",
+      "verified": true
+    },
+    {
+      "requirement": "Approval mandatory",
+      "verified": true
+    },
+    {
+      "requirement": "Rejected proposals blocked",
+      "verified": true
+    },
+    {
+      "requirement": "Dry run",
+      "verified": true
+    },
+    {
+      "requirement": "New-result ingestion",
+      "verified": true,
+      "scope": "Labeled fixtures; no actual new training output"
+    },
+    {
+      "requirement": "Graph recovery",
+      "verified": true
+    },
+    {
+      "requirement": "UI investigation paths",
+      "verified": true,
+      "scope": "Streamlit AppTest, not browser screenshots"
+    },
+    {
+      "requirement": "Unsupported questions",
+      "verified": true
+    },
+    {
+      "requirement": "Numeric accuracy and source grounding",
+      "verified": true
+    },
+    {
+      "requirement": "V3 evaluation suite",
+      "verified": true
+    },
+    {
+      "requirement": "D: local model/cache locations",
+      "verified": true,
+      "scope": "Existing D: folders and configured model path were inspected; no new models/datasets downloaded"
+    },
+    {
+      "requirement": "Original model/evaluation algorithm preserved",
+      "verified": true
+    },
+    {
+      "requirement": "Full live training",
+      "verified": false,
+      "scope": "Not authorized or run; dry-run, failure mocks and fixture ingestion only"
+    }
+  ],
+  "required_checks_passed": 17,
+  "live_training_verified": false,
+  "no_new_training_runs_created": true
+}
