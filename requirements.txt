@@ -1,4 +1,6 @@
-# Local V2 UI, retrieval, and graph orchestration. Ollama uses Python's standard library.
+# Local V1/V2/V3 UI, retrieval, orchestration and the reused training implementation.
 sentence-transformers==6.1.0
 streamlit==1.65.0
 langgraph==1.2.12
+langgraph-checkpoint-sqlite==3.1.2
+torchvision==0.29.1
