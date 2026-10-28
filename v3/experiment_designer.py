@@ -25,7 +25,7 @@ def validate_config(config):
     if not isinstance(config, dict) or set(config) != expected:
         raise ValueError("Configuration has missing or unsupported fields")
     if not isinstance(config["run_id"], str) or not re.fullmatch(r"v3_[a-z0-9_-]{1,80}", config["run_id"]):
-        raise ValueError("V3 run ID must be a safe, unique v3_ identifier")
+        raise ValueError("Run ID must be a safe, unique v3_ identifier")
     for key, val in FIXED.items():
         if config[key] != val or type(config[key]) is not type(val):
             raise ValueError(f"Unsupported fixed training control: {key}")
@@ -40,7 +40,7 @@ def validate_config(config):
 
 def saved_configs():
     configs = [load_run(p.stem)["config"] for p in RUNS_DIR.glob("*.json")]
-    # Existing unexecuted plans reserve seeds too; V3 does not resume the old seed-four branch.
+    # Existing unexecuted plans reserve seeds too; The investigator does not resume the old seed-four branch.
     for path in (ROOT / "plans").glob("*.json"):
         configs.extend(x["config"] for x in json.loads(path.read_text(encoding="utf-8")).get("planned_runs", []) if "config" in x)
     return configs

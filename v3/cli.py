@@ -1,4 +1,4 @@
-"""python -m v3.cli: start, list, show, resume, decide, modify, export."""
+"""python investigate.py: start, list, show, resume, decide, modify, export."""
 
 import argparse
 import json
@@ -8,7 +8,7 @@ from v3.service import Investigator
 
 
 def main(argv=None):
-    p = argparse.ArgumentParser(description="V3 Agentic Research Investigator")
+    p = argparse.ArgumentParser(description="ML Experiment Detective Research Investigator")
     p.add_argument("--db", help="optional local SQLite path")
     sub = p.add_subparsers(dest="command", required=True)
     start = sub.add_parser("start")
@@ -16,7 +16,7 @@ def main(argv=None):
     start.add_argument("--offline", action="store_true", help="use Python fallbacks for investigation planning and hypothesis selection")
     start.add_argument("--lexical", action="store_true", help="fixture/debug mode without embedding imports")
     sub.add_parser("list")
-    for name in ("show", "resume", "export"):
+    for name in ("show", "resume", "export", "cancel"):
         s = sub.add_parser(name)
         s.add_argument("investigation_id")
     dec = sub.add_parser("decide")
@@ -30,8 +30,11 @@ def main(argv=None):
     mod.add_argument("proposal_file")
     args = p.parse_args(argv)
     app = Investigator(args.db)
+    if args.command == "cancel":
+        print(app.cancel(args.investigation_id))
+        return
     if args.command == "list":
-        print(json.dumps(app.store.list(), indent=2))
+        print(json.dumps(app.store.list(research_only=True), indent=2))
         return
     if args.command == "start":
         state = app.start(args.question, model_enabled=not args.offline, semantic=not args.lexical)

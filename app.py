@@ -1,4 +1,4 @@
-"""Interactive CLI for V2 manual/graph agents; V1 simple mode is preserved."""
+"""Interactive experiment assistant with educational agent modes."""
 
 import argparse
 
@@ -11,7 +11,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Ask questions about saved ML experiments")
     parser.add_argument("--question", help="ask one question and exit")
     parser.add_argument("--no-trace", action="store_true", help="hide tool requests and results")
-    parser.add_argument("--agent", choices=("manual", "graph", "simple", "research"), default="manual")
+    parser.add_argument("--agent", choices=("assistant", "manual", "graph", "simple", "research"), default="assistant")
+    parser.add_argument("--offline", action="store_true", help="primary assistant uses visible Python fallbacks without Ollama")
+    parser.add_argument("--lexical", action="store_true", help="primary assistant searches without embedding imports")
     parser.add_argument("--rerank", action="store_true", help="opt in to the cached cross-encoder reranker")
     args = parser.parse_args()
 
@@ -20,10 +22,10 @@ def main() -> None:
         if args.question:
             research_cli(["start", args.question])
         else:
-            print('Use: python -m v3.cli start "Investigate ..."; list/show/resume/decide/export manage saved work.')
+            print('Use: python investigate.py start "Investigate ..."; list/show/resume/decide/export manage saved work.')
         return
 
-    print(f"ML Experiment Detective V2 ({args.agent} agent, local Ollama)")
+    print(f"ML Experiment Detective ({args.agent} agent, local evidence)")
     if args.question is None:
         print("Ask about runs, observations, or ML knowledge. Type clear to reset memory; exit to quit.")
     session = SessionState()
@@ -49,7 +51,13 @@ def main() -> None:
 
         print(f"\nUSER -> {question}")
         try:
-            if args.agent == "simple":
+            if args.agent == "assistant":
+                from assistant import ResearchAssistant
+                result = ResearchAssistant().ask(question, session, offline=args.offline, semantic=not args.lexical, rerank=args.rerank)
+                if not args.no_trace:
+                    print_trace(result["trace"])
+                answer = result["answer"]
+            elif args.agent == "simple":
                 answer = answer_simple(question, trace=not args.no_trace)
             else:
                 if args.agent == "manual":

@@ -5,6 +5,22 @@ from statistics import mean, median
 from experiment_data import RUNS_DIR, largest_rise, load_run, loss_recoveries
 
 
+def rank_experiments(sort_by="accuracy", learning_rate=None, train_size=None, dropout=None, top_k=11):
+    """Rank saved results; a spike is a measured positive epoch-to-epoch loss rise."""
+    from experiment_data import search_runs
+    if sort_by not in {"accuracy", "loss", "spike"} or type(top_k) is not int or not 1 <= top_k <= 20:
+        raise ValueError("Choose accuracy/loss/spike and top_k between 1 and 20")
+    result = search_runs(learning_rate, train_size, dropout)
+    for row in result["matches"]:
+        row["largest_loss_rise"] = round(largest_rise(load_run(row["run_id"])["metrics"])[0], 6)
+    key = {"accuracy": "final_validation_accuracy_percent", "loss": "final_validation_loss", "spike": "largest_loss_rise"}[sort_by]
+    result["matches"].sort(key=lambda r: ((r[key] if sort_by == "loss" else -r[key]), r["run_id"]))
+    result.update(sort_by=sort_by, total_matches=len(result["matches"]),
+                  limit="Ranking saved records is descriptive; configurations and horizons can differ. A loss rise is not a diagnosis.")
+    result["matches"] = result["matches"][:top_k]
+    return result
+
+
 def summarize_run_curve(run_id: str) -> dict:
     record = load_run(run_id)
     rows = record["metrics"]

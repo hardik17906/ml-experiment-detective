@@ -1,7 +1,6 @@
 """Durable LangGraph nodes. Only the approval branch reaches the executor."""
 
 from contextlib import contextmanager
-import json
 from typing import TypedDict
 
 from langgraph.checkpoint.sqlite import SqliteSaver
@@ -9,11 +8,11 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.types import interrupt
 
 from experiment_data import load_run
-from v3.analysis import analyze
+from v3.analysis import analyze, matched_runs, compare_records
 from v3.experiment_designer import design, validate_proposal
-from v3.experiment_executor import evaluate_outcomes, execute, ingest_record
+from v3.experiment_executor import evaluate_outcomes, execute
 from v3.hypothesis import build_evidence, generate, validate_evidence
-from v3.investigation_state import ROOT, event
+from v3.investigation_state import event
 from v3.planner import classify, make_plan, mark, unknown_run_ids, UNSUPPORTED
 from v3.report import render_report
 from v3.retrieval import knowledge, search_notes
@@ -47,15 +46,21 @@ def investigation_graph(store):
             from v2_state import mentioned_run_ids
             from v3.retrieval import knowledge
             import re
-            if not mentioned_run_ids(d["objective"]) and re.search(r"\b(what|why|explain|how)\b", d["objective"], re.I):
+            if not mentioned_run_ids(d["objective"]) and re.search(r"\b(why|explain|how|what is)\b", d["objective"], re.I) and not re.search(r"\b(best|available|experiments|runs|spikes)\b", d["objective"], re.I):
                 covered = knowledge(d["objective"], semantic=False)
                 if not covered["matches"]:
                     d["answer"] = "This ML topic is not covered by the small local knowledge base. I cannot provide a grounded answer from the available sources."
                     d["status"] = "completed"
                     return save(d)
-            from v2_agent import run_manual
-            result = run_manual(d["objective"])
+            if d.get("direct_mode") in {"graph", "policy"}:
+                from graph_agent import run_graph
+                result = run_graph(d["objective"], model_enabled=d["direct_mode"] == "graph",
+                                   final_tools=True, semantic=d.get("semantic", True), rerank=d.get("rerank", False))
+            else:
+                from v2_agent import run_manual
+                result = run_manual(d["objective"])
             d["answer"] = result["answer"]
+            d["tool_results"] = result.get("tool_results", [])
             d["trace"].extend(result["trace"])
         d["status"] = "completed"
         d["report"] = d["answer"]
@@ -82,6 +87,25 @@ def investigation_graph(store):
                 mark(d, "notes", "failed", str(exc))
                 d["uncertainties"].append(f"Note retrieval failed: {exc}")
         d["records"] = {}
+        if len(d["run_ids"]) == 1:
+            anchor = d["run_ids"][0]
+            matches = matched_runs(anchor)
+            if len(matches) == 1:
+                d["run_ids"] = [matches[0], anchor]
+                event(d, "REPLANNING", {"reason": "Found a counterpart with only the recorded learning rate changed",
+                                         "run_ids": d["run_ids"]}, "APP POLICY")
+        elif not d.get("explicit_run_ids") and d.get("direct_mode"):
+            from experiment_data import RUNS_DIR
+            from itertools import combinations
+            pairs = []
+            for a, b in combinations(sorted(p.stem for p in RUNS_DIR.glob("*.json")), 2):
+                pair = compare_records(load_run(a), load_run(b))
+                if pair["controlled_learning_rate_pair"]:
+                    pairs.append((len(set((a,b)) & set(d["run_ids"])), a, b))
+            if pairs:
+                _, a, b = max(pairs)
+                d["run_ids"] = sorted((a,b), key=lambda rid: load_run(rid)["config"]["learning_rate"])
+                event(d, "REPLANNING", {"reason": "Selected a fully recorded controlled pair from discovered candidates", "run_ids": d["run_ids"]}, "APP POLICY")
         for rid in d["run_ids"]:
             try:
                 record = load_run(rid)
@@ -144,7 +168,10 @@ def investigation_graph(store):
     def approval_node(s):
         d = s["doc"]
         p = store.proposal(d["proposal_id"])
-        validate_proposal(p["payload"])
+        try:
+            validate_proposal(p["payload"])
+        except ValueError as exc:
+            event(d, "APP POLICY", {"proposal_ineligible_for_approval": str(exc), "reject_or_modify": True})
         d["status"] = "awaiting_approval"
         mark(d, "approval", "waiting")
         event(d, "APPROVAL REQUEST", {"proposal_id": p["id"], "hash": p["hash"], "payload": p["payload"]}, "APP POLICY")
@@ -158,6 +185,8 @@ def investigation_graph(store):
         if p["status"] not in {"approved", "rejected", "deferred"}:
             raise PermissionError("No persisted human decision is available")
         d["status"] = p["status"]
+        if p["status"] == "approved":
+            validate_proposal(p["payload"])
         decision = store.decisions(p["id"])[-1]
         event(d, "USER DECISION", decision, "USER" if decision["actor"] == "user" else "DEVELOPMENT_DRY_RUN")
         mark(d, "approval")

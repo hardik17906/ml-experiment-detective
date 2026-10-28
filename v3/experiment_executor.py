@@ -55,8 +55,11 @@ def execute(store, proposal_id, expected_hash, mode):
                 raise FileNotFoundError("Cached Fashion-MNIST training partition is unavailable; downloads are disabled")
             folder = store.path.parent / "executions" / proposal_id
             folder.mkdir(parents=True, exist_ok=True)
+            cancel_path = folder / "cancel.requested"
             started = time.monotonic()
             for config in proposal["runs"]:
+                if cancel_path.exists():
+                    raise RuntimeError("Training cancelled by user")
                 remaining = proposal["limits"]["max_total_seconds"] - (time.monotonic() - started)
                 if remaining <= 0:
                     raise TimeoutError("Total approved execution time exhausted")
@@ -64,11 +67,13 @@ def execute(store, proposal_id, expected_hash, mode):
                 if output.exists():
                     raise FileExistsError("Existing experiment cannot be overwritten")
                 payload_path = folder / f"{config['run_id']}.input.json"
-                payload_path.write_text(json.dumps({"config": config, "output_path": str(output),
+                payload_path.write_text(json.dumps({"config": config, "output_path": str(output), "cancel_path": str(cancel_path),
                     "provenance": {"investigation_id": proposal["investigation_id"], "proposal_id": proposal_id,
                                    "approved_sha256": expected_hash, "created_at": now(), "executor": "v3"}}), encoding="utf-8")
                 log = folder / f"{config['run_id']}.log"
                 result["logs"].append(str(log))
+                result["current_run_id"] = config["run_id"]
+                store.execution_result(proposal_id, result)
                 environment = dict(os.environ, OMP_NUM_THREADS="2", MKL_NUM_THREADS="2", PYTHONUTF8="1",
                                    HF_HOME=str(ROOT / ".model_cache" / "hub"), HF_HUB_OFFLINE="1")
                 with log.open("x", encoding="utf-8") as stream:
@@ -86,6 +91,8 @@ def execute(store, proposal_id, expected_hash, mode):
             raise ValueError("Unknown execution mode")
     except Exception as exc:
         result.update(status="failed", error=f"{type(exc).__name__}: {exc}")
+        if (store.path.parent / "executions" / proposal_id / "cancel.requested").exists():
+            result["status"] = "cancelled"
     result["finished"] = now()
     store.execution_result(proposal_id, result)
     return result

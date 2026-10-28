@@ -9,6 +9,12 @@ def render_answer(question: str, tool_results: list[tuple[str, dict]]) -> str:
     experiment_sources = set()
     knowledge_sources = {}
 
+    for result in by_name.get("rank_experiments", []):
+        observations.append(f"- Saved experiments ranked by **{result['sort_by']}** ({result['total_matches']} matching records).")
+        for row in result["matches"]:
+            observations.append(f"  - **{row['run_id']}**: accuracy {row['final_validation_accuracy_percent']:.2f}%; loss {row['final_validation_loss']:.4f}; largest validation-loss rise {row['largest_loss_rise']:.6f}.")
+            experiment_sources.add(row["source"])
+
     for result in by_name.get("compare_experiments", []):
         changes = ", ".join(
             f"{key}: {values['baseline']} -> {values['target']}"
@@ -34,7 +40,7 @@ def render_answer(question: str, tool_results: list[tuple[str, dict]]) -> str:
                 continue
             observations.append(
                 f"- **{match['run_id']}** (note rank {match['final_rank']}, "
-                f"cosine {match['cosine_similarity']:.4f}): {match['observation']}"
+                f"cosine {str(match['cosine_similarity'])}): {match['observation']}"
             )
             for pattern in record["validation_loss_recoveries"]:
                 epochs, losses = pattern["epochs"], pattern["losses"]
@@ -145,7 +151,7 @@ def render_answer(question: str, tool_results: list[tuple[str, dict]]) -> str:
         limits.append("A similarity or reranker score ranks text; it is not a probability or proof.")
     if any(name == "find_overfitting_candidates" for name, _ in tool_results):
         limits.append("The overfitting flag is a descriptive heuristic, not a diagnosis.")
-    if any(name in {"compare_experiments", "compare_run_group", "search_runs"} for name, _ in tool_results):
+    if any(name in {"rank_experiments", "compare_experiments", "compare_run_group", "search_runs"} for name, _ in tool_results):
         limits.append("Saved records can repeat configurations or differ in other settings; differences do not prove causation.")
     if limits:
         sections.append("### Limitations\n" + "\n".join(f"- {line}" for line in limits))

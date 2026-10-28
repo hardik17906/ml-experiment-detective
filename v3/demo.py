@@ -21,7 +21,7 @@ def main():
     row = app.store.proposal(state["proposal_id"])
     # The development request explicitly authorizes demonstrating dry execution only.
     state = app.decide(state["investigation_id"], row["hash"], "approved", mode="dry_run",
-                       actor="development_dry_run", reason="V3 development demonstration; no live training permission")
+                       actor="development_dry_run", reason="Development demonstration; no live training permission")
     folder = ROOT / "reports" / "v3_demo"
     path = app.export(state["investigation_id"], folder)
     (folder / "latest.json").write_text(json.dumps({"investigation_id": state["investigation_id"],

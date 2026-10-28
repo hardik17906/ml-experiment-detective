@@ -18,7 +18,8 @@ def main():
     from phase0 import run_training
     import torch
     torch.set_num_threads(2)
-    run_training(config, expected, download=False, provenance=payload["provenance"], max_seconds=600)
+    run_training(config, expected, download=False, provenance=payload["provenance"], max_seconds=600,
+                 cancel_path=payload.get("cancel_path"))
 
 
 if __name__ == "__main__":

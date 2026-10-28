@@ -11,6 +11,21 @@ CONTROLS = ("dataset", "source_partition", "preprocessing", "train_size", "val_s
             "hidden_units", "optimizer", "epochs", "dropout")
 
 
+def matched_runs(run_id, learning_rate=None):
+    """Find matches on all recorded controls, reporting absent metadata in comparisons."""
+    anchor = load_run(run_id)
+    result = []
+    for path in sorted(RUNS_DIR.glob("*.json")):
+        if path.stem == run_id:
+            continue
+        record = load_run(path.stem)
+        if learning_rate is not None and record["config"].get("learning_rate") != learning_rate:
+            continue
+        if set(compare_records(anchor, record)["changed_settings"]) == {"learning_rate"}:
+            result.append(path.stem)
+    return result
+
+
 def check_record(record):
     missing = []
     rows = record.get("metrics", [])

@@ -34,10 +34,10 @@ def classify(question):
     q = question.lower()
     # Saved IDs and domain terms are the local scope. No retrieval for unrelated topics.
     domain = bool(mentioned_run_ids(question)) or bool(re.search(
-        r"\b(experiment|experiments|validation|training|learning|dropout|overfitting|optimizer|sgd|ml|model|models|neural|gradient|transformer|transformers|accuracy|loss|run|runs)\b", q))
+        r"\b(experiment|experiments|validation|training|learning|dropout|overfitting|optimizer|sgd|ml|model|models|neural|gradient|transformer|transformers|accuracy|loss|run|runs|seed|seeds|reproducibility|generalization)\b|test next", q))
     if not domain:
         return "unsupported"
-    if re.search(r"investigat|hypothes|follow.up|research|why.*(worse|underperform)|why.*learning.rate.*saved.experiments", q):
+    if re.search(r"investigat|hypothes|follow.up|research|underperform|consistent evidence|test next|controlled experiment|design.*experiment|fresh.*seeds|why.*worse|why.*learning.rate.*saved.experiments", q):
         return "investigation"
     return "simple"
 
@@ -99,7 +99,8 @@ def make_plan(state):
         prescribed_steps.append("search_notes")
         event(state, "APP POLICY", "Search is required to discover run IDs absent from the question")
     for phrase, required in ((r"retrieve.*knowledge|ml knowledge", "retrieve_knowledge"),
-                             (r"previous experiments|across seeds|seed blocks", "compare_seed_pairs")):
+                             (r"previous experiments|across seeds|seed blocks", "compare_seed_pairs"),
+                             (r"search.*notes|retrieve.*notes", "search_notes")):
         if re.search(phrase, state["objective"], re.I) and required not in choice["steps"]:
             choice["steps"].append(required)
             prescribed_steps.append(required)

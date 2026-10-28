@@ -1,4 +1,4 @@
-"""V3 search reuses the cached MiniLM encoder; V2 ranking stays untouched."""
+"""Source-aware search reuses the cached MiniLM encoder and preserves baseline ranking."""
 
 import re
 from pathlib import Path
@@ -54,7 +54,7 @@ def documents(include_derived=True, filters=None):
     return docs
 
 
-def search_notes(query, top_k=3, *, include_derived=True, normalized=True, filters=None, semantic=True, source_policy="human_first"):
+def search_notes(query, top_k=3, *, include_derived=True, normalized=True, filters=None, semantic=True, source_policy="human_first", rerank=False):
     if not isinstance(query, str) or not query.strip() or type(top_k) is not int or not 1 <= top_k <= 11:
         raise ValueError("Search needs a nonempty query and top_k between 1 and 11")
     docs = documents(include_derived, filters)
@@ -106,15 +106,29 @@ def search_notes(query, top_k=3, *, include_derived=True, normalized=True, filte
                          "exact_run_id_match": rid in exact, "rrf_score": round(score, 6)})
     rows.sort(key=lambda x: (-int(x["exact_run_id_match"]),
               -int(source_policy == "human_first" and x["source_type"] == "EXPERIMENT_NOTE"), -x["rrf_score"], x["run_id"]))
-    return {"query": query, "mode": mode, "source_policy": source_policy, "reranker": "disabled", "matches": rows[:top_k],
+    reranker_status = "disabled"
+    if rerank and rows:
+        try:
+            from v2_retrieval import _reranker
+            for row, score in zip(rows, _reranker().predict([(query, r["observation"]) for r in rows])):
+                row["reranker_score"] = round(float(score), 6)
+            rows.sort(key=lambda r: (-int(r["exact_run_id_match"]), -int(source_policy == "human_first" and r["source_type"] == "EXPERIMENT_NOTE"), -r["reranker_score"], r["run_id"]))
+            reranker_status = "cached cross-encoder; source priority preserved"
+        except (OSError, ImportError, RuntimeError) as exc:
+            reranker_status = f"unavailable; hybrid retained: {type(exc).__name__}"
+    return {"query": query, "mode": mode, "source_policy": source_policy, "reranker": reranker_status, "matches": rows[:top_k],
             "supplementary_derived_matches": [r for r in rows if r["source_type"] == "DERIVED_ANALYSIS"][:top_k],
             "stages": {"keyword": list(kr), "semantic": list(sr), "hybrid": [r["run_id"] for r in rows]},
+            "stage_details": {"query_tokens": sorted(tokens(query)),
+                              "keyword": [{"run_id": p.stem, "overlap_count": score, "rank": kr.get(p.stem)} for score, p, _, _ in kw],
+                              "semantic": [{"run_id": p.stem, "cosine_similarity": round(float(score),6), "rank": sr.get(p.stem)} for score,p,_ in sem],
+                              "fusion": [{k:r[k] for k in ("run_id", "keyword_rank", "semantic_rank", "rrf_score", "source_type")} for r in rows]},
             "corpus": {"human_notes": sum(x["source_type"] == "EXPERIMENT_NOTE" for x in docs),
                        "derived_summaries": sum(x["source_type"] == "DERIVED_ANALYSIS" for x in docs)}}
 
 
 def knowledge(query, *, semantic=True):
-    covered = re.search(r"learning.?rate|optimiz|gradient|sgd|dropout|overfit|validation|loss curve", query, re.I)
+    covered = re.search(r"learning.?rate|optimiz|gradient|sgd|dropout|overfit|validation|loss curve|seed|reproduc|experimental design|data leakage|generalization", query, re.I)
     if not covered:
         return {"matches": [], "limitation": "This topic is not covered by the small local ML knowledge base."}
     if semantic:

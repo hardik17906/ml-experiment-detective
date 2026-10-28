@@ -1,4 +1,4 @@
-"""V2 manual agent. The choose -> execute -> observe loop stays explicit."""
+"""Manual tool agent. The choose -> execute -> observe loop stays explicit."""
 
 import json
 import re
@@ -39,7 +39,13 @@ def _first_tool_names(question: str) -> list[str]:
     lower = question.lower()
     ids = mentioned_run_ids(question)
     rates = _learning_rates(question)
-    if "overfit" in lower:
+    if not ids and re.search(r"\b(why|explain|what is|how)\b", lower) and not re.search(r"\b(runs|experiments|seen|before|best|spike)\b", lower):
+        return ["search_ml_knowledge"]
+    if not ids and any(term in lower for term in ("best", "highest", "spike", "largest validation", "largest loss")):
+        return ["rank_experiments"]
+    if not ids and re.search(r"\b(available|list|what experiments|which experiments.*have)\b", lower):
+        return ["search_runs"]
+    if "overfit" in lower or "generalization problems" in lower:
         return ["find_overfitting_candidates"]
     if len(rates) >= 2 and ("compare" in lower or "group" in lower):
         return ["compare_run_group"]
@@ -67,6 +73,13 @@ def _first_tool_names(question: str) -> list[str]:
 def _fallback_arguments(name: str, state: dict) -> dict:
     question = state["resolved_question"]
     ids = mentioned_run_ids(question)
+    if name == "rank_experiments":
+        filters = explicit_run_filters(question)
+        rates = _learning_rates(question)
+        if rates:
+            filters["learning_rate"] = rates[0]
+        return {**filters, "sort_by": "spike" if "spike" in question.lower() or "loss rise" in question.lower() else "accuracy",
+                "top_k": 1 if re.search(r"\b(the best|highest|best.*experiment)\b", question, re.I) else 11}
     if name == "compare_experiments":
         if len(ids) < 2:
             raise ValueError("Two saved run IDs are required for comparison")
@@ -180,7 +193,7 @@ def execute_call(state: dict, name: str, arguments: dict, *, origin: str) -> Non
     if name not in available:
         raise ValueError(f"{name} was not in the offered tool menu: {available}")
     corrected = dict(arguments)
-    if name in {"get_experiment", "compare_experiments", "search_runs", "compare_run_group", "plot_run_metrics", "summarize_run_curve"}:
+    if name in {"rank_experiments", "get_experiment", "compare_experiments", "search_runs", "compare_run_group", "plot_run_metrics", "summarize_run_curve"}:
         if name == "get_experiment" and any(tool == "search_notes" for tool, _ in state["tool_results"]):
             search = next(result for tool, result in reversed(state["tool_results"]) if tool == "search_notes")
             returned_ids = [item["run_id"] for item in search["matches"]]
@@ -206,9 +219,22 @@ def execute_call(state: dict, name: str, arguments: dict, *, origin: str) -> Non
     state["trace"].append({"kind": origin, "data": {"tool": name, "arguments": corrected}})
     state["decisions"].append({"origin": origin, "tool": name, "arguments": corrected})
     try:
-        result = execute_tool(name, corrected)
+        if state.get("final_tools") and name == "search_notes":
+            from v3.retrieval import search_notes
+            raw = search_notes(corrected["query"], top_k=corrected.get("top_k", 2),
+                               semantic=state.get("semantic", True), rerank=state["rerank"])
+            for i, row in enumerate(raw["matches"], 1):
+                row.update(final_rank=i, hybrid_rank=i, note_source=row["source"])
+            result = raw
+        elif state.get("final_tools") and name == "search_ml_knowledge":
+            from v3.retrieval import knowledge
+            result = knowledge(corrected["query"], semantic=state.get("semantic", True))
+        else:
+            result = execute_tool(name, corrected)
     except (ValueError, KeyError, TypeError, FileNotFoundError) as exc:
         result = {"error": str(exc)}
+    if "error" in result:
+        state["last_tool_error"] = result["error"]
     state["trace"].append({"kind": "TOOL RESULT", "data": {"tool": name, "result": result}})
     if "stages" in result:
         for stage, rows in result["stages"].items():
@@ -230,6 +256,31 @@ def execute_call(state: dict, name: str, arguments: dict, *, origin: str) -> Non
         model_result = {"rule": result["rule"], "candidate_ids": [x["run_id"] for x in result["matches"]]}
     state["messages"].append({"role": "tool", "tool_name": name, "content": json.dumps(model_result)})
     state["tool_count"] += 1
+
+
+def choose_next(state):
+    """One bounded model choice; malformed/offline requests have visible policy recovery."""
+    names = available_tool_names(state)
+    state["trace"].append({"kind": "TOOL MENU", "data": tool_menu(names)})
+    if not names or state["tool_count"] >= MAX_TOOL_CALLS or state.get("last_tool_error"):
+        return []
+    if state.get("model_enabled", True):
+        try:
+            message = ask_ollama(state["messages"], tool_menu(names))
+            state["trace"].append({"kind": "AGENT CHOICE", "origin": "LLM", "data": message})
+            calls = message.get("tool_calls") or []
+            if calls:
+                function = calls[0]["function"]
+                args = function["arguments"]
+                if isinstance(args, str):
+                    args = json.loads(args)
+                if function["name"] not in names or not isinstance(args, dict):
+                    raise ValueError("Tool not offered or arguments not an object")
+                return [{"name": function["name"], "arguments": args, "origin": "AGENT"}]
+        except (OSError, RuntimeError, ValueError, TypeError, KeyError, IndexError) as exc:
+            state["trace"].append({"kind": "APP POLICY", "data": {"model_failure": str(exc), "action": "bounded deterministic recovery"}})
+    needed = policy_call(state)
+    return [{"name": needed[0], "arguments": needed[1], "origin": "APP POLICY"}] if needed else []
 
 
 def finish_turn(state: dict) -> dict:
@@ -262,12 +313,12 @@ def run_manual(question: str, session: SessionState | None = None, *, rerank: bo
                 raise RuntimeError("The model stopped before evidence was collected")
             return finish_turn(state)
         if state["tool_count"] >= MAX_TOOL_CALLS:
-            raise RuntimeError("V2 agent reached its tool-call limit")
+            raise RuntimeError("Tool agent reached its tool-call limit")
         # Reconsider the menu after each observation; a multi-call model response
         # cannot assume that later calls still belong to the next menu.
         function = calls[0]["function"]
         execute_call(state, function["name"], function["arguments"], origin="AGENT")
-    raise RuntimeError("V2 agent did not stop within its step limit")
+    raise RuntimeError("Tool agent did not stop within its step limit")
 
 
 def print_trace(events: list[dict]) -> None:

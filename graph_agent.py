@@ -1,4 +1,4 @@
-"""The V2 agent loop expressed as a small LangGraph StateGraph.
+"""The reactive agent loop expressed as a small LangGraph StateGraph.
 
 The nodes call the same Ollama request, tool registry, policy, renderer, and
 session state as v2_agent.py. LangGraph organizes transitions; it does not
@@ -10,11 +10,9 @@ from typing import TypedDict
 from langgraph.graph import END, START, StateGraph
 
 from v2_agent import (
-    MAX_TOOL_CALLS, ask_ollama, available_tool_names, execute_call,
-    finish_turn, policy_call, prepare_turn,
+    MAX_TOOL_CALLS, execute_call, finish_turn, prepare_turn, choose_next,
 )
 from v2_state import SessionState
-from v2_tools import tool_menu
 
 
 class GraphState(TypedDict):
@@ -23,24 +21,7 @@ class GraphState(TypedDict):
 
 def agent_node(state: GraphState) -> GraphState:
     payload = state["payload"]
-    names = available_tool_names(payload)
-    payload["trace"].append({"kind": "TOOL MENU", "data": names})
-    message = ask_ollama(payload["messages"], tool_menu(names))
-    calls = message.get("tool_calls") or []
-    if calls:
-        if payload["tool_count"] >= MAX_TOOL_CALLS:
-            raise RuntimeError("V2 graph agent reached its tool-call limit")
-        payload["pending_calls"] = [
-            {"name": calls[0]["function"]["name"], "arguments": calls[0]["function"]["arguments"], "origin": "AGENT"}
-        ]
-    else:
-        needed = policy_call(payload)
-        if needed and payload["tool_count"] < MAX_TOOL_CALLS:
-            payload["pending_calls"] = [{"name": needed[0], "arguments": needed[1], "origin": "APP POLICY"}]
-        else:
-            if not payload["tool_results"]:
-                raise RuntimeError("The graph model stopped before evidence was collected")
-            payload["pending_calls"] = []
+    payload["pending_calls"] = choose_next(payload)
     return {"payload": payload}
 
 
@@ -78,8 +59,10 @@ def build_graph():
 GRAPH = build_graph()
 
 
-def run_graph(question: str, session: SessionState | None = None, *, rerank: bool = False) -> dict:
+def run_graph(question: str, session: SessionState | None = None, *, rerank: bool = False,
+              model_enabled: bool = True, final_tools: bool = False, semantic: bool = True) -> dict:
     initial = prepare_turn(question, session, rerank=rerank)
+    initial.update(model_enabled=model_enabled, final_tools=final_tools, semantic=semantic)
     final = GRAPH.invoke({"payload": initial}, config={"recursion_limit": 2 * MAX_TOOL_CALLS + 5})["payload"]
     return {
         "answer": final["answer"],

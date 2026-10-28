@@ -56,7 +56,7 @@ def render_report(state, proposal=None, decisions=None):
               "- Missing historical metadata remains unknown; no default is silently inferred.",
               "- The model selects bounded plan options and hypotheses; Python calculates, validates, and renders facts.",
               "- The current executor supports only the existing bounded Fashion-MNIST MLP learning-rate comparison.",
-              "- Live training has not been run during V3 development.", "", "## 15. Sources", ""]
+              "- Live training through the restricted executor has not been verified.", "", "## 15. Sources", ""]
     for key, e in state.get("evidence", {}).items():
         source = e.get("source") or ", ".join(e.get("sources", []))
         lines.append(f"- `{key}` — `{e['source_type']}` — {source}")

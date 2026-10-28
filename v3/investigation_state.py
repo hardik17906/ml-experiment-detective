@@ -72,10 +72,11 @@ class InvestigationStore:
             raise ValueError(f"Unknown investigation: {identifier}")
         return json.loads(row[0])
 
-    def list(self):
+    def list(self, *, research_only=False):
         with self.connection() as db:
-            return [dict(row) for row in db.execute(
-                "SELECT id,objective,status,updated FROM investigations ORDER BY updated DESC")]
+            rows = db.execute("SELECT id,objective,status,updated,state FROM investigations ORDER BY updated DESC").fetchall()
+        return [{k:row[k] for k in ("id","objective","status","updated")} for row in rows
+                if not research_only or json.loads(row["state"]).get("plan")]
 
     def put_proposal(self, identifier, proposal):
         hashed = digest(proposal)
@@ -132,6 +133,8 @@ class InvestigationStore:
             row = db.execute("SELECT * FROM proposals WHERE id=?", (proposal_id,)).fetchone()
             if not row or row["hash"] != expected_hash or row["status"] != "approved" or row["mode"] != mode:
                 raise PermissionError("Execution requires unused approval for this exact proposal hash and mode")
+            if mode == "live" and db.execute("SELECT id FROM proposals WHERE status='running' AND mode='live' AND id<>?", (proposal_id,)).fetchone():
+                raise PermissionError("Another live experiment is already active; inspect it before starting another")
             db.execute("UPDATE proposals SET status='running' WHERE id=?", (proposal_id,))
 
     def execution_result(self, proposal_id, result):

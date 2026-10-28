@@ -1,10 +1,10 @@
-"""The one tool registry used by both V2 manual and graph agents."""
+"""The one tool registry used by manual and graph agents."""
 
 import math
 
 from experiment_data import compare_experiments, get_experiment, search_runs
 from v2_analysis import (
-    compare_run_group, find_overfitting_candidates, plot_run_metrics, summarize_run_curve,
+    compare_run_group, find_overfitting_candidates, plot_run_metrics, summarize_run_curve, rank_experiments,
 )
 from v2_retrieval import hybrid_search_notes, search_ml_knowledge
 
@@ -29,6 +29,9 @@ TEXT = {"type": "string"}
 NUMBER = {"type": "number"}
 INTEGER = {"type": "integer"}
 TOOLS = [
+    _schema("rank_experiments", "Rank saved experiments by final accuracy, validation loss, or largest validation-loss rise. Exact filters remain separate from semantic matching.",
+            {"sort_by": {"type": "string", "enum": ["accuracy", "loss", "spike"]}, "learning_rate": NUMBER,
+             "train_size": INTEGER, "dropout": NUMBER, "top_k": INTEGER}),
     _schema("get_experiment", "Read one saved experiment. Use only for a question about one run; for two run IDs, use compare_experiments instead.",
             {"run_id": {"type": "string", "description": "Exact saved run ID"}}, ("run_id",)),
     _schema("compare_experiments", "Preferred tool whenever a question mentions two run IDs. Compare their recorded settings and final metrics. Use baseline_run_id for the reference and target_run_id for the run being explained; differences are target minus baseline.",
@@ -51,6 +54,7 @@ TOOLS = [
 ]
 
 HANDLERS = {
+    "rank_experiments": rank_experiments,
     "get_experiment": get_experiment,
     "compare_experiments": compare_experiments,
     "search_runs": search_runs,
@@ -74,6 +78,8 @@ def execute_tool(name: str, arguments: dict) -> dict:
     if not required <= set(arguments) or set(arguments) - allowed:
         raise ValueError(f"{name} requires {sorted(required)} and allows only {sorted(allowed)}")
     for key, value in arguments.items():
+        if "enum" in schema["properties"][key] and value not in schema["properties"][key]["enum"]:
+            raise ValueError(f"Unsupported {key}: {value}")
         kind = schema["properties"][key]["type"]
         if kind == "string" and (not isinstance(value, str) or not value.strip()):
             raise ValueError(f"{key} must be nonempty text")

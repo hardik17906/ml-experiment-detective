@@ -18,9 +18,14 @@ class Investigator:
     def _config(self, identifier):
         return {"configurable": {"thread_id": identifier}, "recursion_limit": 24}
 
-    def start(self, objective, *, model_enabled=True, semantic=True):
+    def start(self, objective, *, model_enabled=True, semantic=True, direct_mode=None, context=None, rerank=False):
         d = self.store.create(objective, model_enabled)
         d["semantic"] = semantic
+        d["direct_mode"] = direct_mode
+        d["rerank"] = rerank
+        if context:
+            d.update(context)
+            event(d, "STATE UPDATE", context)
         try:
             with investigation_graph(self.store) as graph:
                 graph.invoke({"doc": d}, self._config(d["investigation_id"]))
@@ -50,7 +55,8 @@ class Investigator:
     def decide(self, identifier, expected_hash, decision, *, mode="dry_run", reason="", actor="user"):
         d = self.store.load(identifier)
         p = self.store.proposal(d["proposal_id"])
-        validate_proposal(p["payload"])
+        if decision == "approved":
+            validate_proposal(p["payload"])
         if p["investigation_id"] != identifier:
             raise PermissionError("Proposal does not belong to this investigation")
         with investigation_graph(self.store) as graph:
@@ -85,3 +91,13 @@ class Investigator:
         report.write_text(d["report"], encoding="utf-8")
         (out / f"{identifier}.json").write_text(json.dumps(d, indent=2), encoding="utf-8")
         return report
+
+    def cancel(self, identifier):
+        d = self.store.load(identifier)
+        row = self.store.proposal(d["proposal_id"])
+        if row["status"] not in {"running", "approved"}:
+            raise ValueError("No active approved execution to cancel")
+        folder = self.store.path.parent / "executions" / row["id"]
+        folder.mkdir(parents=True, exist_ok=True)
+        (folder / "cancel.requested").write_text("User requested cancellation", encoding="utf-8")
+        return "Cancellation requested; the trainer checks between batches. Existing completed records are preserved."

@@ -39,7 +39,7 @@ def evaluate(model, loader, loss_fn):
     return total_loss / count, correct_predictions / count
 
 
-def run_training(config, output_path, *, download=True, provenance=None, max_seconds=None):
+def run_training(config, output_path, *, download=True, provenance=None, max_seconds=None, cancel_path=None):
     started = time.monotonic()
     # Convert images into PyTorch tensors
     transform = transforms.ToTensor()
@@ -96,6 +96,8 @@ def run_training(config, output_path, *, download=True, provenance=None, max_sec
         model.train()
         total_loss = 0.0
         for images, labels in train_loader:
+            if cancel_path is not None and Path(cancel_path).exists():
+                raise RuntimeError("Training cancelled by user")
             if max_seconds is not None and time.monotonic() - started > max_seconds:
                 raise TimeoutError("Approved training runtime exceeded")
             logits = model(images)

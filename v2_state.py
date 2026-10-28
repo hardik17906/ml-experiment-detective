@@ -1,4 +1,4 @@
-"""Small, process-local conversation state for V2.
+"""Small, process-local conversation state for the experiment assistant.
 
 The saved runs and notes are experiment knowledge. This object only remembers a
 bounded number of user/assistant turns and run references within one session.
@@ -23,12 +23,19 @@ class SessionState:
     turns: list[dict] = field(default_factory=list)
     focused_run_id: str | None = None
     referenced_run_ids: list[str] = field(default_factory=list)
+    comparison_run_ids: list[str] = field(default_factory=list)
 
     def resolve(self, question: str) -> tuple[str, dict]:
         """Resolve simple singular references using an explicit, visible focus ID."""
         found = mentioned_run_ids(question)
         resolved = question
         used = None
+        if not found and self.comparison_run_ids and re.search(r"\b(difference|comparison|those runs|these runs|explanations|additional evidence|test next|hypothesis)\b", question, re.I):
+            resolved = f"Compare {self.comparison_run_ids[0]} with {self.comparison_run_ids[1]}. {question}"
+            return resolved, {"resolved_question": resolved, "resolved_reference": list(self.comparison_run_ids),
+                              "recent_turns": len(self.turns), "explicit_run_ids": found}
+        if re.search(r"\b(that run|this run|its|it)\b", question, re.I) and not self.focused_run_id:
+            raise ValueError("Which run do you mean? Select a run or name one; the current conversation has no unambiguous single-run focus.")
         if self.focused_run_id and re.search(r"\b(that run|this run|its|it)\b", question, re.I):
             resolved = re.sub(
                 r"\b(that run|this run|its|it)\b",
@@ -38,6 +45,15 @@ class SessionState:
                 flags=re.I,
             )
             used = self.focused_run_id
+        if self.focused_run_id and re.search(r"corresponding|matched", question, re.I):
+            rate = re.search(r"learning[- ]rate\s*[-=:]?\s*(\d+(?:\.\d+)?)", question, re.I)
+            if rate:
+                from v3.analysis import matched_runs
+                matches = matched_runs(self.focused_run_id, float(rate[1]))
+                if len(matches) != 1:
+                    raise ValueError(f"The corresponding run is ambiguous or unavailable. Candidates: {matches or 'none'}")
+                resolved = f"Compare {self.focused_run_id} with {matches[0]}."
+                used = self.focused_run_id
         return resolved, {
             "focused_run_id_before": self.focused_run_id,
             "explicit_run_ids": found,
@@ -71,6 +87,10 @@ class SessionState:
                 ids.append(result["run_id"])
             elif name == "compare_experiments":
                 ids.extend((result["baseline_run_id"], result["target_run_id"]))
+                self.comparison_run_ids = [result["baseline_run_id"], result["target_run_id"]]
+            elif name == "rank_experiments" and result.get("matches"):
+                self.focused_run_id = result["matches"][0]["run_id"]
+                ids.append(self.focused_run_id)
             elif name == "plot_run_metrics":
                 ids.append(result["run_id"])
         ids = list(dict.fromkeys(ids))
@@ -80,6 +100,8 @@ class SessionState:
             elif len(ids) == 1:
                 self.focused_run_id = ids[0]
         self.referenced_run_ids = list(dict.fromkeys((self.referenced_run_ids + ids)[-8:]))
+        if any(name == "compare_experiments" for name, _ in results):
+            self.focused_run_id = None
         self.turns.append({
             "question": question,
             "resolved_question": resolved,
@@ -93,6 +115,7 @@ class SessionState:
         return {
             "focused_run_id": self.focused_run_id,
             "referenced_run_ids": list(self.referenced_run_ids),
+            "comparison_run_ids": list(self.comparison_run_ids),
             "recent_turns": [
                 {k: turn[k] for k in ("question", "resolved_question", "tool_decisions", "run_ids")}
                 for turn in self.turns
@@ -104,3 +127,4 @@ class SessionState:
         self.turns.clear()
         self.focused_run_id = None
         self.referenced_run_ids.clear()
+        self.comparison_run_ids.clear()
