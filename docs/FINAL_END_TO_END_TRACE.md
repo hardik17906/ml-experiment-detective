@@ -1,0 +1,3177 @@
+# Final End-to-End Runtime Trace
+
+**Actual investigation:** `INV-A2B6989CC1`. **Execution scope:** live Ollama and cached MiniLM; dry-run execution. All model outputs below are actual saved runtime outputs; the experiment execution is a dry run and creates no measurements.
+
+## 1. Original and resolved input
+
+```json
+{
+  "original_question": "Investigate why lr_01_seed3 performed worse than lr_005_seed3. Search notes, check previous experiments, retrieve ML knowledge, and propose a controlled follow-up.",
+  "resolved_question": "Investigate why lr_01_seed3 performed worse than lr_005_seed3. Search notes, check previous experiments, retrieve ML knowledge, and propose a controlled follow-up.",
+  "objective": "Investigate why lr_01_seed3 performed worse than lr_005_seed3. Search notes, check previous experiments, retrieve ML knowledge, and propose a controlled follow-up.",
+  "reference_resolution": {
+    "focused_run_id_before": null,
+    "explicit_run_ids": [
+      "lr_01_seed3",
+      "lr_005_seed3"
+    ],
+    "resolved_reference": null,
+    "resolved_question": "Investigate why lr_01_seed3 performed worse than lr_005_seed3. Search notes, check previous experiments, retrieve ML knowledge, and propose a controlled follow-up.",
+    "recent_turns": 0
+  },
+  "conversation_before": {
+    "focused_run_id": null,
+    "referenced_run_ids": [],
+    "comparison_run_ids": [],
+    "recent_turns": [],
+    "history_bound": 4
+  }
+}
+```
+
+## 2. Routing, structured plan and decision origins
+
+```json
+{
+  "route": "investigation",
+  "selected_steps": [
+    "search_notes",
+    "retrieve_knowledge",
+    "compare_seed_pairs"
+  ],
+  "optional_step_origins": {
+    "search_notes": "LLM",
+    "retrieve_knowledge": "LLM",
+    "compare_seed_pairs": "LLM"
+  },
+  "plan": [
+    {
+      "id": "collect",
+      "description": "Read exact experiment evidence",
+      "tool": "get_experiment",
+      "depends_on": [],
+      "status": "completed",
+      "proposed_by": "PYTHON"
+    },
+    {
+      "id": "notes",
+      "description": "Find earlier experiment observations",
+      "tool": "search_notes",
+      "depends_on": [],
+      "status": "completed",
+      "proposed_by": "LLM"
+    },
+    {
+      "id": "analyze",
+      "description": "Compute curves, controls and seed comparisons",
+      "tool": "analyze_experiments",
+      "depends_on": [
+        "collect"
+      ],
+      "status": "completed",
+      "proposed_by": "PYTHON"
+    },
+    {
+      "id": "knowledge",
+      "description": "Retrieve possible general mechanisms",
+      "tool": "search_ml_knowledge",
+      "depends_on": [
+        "analyze"
+      ],
+      "status": "completed",
+      "proposed_by": "LLM"
+    },
+    {
+      "id": "hypotheses",
+      "description": "Select competing evidence-backed hypotheses",
+      "tool": "select_hypotheses",
+      "depends_on": [
+        "analyze"
+      ],
+      "status": "completed",
+      "proposed_by": "PYTHON"
+    },
+    {
+      "id": "validate",
+      "description": "Validate citations and hypothesis evidence",
+      "tool": "validate_evidence",
+      "depends_on": [
+        "hypotheses"
+      ],
+      "status": "completed",
+      "proposed_by": "PYTHON"
+    },
+    {
+      "id": "design",
+      "description": "Design a new controlled experiment",
+      "tool": "design_followup",
+      "depends_on": [
+        "validate"
+      ],
+      "status": "completed",
+      "proposed_by": "PYTHON"
+    },
+    {
+      "id": "approval",
+      "description": "Wait for an exact human decision",
+      "tool": "human_approval",
+      "depends_on": [
+        "design"
+      ],
+      "status": "completed",
+      "proposed_by": "APP POLICY"
+    },
+    {
+      "id": "execute",
+      "description": "Execute only an approved configuration",
+      "tool": "restricted_executor",
+      "depends_on": [
+        "approval"
+      ],
+      "status": "completed",
+      "proposed_by": "APP POLICY"
+    },
+    {
+      "id": "outcome",
+      "description": "Analyze new measured outcomes",
+      "tool": "analyze_outcome",
+      "depends_on": [
+        "execute"
+      ],
+      "status": "skipped",
+      "proposed_by": "PYTHON",
+      "detail": "No complete new measured pair; dry runs contain no measurements"
+    },
+    {
+      "id": "report",
+      "description": "Save sourced investigation report",
+      "tool": "render_report",
+      "depends_on": [
+        "validate"
+      ],
+      "status": "completed",
+      "proposed_by": "PYTHON"
+    }
+  ]
+}
+```
+
+## 3. Complete actual event sequence
+
+Each event's origin distinguishes model requests, Python operations, application policy and development dry-run authorization. Model choices and application-prescribed steps are not interchangeable. The order below is runtime order.
+
+### Event 1: STATE UPDATE — PYTHON
+
+```json
+{
+  "original_question": "Investigate why lr_01_seed3 performed worse than lr_005_seed3. Search notes, check previous experiments, retrieve ML knowledge, and propose a controlled follow-up.",
+  "resolved_question": "Investigate why lr_01_seed3 performed worse than lr_005_seed3. Search notes, check previous experiments, retrieve ML knowledge, and propose a controlled follow-up.",
+  "conversation_before": {
+    "focused_run_id": null,
+    "referenced_run_ids": [],
+    "comparison_run_ids": [],
+    "recent_turns": [],
+    "history_bound": 4
+  },
+  "reference_resolution": {
+    "focused_run_id_before": null,
+    "explicit_run_ids": [
+      "lr_01_seed3",
+      "lr_005_seed3"
+    ],
+    "resolved_reference": null,
+    "resolved_question": "Investigate why lr_01_seed3 performed worse than lr_005_seed3. Search notes, check previous experiments, retrieve ML knowledge, and propose a controlled follow-up.",
+    "recent_turns": 0
+  },
+  "explicit_run_ids": [
+    "lr_01_seed3",
+    "lr_005_seed3"
+  ]
+}
+```
+
+### Event 2: APP POLICY — PYTHON
+
+```json
+{
+  "classification": "investigation"
+}
+```
+
+### Event 3: TOOL MENU — PYTHON
+
+```json
+{
+  "type": "function",
+  "function": {
+    "name": "create_investigation_plan",
+    "description": "Objective: Investigate why lr_01_seed3 performed worse than lr_005_seed3. Search notes, check previous experiments, retrieve ML knowledge, and propose a controlled follow-up.. Known mentioned runs: ['lr_01_seed3', 'lr_005_seed3']. Choose useful optional research tools. Choose compare_seed_pairs to check replication/counterevidence; search_notes to find previous observations; retrieve_knowledge for mechanisms. Return a topic from the menu.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "search_notes",
+              "compare_seed_pairs",
+              "retrieve_knowledge"
+            ]
+          },
+          "maxItems": 3
+        },
+        "knowledge_topic": {
+          "type": "string",
+          "enum": [
+            "high learning rate optimization instability",
+            "dropout overfitting validation loss",
+            "training validation loss curves"
+          ]
+        }
+      },
+      "required": [
+        "steps",
+        "knowledge_topic"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
+```
+
+### Event 4: AGENT REQUEST — LLM
+
+```json
+{
+  "attempt": 1,
+  "response": {
+    "structured_decision": {
+      "steps": [
+        "search_notes",
+        "retrieve_knowledge",
+        "compare_seed_pairs"
+      ],
+      "knowledge_topic": "training validation loss curves"
+    },
+    "format": "Ollama JSON schema"
+  }
+}
+```
+
+### Event 5: PLANNER DECISION — LLM
+
+```json
+{
+  "choice": {
+    "steps": [
+      "search_notes",
+      "retrieve_knowledge",
+      "compare_seed_pairs"
+    ],
+    "knowledge_topic": "training validation loss curves"
+  },
+  "plan": [
+    {
+      "id": "collect",
+      "description": "Read exact experiment evidence",
+      "tool": "get_experiment",
+      "depends_on": [],
+      "status": "completed",
+      "proposed_by": "PYTHON"
+    },
+    {
+      "id": "notes",
+      "description": "Find earlier experiment observations",
+      "tool": "search_notes",
+      "depends_on": [],
+      "status": "completed",
+      "proposed_by": "LLM"
+    },
+    {
+      "id": "analyze",
+      "description": "Compute curves, controls and seed comparisons",
+      "tool": "analyze_experiments",
+      "depends_on": [
+        "collect"
+      ],
+      "status": "completed",
+      "proposed_by": "PYTHON"
+    },
+    {
+      "id": "knowledge",
+      "description": "Retrieve possible general mechanisms",
+      "tool": "search_ml_knowledge",
+      "depends_on": [
+        "analyze"
+      ],
+      "status": "completed",
+      "proposed_by": "LLM"
+    },
+    {
+      "id": "hypotheses",
+      "description": "Select competing evidence-backed hypotheses",
+      "tool": "select_hypotheses",
+      "depends_on": [
+        "analyze"
+      ],
+      "status": "completed",
+      "proposed_by": "PYTHON"
+    },
+    {
+      "id": "validate",
+      "description": "Validate citations and hypothesis evidence",
+      "tool": "validate_evidence",
+      "depends_on": [
+        "hypotheses"
+      ],
+      "status": "completed",
+      "proposed_by": "PYTHON"
+    },
+    {
+      "id": "design",
+      "description": "Design a new controlled experiment",
+      "tool": "design_followup",
+      "depends_on": [
+        "validate"
+      ],
+      "status": "completed",
+      "proposed_by": "PYTHON"
+    },
+    {
+      "id": "approval",
+      "description": "Wait for an exact human decision",
+      "tool": "human_approval",
+      "depends_on": [
+        "design"
+      ],
+      "status": "pending",
+      "proposed_by": "APP POLICY"
+    },
+    {
+      "id": "execute",
+      "description": "Execute only an approved configuration",
+      "tool": "restricted_executor",
+      "depends_on": [
+        "approval"
+      ],
+      "status": "pending",
+      "proposed_by": "APP POLICY"
+    },
+    {
+      "id": "outcome",
+      "description": "Analyze new measured outcomes",
+      "tool": "analyze_outcome",
+      "depends_on": [
+        "execute"
+      ],
+      "status": "pending",
+      "proposed_by": "PYTHON"
+    },
+    {
+      "id": "report",
+      "description": "Save sourced investigation report",
+      "tool": "render_report",
+      "depends_on": [
+        "validate"
+      ],
+      "status": "pending",
+      "proposed_by": "PYTHON"
+    }
+  ],
+  "distinction": "Model selects optional tools; Python prescribes scientific checks and the approval boundary."
+}
+```
+
+### Event 6: TOOL EXECUTION — PYTHON
+
+```json
+{
+  "tool": "search_notes",
+  "result": {
+    "query": "Investigate why lr_01_seed3 performed worse than lr_005_seed3. Search notes, check previous experiments, retrieve ML knowledge, and propose a controlled follow-up.",
+    "mode": "keyword + cached MiniLM RRF",
+    "source_policy": "human_first",
+    "reranker": "disabled",
+    "matches": [
+      {
+        "run_id": "lr_005_seed3",
+        "source_type": "DERIVED_ANALYSIS",
+        "source": "runs/lr_005_seed3.json",
+        "run_source": "runs/lr_005_seed3.json",
+        "observation": "DERIVED_ANALYSIS machine-generated summary from runs/lr_005_seed3.json. Run lr_005_seed3. Learning rate 0.05, dropout 0.0, train size 10000, model seed 244, shuffle seed 243. Final validation accuracy 75.9 percent; final loss 0.6806; largest validation loss rise 0.0. no recorded rise followed by recovery; validation loss decreased or stayed flat every epoch.",
+        "keyword_rank": 1,
+        "semantic_rank": 3,
+        "cosine_similarity": 0.4726,
+        "exact_run_id_match": true,
+        "rrf_score": 0.032266
+      },
+      {
+        "run_id": "lr_01_seed3",
+        "source_type": "DERIVED_ANALYSIS",
+        "source": "runs/lr_01_seed3.json",
+        "run_source": "runs/lr_01_seed3.json",
+        "observation": "DERIVED_ANALYSIS machine-generated summary from runs/lr_01_seed3.json. Run lr_01_seed3. Learning rate 0.1, dropout 0.0, train size 10000, model seed 244, shuffle seed 243. Final validation accuracy 71.45 percent; final loss 0.810865; largest validation loss rise 0.138654. validation loss spike and recovery.",
+        "keyword_rank": 2,
+        "semantic_rank": 5,
+        "cosine_similarity": 0.453,
+        "exact_run_id_match": true,
+        "rrf_score": 0.031514
+      },
+      {
+        "run_id": "lr_01_seed2",
+        "source_type": "EXPERIMENT_NOTE",
+        "source": "notes/lr_01_seed2.md",
+        "run_source": "runs/lr_01_seed2.json",
+        "observation": "With alternate model and shuffle seeds, validation loss rose from 0.7136 at epoch 3 to 0.8142 at epoch 4, then fell to 0.6793 at epoch 5. Final validation accuracy was 76.35%.",
+        "keyword_rank": null,
+        "semantic_rank": 1,
+        "cosine_similarity": 0.3876,
+        "exact_run_id_match": false,
+        "rrf_score": 0.016393
+      }
+    ],
+    "supplementary_derived_matches": [
+      {
+        "run_id": "lr_005_seed3",
+        "source_type": "DERIVED_ANALYSIS",
+        "source": "runs/lr_005_seed3.json",
+        "run_source": "runs/lr_005_seed3.json",
+        "observation": "DERIVED_ANALYSIS machine-generated summary from runs/lr_005_seed3.json. Run lr_005_seed3. Learning rate 0.05, dropout 0.0, train size 10000, model seed 244, shuffle seed 243. Final validation accuracy 75.9 percent; final loss 0.6806; largest validation loss rise 0.0. no recorded rise followed by recovery; validation loss decreased or stayed flat every epoch.",
+        "keyword_rank": 1,
+        "semantic_rank": 3,
+        "cosine_similarity": 0.4726,
+        "exact_run_id_match": true,
+        "rrf_score": 0.032266
+      },
+      {
+        "run_id": "lr_01_seed3",
+        "source_type": "DERIVED_ANALYSIS",
+        "source": "runs/lr_01_seed3.json",
+        "run_source": "runs/lr_01_seed3.json",
+        "observation": "DERIVED_ANALYSIS machine-generated summary from runs/lr_01_seed3.json. Run lr_01_seed3. Learning rate 0.1, dropout 0.0, train size 10000, model seed 244, shuffle seed 243. Final validation accuracy 71.45 percent; final loss 0.810865; largest validation loss rise 0.138654. validation loss spike and recovery.",
+        "keyword_rank": 2,
+        "semantic_rank": 5,
+        "cosine_similarity": 0.453,
+        "exact_run_id_match": true,
+        "rrf_score": 0.031514
+      },
+      {
+        "run_id": "lr_001",
+        "source_type": "DERIVED_ANALYSIS",
+        "source": "runs/lr_001.json",
+        "run_source": "runs/lr_001.json",
+        "observation": "DERIVED_ANALYSIS machine-generated summary from runs/lr_001.json. Run lr_001. Learning rate 0.01, dropout unknown, train size 10000, model seed 44, shuffle seed 43. Final validation accuracy 66.4 percent; final loss 1.030395; largest validation loss rise 0.0. no recorded rise followed by recovery; validation loss decreased or stayed flat every epoch.",
+        "keyword_rank": 3,
+        "semantic_rank": 1,
+        "cosine_similarity": 0.4781,
+        "exact_run_id_match": false,
+        "rrf_score": 0.032266
+      }
+    ],
+    "stages": {
+      "keyword": [
+        "lr_005_seed3",
+        "lr_01_seed3",
+        "lr_001",
+        "lr_005_seed2",
+        "lr_gap_001"
+      ],
+      "semantic": [
+        "lr_001",
+        "lr_gap_001",
+        "lr_005_seed3",
+        "lr_005_seed2",
+        "lr_01_seed3",
+        "lr_01_seed2",
+        "baseline_001",
+        "lr_005_gap_001",
+        "small_dropout_05_001",
+        "baseline_gap_001",
+        "small_no_dropout_001"
+      ],
+      "hybrid": [
+        "lr_005_seed3",
+        "lr_01_seed3",
+        "lr_01_seed2",
+        "lr_005_gap_001",
+        "small_dropout_05_001",
+        "baseline_gap_001",
+        "small_no_dropout_001",
+        "lr_001",
+        "lr_gap_001",
+        "lr_005_seed2",
+        "baseline_001"
+      ]
+    },
+    "stage_details": {
+      "query_tokens": [
+        "005",
+        "01",
+        "check",
+        "controlled",
+        "follow",
+        "investigate",
+        "knowledge",
+        "lr",
+        "ml",
+        "notes",
+        "performed",
+        "previous",
+        "propose",
+        "retrieve",
+        "search",
+        "seed3",
+        "up",
+        "worse"
+      ],
+      "keyword": [
+        {
+          "run_id": "lr_005_seed3",
+          "overlap_count": 3,
+          "rank": 1
+        },
+        {
+          "run_id": "lr_01_seed3",
+          "overlap_count": 3,
+          "rank": 2
+        },
+        {
+          "run_id": "lr_001",
+          "overlap_count": 2,
+          "rank": 3
+        },
+        {
+          "run_id": "lr_005_seed2",
+          "overlap_count": 2,
+          "rank": 4
+        },
+        {
+          "run_id": "lr_gap_001",
+          "overlap_count": 2,
+          "rank": 5
+        }
+      ],
+      "semantic": [
+        {
+          "run_id": "lr_001",
+          "cosine_similarity": 0.478077,
+          "rank": 1
+        },
+        {
+          "run_id": "lr_gap_001",
+          "cosine_similarity": 0.473624,
+          "rank": 2
+        },
+        {
+          "run_id": "lr_005_seed3",
+          "cosine_similarity": 0.472612,
+          "rank": 3
+        },
+        {
+          "run_id": "lr_005_seed2",
+          "cosine_similarity": 0.457537,
+          "rank": 4
+        },
+        {
+          "run_id": "lr_01_seed3",
+          "cosine_similarity": 0.453026,
+          "rank": 5
+        },
+        {
+          "run_id": "lr_01_seed2",
+          "cosine_similarity": 0.387608,
+          "rank": 1
+        },
+        {
+          "run_id": "baseline_001",
+          "cosine_similarity": 0.367395,
+          "rank": 6
+        },
+        {
+          "run_id": "lr_005_gap_001",
+          "cosine_similarity": 0.319791,
+          "rank": 2
+        },
+        {
+          "run_id": "small_dropout_05_001",
+          "cosine_similarity": 0.282292,
+          "rank": 3
+        },
+        {
+          "run_id": "baseline_gap_001",
+          "cosine_similarity": 0.263071,
+          "rank": 4
+        },
+        {
+          "run_id": "small_no_dropout_001",
+          "cosine_similarity": 0.242886,
+          "rank": 5
+        }
+      ],
+      "fusion": [
+        {
+          "run_id": "lr_005_seed3",
+          "keyword_rank": 1,
+          "semantic_rank": 3,
+          "rrf_score": 0.032266,
+          "source_type": "DERIVED_ANALYSIS"
+        },
+        {
+          "run_id": "lr_01_seed3",
+          "keyword_rank": 2,
+          "semantic_rank": 5,
+          "rrf_score": 0.031514,
+          "source_type": "DERIVED_ANALYSIS"
+        },
+        {
+          "run_id": "lr_01_seed2",
+          "keyword_rank": null,
+          "semantic_rank": 1,
+          "rrf_score": 0.016393,
+          "source_type": "EXPERIMENT_NOTE"
+        },
+        {
+          "run_id": "lr_005_gap_001",
+          "keyword_rank": null,
+          "semantic_rank": 2,
+          "rrf_score": 0.016129,
+          "source_type": "EXPERIMENT_NOTE"
+        },
+        {
+          "run_id": "small_dropout_05_001",
+          "keyword_rank": null,
+          "semantic_rank": 3,
+          "rrf_score": 0.015873,
+          "source_type": "EXPERIMENT_NOTE"
+        },
+        {
+          "run_id": "baseline_gap_001",
+          "keyword_rank": null,
+          "semantic_rank": 4,
+          "rrf_score": 0.015625,
+          "source_type": "EXPERIMENT_NOTE"
+        },
+        {
+          "run_id": "small_no_dropout_001",
+          "keyword_rank": null,
+          "semantic_rank": 5,
+          "rrf_score": 0.015385,
+          "source_type": "EXPERIMENT_NOTE"
+        },
+        {
+          "run_id": "lr_001",
+          "keyword_rank": 3,
+          "semantic_rank": 1,
+          "rrf_score": 0.032266,
+          "source_type": "DERIVED_ANALYSIS"
+        },
+        {
+          "run_id": "lr_gap_001",
+          "keyword_rank": 5,
+          "semantic_rank": 2,
+          "rrf_score": 0.031514,
+          "source_type": "DERIVED_ANALYSIS"
+        },
+        {
+          "run_id": "lr_005_seed2",
+          "keyword_rank": 4,
+          "semantic_rank": 4,
+          "rrf_score": 0.03125,
+          "source_type": "DERIVED_ANALYSIS"
+        },
+        {
+          "run_id": "baseline_001",
+          "keyword_rank": null,
+          "semantic_rank": 6,
+          "rrf_score": 0.015152,
+          "source_type": "DERIVED_ANALYSIS"
+        }
+      ]
+    },
+    "corpus": {
+      "human_notes": 5,
+      "derived_summaries": 6
+    }
+  }
+}
+```
+
+### Event 7: EXPERIMENT EVIDENCE — PYTHON
+
+```json
+{
+  "tool": "get_experiment",
+  "run_id": "lr_005_seed3",
+  "record": {
+    "config": {
+      "run_id": "lr_005_seed3",
+      "dataset": "FashionMNIST",
+      "source_partition": "train",
+      "preprocessing": "ToTensor",
+      "train_size": 10000,
+      "val_size": 2000,
+      "validation_start": 10000,
+      "split_seed": 42,
+      "shuffle_seed": 243,
+      "model_seed": 244,
+      "batch_size": 128,
+      "hidden_units": 128,
+      "dropout": 0.0,
+      "optimizer": "SGD",
+      "learning_rate": 0.05,
+      "epochs": 5
+    },
+    "metrics": [
+      {
+        "epoch": 1,
+        "train_loss_during_epoch": 1.5768690871238709,
+        "train_loss_after_epoch": 1.0953938115119934,
+        "train_accuracy_after_epoch": 0.612,
+        "val_loss": 1.077092869758606,
+        "val_accuracy": 0.626
+      },
+      {
+        "epoch": 2,
+        "train_loss_during_epoch": 0.9157467240333557,
+        "train_loss_after_epoch": 0.8976822423934937,
+        "train_accuracy_after_epoch": 0.6745,
+        "val_loss": 0.8978471145629883,
+        "val_accuracy": 0.6775
+      },
+      {
+        "epoch": 3,
+        "train_loss_during_epoch": 0.7648744816780091,
+        "train_loss_after_epoch": 0.8522588306427002,
+        "train_accuracy_after_epoch": 0.6881,
+        "val_loss": 0.8446058855056763,
+        "val_accuracy": 0.687
+      },
+      {
+        "epoch": 4,
+        "train_loss_during_epoch": 0.6941012891769409,
+        "train_loss_after_epoch": 0.6855860265254974,
+        "train_accuracy_after_epoch": 0.7522,
+        "val_loss": 0.6975534653663635,
+        "val_accuracy": 0.7305
+      },
+      {
+        "epoch": 5,
+        "train_loss_during_epoch": 0.6385964094161988,
+        "train_loss_after_epoch": 0.6929299505233765,
+        "train_accuracy_after_epoch": 0.7534,
+        "val_loss": 0.680600378036499,
+        "val_accuracy": 0.759
+      }
+    ]
+  }
+}
+```
+
+### Event 8: EXPERIMENT EVIDENCE — PYTHON
+
+```json
+{
+  "tool": "get_experiment",
+  "run_id": "lr_01_seed3",
+  "record": {
+    "config": {
+      "run_id": "lr_01_seed3",
+      "dataset": "FashionMNIST",
+      "source_partition": "train",
+      "preprocessing": "ToTensor",
+      "train_size": 10000,
+      "val_size": 2000,
+      "validation_start": 10000,
+      "split_seed": 42,
+      "shuffle_seed": 243,
+      "model_seed": 244,
+      "batch_size": 128,
+      "hidden_units": 128,
+      "dropout": 0.0,
+      "optimizer": "SGD",
+      "learning_rate": 0.1,
+      "epochs": 5
+    },
+    "metrics": [
+      {
+        "epoch": 1,
+        "train_loss_during_epoch": 1.2794325910568238,
+        "train_loss_after_epoch": 0.9111308251380921,
+        "train_accuracy_after_epoch": 0.6495,
+        "val_loss": 0.8865399732589722,
+        "val_accuracy": 0.6645
+      },
+      {
+        "epoch": 2,
+        "train_loss_during_epoch": 0.7691367017745971,
+        "train_loss_after_epoch": 1.0264610683441162,
+        "train_accuracy_after_epoch": 0.6864,
+        "val_loss": 1.0251937484741211,
+        "val_accuracy": 0.6875
+      },
+      {
+        "epoch": 3,
+        "train_loss_during_epoch": 0.6635693133354187,
+        "train_loss_after_epoch": 0.8690615137100219,
+        "train_accuracy_after_epoch": 0.6762,
+        "val_loss": 0.8684509625434875,
+        "val_accuracy": 0.674
+      },
+      {
+        "epoch": 4,
+        "train_loss_during_epoch": 0.6114804370880127,
+        "train_loss_after_epoch": 0.6598312929391861,
+        "train_accuracy_after_epoch": 0.7469,
+        "val_loss": 0.6828413162231445,
+        "val_accuracy": 0.732
+      },
+      {
+        "epoch": 5,
+        "train_loss_during_epoch": 0.5592419065475464,
+        "train_loss_after_epoch": 0.8131413830757142,
+        "train_accuracy_after_epoch": 0.7162,
+        "val_loss": 0.810864956855774,
+        "val_accuracy": 0.7145
+      }
+    ]
+  }
+}
+```
+
+### Event 9: TOOL EXECUTION — PYTHON
+
+```json
+{
+  "tool": "analyze_experiments",
+  "result": {
+    "comparisons": [
+      {
+        "baseline_run_id": "lr_005_seed3",
+        "target_run_id": "lr_01_seed3",
+        "sources": [
+          "runs/lr_005_seed3.json",
+          "runs/lr_01_seed3.json"
+        ],
+        "source_type": "DERIVED_ANALYSIS",
+        "changed_settings": {
+          "learning_rate": {
+            "baseline": 0.05,
+            "target": 0.1
+          }
+        },
+        "missing_controls": [],
+        "curves": {
+          "lr_005_seed3": {
+            "final_accuracy_percent": 75.9,
+            "final_loss": 0.6806,
+            "final_epoch": 5,
+            "best_accuracy_percent": 75.9,
+            "best_epoch": 5,
+            "minimum_loss": 0.6806,
+            "minimum_loss_epoch": 5,
+            "largest_loss_rise": 0.0,
+            "recoveries": [],
+            "final_loss_gap_val_minus_train": -0.01233,
+            "candidate_generalization_intervals": []
+          },
+          "lr_01_seed3": {
+            "final_accuracy_percent": 71.45,
+            "final_loss": 0.810865,
+            "final_epoch": 5,
+            "best_accuracy_percent": 73.2,
+            "best_epoch": 4,
+            "minimum_loss": 0.682841,
+            "minimum_loss_epoch": 4,
+            "largest_loss_rise": 0.138654,
+            "recoveries": [
+              {
+                "epochs": [
+                  1,
+                  2,
+                  3
+                ],
+                "losses": [
+                  0.8865,
+                  1.0252,
+                  0.8685
+                ]
+              }
+            ],
+            "final_loss_gap_val_minus_train": -0.002276,
+            "candidate_generalization_intervals": []
+          }
+        },
+        "matching_scope": "All recorded configuration fields; hidden_units and dropout describe architecture settings, not complete architecture provenance.",
+        "missing_provenance": [
+          "Exact model-class/trainer revision was not recorded in historical JSON.",
+          "Hardware and software versions were not recorded in historical JSON."
+        ],
+        "controlled_learning_rate_pair": true,
+        "confounded": false,
+        "accuracy_delta_pp": -4.45,
+        "loss_delta": 0.130265,
+        "rise_delta": 0.138654
+      }
+    ],
+    "seed_pairs": [
+      {
+        "baseline_run_id": "lr_005_gap_001",
+        "target_run_id": "baseline_001",
+        "sources": [
+          "runs/lr_005_gap_001.json",
+          "runs/baseline_001.json"
+        ],
+        "source_type": "DERIVED_ANALYSIS",
+        "changed_settings": {
+          "learning_rate": {
+            "baseline": 0.05,
+            "target": 0.1
+          }
+        },
+        "missing_controls": [
+          "validation_start",
+          "dropout"
+        ],
+        "curves": {
+          "lr_005_gap_001": {
+            "final_accuracy_percent": 75.15,
+            "final_loss": 0.687584,
+            "final_epoch": 5,
+            "best_accuracy_percent": 75.15,
+            "best_epoch": 5,
+            "minimum_loss": 0.687584,
+            "minimum_loss_epoch": 5,
+            "largest_loss_rise": 0.0,
+            "recoveries": [],
+            "final_loss_gap_val_minus_train": 0.002611,
+            "candidate_generalization_intervals": []
+          },
+          "baseline_001": {
+            "final_accuracy_percent": 71.25,
+            "final_loss": 0.820787,
+            "final_epoch": 5,
+            "best_accuracy_percent": 75.1,
+            "best_epoch": 3,
+            "minimum_loss": 0.666292,
+            "minimum_loss_epoch": 3,
+            "largest_loss_rise": 0.548924,
+            "recoveries": [
+              {
+                "epochs": [
+                  1,
+                  2,
+                  3
+                ],
+                "losses": [
+                  0.8696,
+                  1.4186,
+                  0.6663
+                ]
+              }
+            ],
+            "final_loss_gap_val_minus_train": null,
+            "candidate_generalization_intervals": []
+          }
+        },
+        "matching_scope": "All recorded configuration fields; hidden_units and dropout describe architecture settings, not complete architecture provenance.",
+        "missing_provenance": [
+          "Exact model-class/trainer revision was not recorded in historical JSON.",
+          "Hardware and software versions were not recorded in historical JSON."
+        ],
+        "controlled_learning_rate_pair": false,
+        "confounded": false,
+        "accuracy_delta_pp": -3.9,
+        "loss_delta": 0.133203,
+        "rise_delta": 0.548924
+      },
+      {
+        "baseline_run_id": "lr_005_seed2",
+        "target_run_id": "lr_01_seed2",
+        "sources": [
+          "runs/lr_005_seed2.json",
+          "runs/lr_01_seed2.json"
+        ],
+        "source_type": "DERIVED_ANALYSIS",
+        "changed_settings": {
+          "learning_rate": {
+            "baseline": 0.05,
+            "target": 0.1
+          }
+        },
+        "missing_controls": [
+          "validation_start",
+          "dropout"
+        ],
+        "curves": {
+          "lr_005_seed2": {
+            "final_accuracy_percent": 76.05,
+            "final_loss": 0.684773,
+            "final_epoch": 5,
+            "best_accuracy_percent": 76.55,
+            "best_epoch": 3,
+            "minimum_loss": 0.684773,
+            "minimum_loss_epoch": 5,
+            "largest_loss_rise": 0.001241,
+            "recoveries": [
+              {
+                "epochs": [
+                  3,
+                  4,
+                  5
+                ],
+                "losses": [
+                  0.7457,
+                  0.7469,
+                  0.6848
+                ]
+              }
+            ],
+            "final_loss_gap_val_minus_train": -0.008717,
+            "candidate_generalization_intervals": [
+              [
+                3,
+                4
+              ]
+            ]
+          },
+          "lr_01_seed2": {
+            "final_accuracy_percent": 76.35,
+            "final_loss": 0.679277,
+            "final_epoch": 5,
+            "best_accuracy_percent": 76.35,
+            "best_epoch": 5,
+            "minimum_loss": 0.679277,
+            "minimum_loss_epoch": 5,
+            "largest_loss_rise": 0.100527,
+            "recoveries": [
+              {
+                "epochs": [
+                  3,
+                  4,
+                  5
+                ],
+                "losses": [
+                  0.7136,
+                  0.8142,
+                  0.6793
+                ]
+              }
+            ],
+            "final_loss_gap_val_minus_train": -0.012381,
+            "candidate_generalization_intervals": []
+          }
+        },
+        "matching_scope": "All recorded configuration fields; hidden_units and dropout describe architecture settings, not complete architecture provenance.",
+        "missing_provenance": [
+          "Exact model-class/trainer revision was not recorded in historical JSON.",
+          "Hardware and software versions were not recorded in historical JSON."
+        ],
+        "controlled_learning_rate_pair": false,
+        "confounded": false,
+        "accuracy_delta_pp": 0.3,
+        "loss_delta": -0.005496,
+        "rise_delta": 0.099287
+      },
+      {
+        "baseline_run_id": "lr_005_seed3",
+        "target_run_id": "lr_01_seed3",
+        "sources": [
+          "runs/lr_005_seed3.json",
+          "runs/lr_01_seed3.json"
+        ],
+        "source_type": "DERIVED_ANALYSIS",
+        "changed_settings": {
+          "learning_rate": {
+            "baseline": 0.05,
+            "target": 0.1
+          }
+        },
+        "missing_controls": [],
+        "curves": {
+          "lr_005_seed3": {
+            "final_accuracy_percent": 75.9,
+            "final_loss": 0.6806,
+            "final_epoch": 5,
+            "best_accuracy_percent": 75.9,
+            "best_epoch": 5,
+            "minimum_loss": 0.6806,
+            "minimum_loss_epoch": 5,
+            "largest_loss_rise": 0.0,
+            "recoveries": [],
+            "final_loss_gap_val_minus_train": -0.01233,
+            "candidate_generalization_intervals": []
+          },
+          "lr_01_seed3": {
+            "final_accuracy_percent": 71.45,
+            "final_loss": 0.810865,
+            "final_epoch": 5,
+            "best_accuracy_percent": 73.2,
+            "best_epoch": 4,
+            "minimum_loss": 0.682841,
+            "minimum_loss_epoch": 4,
+            "largest_loss_rise": 0.138654,
+            "recoveries": [
+              {
+                "epochs": [
+                  1,
+                  2,
+                  3
+                ],
+                "losses": [
+                  0.8865,
+                  1.0252,
+                  0.8685
+                ]
+              }
+            ],
+            "final_loss_gap_val_minus_train": -0.002276,
+            "candidate_generalization_intervals": []
+          }
+        },
+        "matching_scope": "All recorded configuration fields; hidden_units and dropout describe architecture settings, not complete architecture provenance.",
+        "missing_provenance": [
+          "Exact model-class/trainer revision was not recorded in historical JSON.",
+          "Hardware and software versions were not recorded in historical JSON."
+        ],
+        "controlled_learning_rate_pair": true,
+        "confounded": false,
+        "accuracy_delta_pp": -4.45,
+        "loss_delta": 0.130265,
+        "rise_delta": 0.138654
+      }
+    ],
+    "seed_summary": {
+      "distinct_recorded_blocks": 3,
+      "mean_accuracy_delta_pp": -2.6833,
+      "population_sd_delta_pp": 2.1215,
+      "limit": "Descriptive observed blocks; missing controls and reuse of one split limit causal interpretation."
+    },
+    "incomplete_records": [],
+    "selected_records": [
+      {
+        "config": {
+          "run_id": "lr_005_seed3",
+          "dataset": "FashionMNIST",
+          "source_partition": "train",
+          "preprocessing": "ToTensor",
+          "train_size": 10000,
+          "val_size": 2000,
+          "validation_start": 10000,
+          "split_seed": 42,
+          "shuffle_seed": 243,
+          "model_seed": 244,
+          "batch_size": 128,
+          "hidden_units": 128,
+          "dropout": 0.0,
+          "optimizer": "SGD",
+          "learning_rate": 0.05,
+          "epochs": 5
+        },
+        "metrics": [
+          {
+            "epoch": 1,
+            "train_loss_during_epoch": 1.5768690871238709,
+            "train_loss_after_epoch": 1.0953938115119934,
+            "train_accuracy_after_epoch": 0.612,
+            "val_loss": 1.077092869758606,
+            "val_accuracy": 0.626
+          },
+          {
+            "epoch": 2,
+            "train_loss_during_epoch": 0.9157467240333557,
+            "train_loss_after_epoch": 0.8976822423934937,
+            "train_accuracy_after_epoch": 0.6745,
+            "val_loss": 0.8978471145629883,
+            "val_accuracy": 0.6775
+          },
+          {
+            "epoch": 3,
+            "train_loss_during_epoch": 0.7648744816780091,
+            "train_loss_after_epoch": 0.8522588306427002,
+            "train_accuracy_after_epoch": 0.6881,
+            "val_loss": 0.8446058855056763,
+            "val_accuracy": 0.687
+          },
+          {
+            "epoch": 4,
+            "train_loss_during_epoch": 0.6941012891769409,
+            "train_loss_after_epoch": 0.6855860265254974,
+            "train_accuracy_after_epoch": 0.7522,
+            "val_loss": 0.6975534653663635,
+            "val_accuracy": 0.7305
+          },
+          {
+            "epoch": 5,
+            "train_loss_during_epoch": 0.6385964094161988,
+            "train_loss_after_epoch": 0.6929299505233765,
+            "train_accuracy_after_epoch": 0.7534,
+            "val_loss": 0.680600378036499,
+            "val_accuracy": 0.759
+          }
+        ]
+      },
+      {
+        "config": {
+          "run_id": "lr_01_seed3",
+          "dataset": "FashionMNIST",
+          "source_partition": "train",
+          "preprocessing": "ToTensor",
+          "train_size": 10000,
+          "val_size": 2000,
+          "validation_start": 10000,
+          "split_seed": 42,
+          "shuffle_seed": 243,
+          "model_seed": 244,
+          "batch_size": 128,
+          "hidden_units": 128,
+          "dropout": 0.0,
+          "optimizer": "SGD",
+          "learning_rate": 0.1,
+          "epochs": 5
+        },
+        "metrics": [
+          {
+            "epoch": 1,
+            "train_loss_during_epoch": 1.2794325910568238,
+            "train_loss_after_epoch": 0.9111308251380921,
+            "train_accuracy_after_epoch": 0.6495,
+            "val_loss": 0.8865399732589722,
+            "val_accuracy": 0.6645
+          },
+          {
+            "epoch": 2,
+            "train_loss_during_epoch": 0.7691367017745971,
+            "train_loss_after_epoch": 1.0264610683441162,
+            "train_accuracy_after_epoch": 0.6864,
+            "val_loss": 1.0251937484741211,
+            "val_accuracy": 0.6875
+          },
+          {
+            "epoch": 3,
+            "train_loss_during_epoch": 0.6635693133354187,
+            "train_loss_after_epoch": 0.8690615137100219,
+            "train_accuracy_after_epoch": 0.6762,
+            "val_loss": 0.8684509625434875,
+            "val_accuracy": 0.674
+          },
+          {
+            "epoch": 4,
+            "train_loss_during_epoch": 0.6114804370880127,
+            "train_loss_after_epoch": 0.6598312929391861,
+            "train_accuracy_after_epoch": 0.7469,
+            "val_loss": 0.6828413162231445,
+            "val_accuracy": 0.732
+          },
+          {
+            "epoch": 5,
+            "train_loss_during_epoch": 0.5592419065475464,
+            "train_loss_after_epoch": 0.8131413830757142,
+            "train_accuracy_after_epoch": 0.7162,
+            "val_loss": 0.810864956855774,
+            "val_accuracy": 0.7145
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Event 10: KNOWLEDGE RETRIEVAL — PYTHON
+
+```json
+{
+  "query": "training validation loss curves",
+  "source_category": "general ML knowledge",
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "ranking_method": "keyword + MiniLM reciprocal rank fusion",
+  "matches": [
+    {
+      "id": "validation",
+      "path": "knowledge/validation.md",
+      "source_title": "Overfitting: Interpreting loss curves",
+      "source_url": "https://developers.google.com/machine-learning/crash-course/overfitting/interpreting-loss-curves",
+      "topic": "training and validation loss curves",
+      "source_type": "ML_KNOWLEDGE",
+      "text": "Loss curves can oscillate or rise for several reasons. Reducing a learning rate can be useful when debugging an oscillating training-loss curve. When training loss improves but validation loss rises, overfitting is one possible interpretation. These are general diagnostic ideas, not proof of a cause for any particular saved run.",
+      "semantic_rank": 2,
+      "keyword_rank": 1,
+      "cosine_similarity": 0.5254,
+      "hybrid_score": 0.032522,
+      "rank": 1
+    },
+    {
+      "id": "overfitting",
+      "path": "knowledge/overfitting.md",
+      "source_title": "Validation curves: plotting scores to evaluate models",
+      "source_url": "https://scikit-learn.org/stable/modules/learning_curve.html",
+      "topic": "overfitting and validation behavior",
+      "source_type": "ML_KNOWLEDGE",
+      "text": "Training and validation scores together can help identify possible overfitting. A high training score paired with a lower validation score is a warning that performance may not generalize as well to unseen data. A pattern in one short saved curve is only a candidate signal; other explanations and repeated checks remain possible.",
+      "semantic_rank": 1,
+      "keyword_rank": 4,
+      "cosine_similarity": 0.5255,
+      "hybrid_score": 0.032018,
+      "rank": 2
+    }
+  ]
+}
+```
+
+### Event 11: TOOL MENU — PYTHON
+
+```json
+{
+  "type": "function",
+  "function": {
+    "name": "select_hypotheses",
+    "description": "Select and order competing hypotheses for the objective. These are candidate mechanisms, never facts. [{'hypothesis_id': 'H1', 'statement': 'A higher learning rate may contribute to larger validation-loss rises through unstable optimization.', 'supporting_experiment_evidence': ['PAIR:0', 'PAIR:1', 'PAIR:2', 'PAIR:3'], 'contradicting_experiment_evidence': []}, {'hypothesis_id': 'H2', 'statement': 'Seed-dependent training variability may contribute to differences in final validation accuracy.', 'supporting_experiment_evidence': ['PAIR:0', 'PAIR:1', 'PAIR:2', 'PAIR:3'], 'contradicting_experiment_evidence': []}, {'hypothesis_id': 'H3', 'statement': 'The short recorded training horizon may leave the final-epoch ranking sensitive to transient behavior.', 'supporting_experiment_evidence': ['RUN:lr_005_seed3', 'RUN:lr_01_seed3', 'RUN:lr_005_gap_001', 'RUN:baseline_001', 'RUN:lr_005_seed2', 'RUN:lr_01_seed2'], 'contradicting_experiment_evidence': []}, {'hypothesis_id': 'H4', 'statement': 'A generalization gap may contribute during intervals where training loss improves and validation loss rises.', 'supporting_experiment_evidence': ['PAIR:2'], 'contradicting_experiment_evidence': []}]",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "hypothesis_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "H1",
+              "H2",
+              "H3",
+              "H4"
+            ]
+          },
+          "minItems": 2,
+          "maxItems": 4
+        }
+      },
+      "required": [
+        "hypothesis_ids"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
+```
+
+### Event 12: AGENT REQUEST — LLM
+
+```json
+{
+  "attempt": 1,
+  "response": {
+    "role": "assistant",
+    "content": "",
+    "tool_calls": [
+      {
+        "id": "call_rf6p9knk",
+        "function": {
+          "index": 0,
+          "name": "select_hypotheses",
+          "arguments": {
+            "hypothesis_ids": [
+              "H1",
+              "H2",
+              "H3",
+              "H4"
+            ]
+          }
+        }
+      }
+    ]
+  }
+}
+```
+
+### Event 13: HYPOTHESIS GENERATED — LLM
+
+```json
+[
+  {
+    "source_type": "HYPOTHESIS",
+    "relevant_ml_knowledge": [
+      "ML:validation",
+      "ML:overfitting"
+    ],
+    "assumptions": [
+      "Recorded configurations and epoch metrics accurately describe the runs."
+    ],
+    "missing_evidence": [
+      "Independent replication and optimizer-step/gradient measurements are absent.",
+      "Validation-loss rises cannot directly demonstrate overshooting; gradients and optimizer trajectories were not recorded."
+    ],
+    "status": "Consistent with current evidence",
+    "hypothesis_id": "H1",
+    "statement": "A higher learning rate may contribute to larger validation-loss rises through unstable optimization.",
+    "supporting_experiment_evidence": [
+      "PAIR:0",
+      "PAIR:1",
+      "PAIR:2",
+      "PAIR:3"
+    ],
+    "contradicting_experiment_evidence": [],
+    "proposed_test": "Compare maximum positive consecutive-epoch validation-loss rises under matched new seeds and different learning rates.",
+    "selected_by": "LLM",
+    "statement_origin": "PYTHON evidence-conditioned candidate"
+  },
+  {
+    "source_type": "HYPOTHESIS",
+    "relevant_ml_knowledge": [
+      "ML:validation",
+      "ML:overfitting"
+    ],
+    "assumptions": [
+      "Recorded configurations and epoch metrics accurately describe the runs."
+    ],
+    "missing_evidence": [
+      "Independent replication and optimizer-step/gradient measurements are absent.",
+      "A small number of observed seed blocks cannot establish a distribution or separate all sources of randomness."
+    ],
+    "status": "Consistent with current evidence",
+    "hypothesis_id": "H2",
+    "statement": "Seed-dependent training variability may contribute to differences in final validation accuracy.",
+    "supporting_experiment_evidence": [
+      "PAIR:0",
+      "PAIR:1",
+      "PAIR:2",
+      "PAIR:3"
+    ],
+    "contradicting_experiment_evidence": [],
+    "proposed_test": "Repeat a controlled learning-rate comparison under a new shared model/shuffle seed block; predefine accuracy and loss-rise comparisons.",
+    "selected_by": "LLM",
+    "statement_origin": "PYTHON evidence-conditioned candidate"
+  },
+  {
+    "source_type": "HYPOTHESIS",
+    "relevant_ml_knowledge": [
+      "ML:validation",
+      "ML:overfitting"
+    ],
+    "assumptions": [
+      "Recorded configurations and epoch metrics accurately describe the runs."
+    ],
+    "missing_evidence": [
+      "Independent replication and optimizer-step/gradient measurements are absent.",
+      "Longer independently approved training and predeclared stopping criteria are unavailable."
+    ],
+    "status": "Consistent with current evidence",
+    "hypothesis_id": "H3",
+    "statement": "The short recorded training horizon may leave the final-epoch ranking sensitive to transient behavior.",
+    "supporting_experiment_evidence": [
+      "RUN:lr_005_seed3",
+      "RUN:lr_01_seed3",
+      "RUN:lr_005_gap_001",
+      "RUN:baseline_001",
+      "RUN:lr_005_seed2",
+      "RUN:lr_01_seed2"
+    ],
+    "contradicting_experiment_evidence": [],
+    "proposed_test": "Replicate the existing horizon first; consider a separately approved longer-horizon study if ambiguity remains.",
+    "selected_by": "LLM",
+    "statement_origin": "PYTHON evidence-conditioned candidate"
+  },
+  {
+    "source_type": "HYPOTHESIS",
+    "relevant_ml_knowledge": [
+      "ML:validation",
+      "ML:overfitting"
+    ],
+    "assumptions": [
+      "Recorded configurations and epoch metrics accurately describe the runs."
+    ],
+    "missing_evidence": [
+      "Independent replication and optimizer-step/gradient measurements are absent.",
+      "This interval rule is a diagnostic candidate, not proof of overfitting."
+    ],
+    "status": "Consistent with current evidence",
+    "hypothesis_id": "H4",
+    "statement": "A generalization gap may contribute during intervals where training loss improves and validation loss rises.",
+    "supporting_experiment_evidence": [
+      "PAIR:2"
+    ],
+    "contradicting_experiment_evidence": [],
+    "proposed_test": "Inspect matched train/validation curves and test one regularization change in a separate controlled proposal.",
+    "selected_by": "LLM",
+    "statement_origin": "PYTHON evidence-conditioned candidate"
+  }
+]
+```
+
+### Event 14: HYPOTHESIS VALIDATION — PYTHON
+
+```json
+{
+  "valid": true,
+  "errors": [],
+  "unsupported_structured_citations": 0,
+  "scope": "Structured evidence links and recorded snapshots; not a proof of causal mechanisms."
+}
+```
+
+### Event 15: APPROVAL REQUEST — APP POLICY
+
+```json
+{
+  "proposal_id": "INV-A2B6989CC1-P1",
+  "hash": "a0eab42e818f2c6c62fd269bab618a44f4194ecbc115600ae3dbd285562b1e00",
+  "payload": {
+    "proposal_id": "INV-A2B6989CC1-P1",
+    "investigation_id": "INV-A2B6989CC1",
+    "hypothesis_ids": [
+      "H1",
+      "H2"
+    ],
+    "changed_variable": "learning_rate",
+    "controlled_variables": [
+      "dataset",
+      "source_partition",
+      "preprocessing",
+      "train_size",
+      "val_size",
+      "validation_start",
+      "split_seed",
+      "shuffle_seed",
+      "model_seed",
+      "batch_size",
+      "hidden_units",
+      "optimizer",
+      "epochs",
+      "dropout"
+    ],
+    "runs": [
+      {
+        "run_id": "v3_inv_a2b6989cc1_control",
+        "dataset": "FashionMNIST",
+        "source_partition": "train",
+        "preprocessing": "ToTensor",
+        "train_size": 10000,
+        "val_size": 2000,
+        "validation_start": 10000,
+        "split_seed": 42,
+        "shuffle_seed": 443,
+        "model_seed": 444,
+        "batch_size": 128,
+        "hidden_units": 128,
+        "dropout": 0.0,
+        "optimizer": "SGD",
+        "learning_rate": 0.05,
+        "epochs": 5
+      },
+      {
+        "run_id": "v3_inv_a2b6989cc1_target",
+        "dataset": "FashionMNIST",
+        "source_partition": "train",
+        "preprocessing": "ToTensor",
+        "train_size": 10000,
+        "val_size": 2000,
+        "validation_start": 10000,
+        "split_seed": 42,
+        "shuffle_seed": 443,
+        "model_seed": 444,
+        "batch_size": 128,
+        "hidden_units": 128,
+        "dropout": 0.0,
+        "optimizer": "SGD",
+        "learning_rate": 0.1,
+        "epochs": 5
+      }
+    ],
+    "rationale": "A new shared seed block tests whether the observed loss-rise ordering replicates while all other recorded controls are matched.",
+    "seed_rationale": "Seeds exceed recorded runs and reserved legacy plans. The same fresh seeds are used by both arms.",
+    "primary_metric": "largest_positive_consecutive_epoch_validation_loss_rise",
+    "secondary_metrics": [
+      "final_validation_accuracy_percent",
+      "final_validation_loss"
+    ],
+    "supported_if": "The higher-rate arm has a strictly larger maximum validation-loss rise.",
+    "contradicted_if": "The higher-rate arm has a smaller maximum rise; equality is inconclusive.",
+    "limitations": [
+      "One new seed block does not establish general causation.",
+      "The same fixed validation split is reused; the official test set is excluded.",
+      "Validation metrics do not directly measure overshooting.",
+      "Other hypotheses may require separately approved designs."
+    ],
+    "limits": {
+      "max_total_seconds": 600,
+      "max_runs": 2,
+      "cpu_threads": 2
+    },
+    "training_code_sha256": "a3bde6ef9e2b371fa2ccefb0f278bc910501ba64fb16f9567d0373b9bd72b4ba"
+  }
+}
+```
+
+### Event 16: USER DECISION — DEVELOPMENT_DRY_RUN
+
+```json
+{
+  "id": 7,
+  "proposal_id": "INV-A2B6989CC1-P1",
+  "hash": "a0eab42e818f2c6c62fd269bab618a44f4194ecbc115600ae3dbd285562b1e00",
+  "decision": "approved",
+  "mode": "dry_run",
+  "actor": "development_dry_run",
+  "reason": "Final development demonstration; dry run only",
+  "timestamp": "2026-10-28T09:05:01.510790+00:00"
+}
+```
+
+### Event 17: EXECUTION RESULT — USER_AUTHORIZED
+
+```json
+{
+  "status": "dry_run_completed",
+  "mode": "dry_run",
+  "started": "2026-10-28T09:05:01.742409+00:00",
+  "run_ids": [],
+  "logs": [],
+  "ingested": [],
+  "planned_configs": [
+    {
+      "run_id": "v3_inv_a2b6989cc1_control",
+      "dataset": "FashionMNIST",
+      "source_partition": "train",
+      "preprocessing": "ToTensor",
+      "train_size": 10000,
+      "val_size": 2000,
+      "validation_start": 10000,
+      "split_seed": 42,
+      "shuffle_seed": 443,
+      "model_seed": 444,
+      "batch_size": 128,
+      "hidden_units": 128,
+      "dropout": 0.0,
+      "optimizer": "SGD",
+      "learning_rate": 0.05,
+      "epochs": 5
+    },
+    {
+      "run_id": "v3_inv_a2b6989cc1_target",
+      "dataset": "FashionMNIST",
+      "source_partition": "train",
+      "preprocessing": "ToTensor",
+      "train_size": 10000,
+      "val_size": 2000,
+      "validation_start": 10000,
+      "split_seed": 42,
+      "shuffle_seed": 443,
+      "model_seed": 444,
+      "batch_size": 128,
+      "hidden_units": 128,
+      "dropout": 0.0,
+      "optimizer": "SGD",
+      "learning_rate": 0.1,
+      "epochs": 5
+    }
+  ],
+  "message": "Approval and resource checks passed. No trainer was launched; no metrics or run files were created.",
+  "finished": "2026-10-28T09:05:01.773988+00:00"
+}
+```
+
+### Event 18: FINAL REPORT — PYTHON
+
+```json
+{
+  "status": "dry_run_completed",
+  "sources": [
+    "RUN:lr_005_seed3",
+    "RUN:lr_01_seed3",
+    "RUN:lr_005_gap_001",
+    "RUN:baseline_001",
+    "RUN:lr_005_seed2",
+    "RUN:lr_01_seed2",
+    "PAIR:0",
+    "PAIR:1",
+    "PAIR:2",
+    "PAIR:3",
+    "ML:validation",
+    "ML:overfitting",
+    "NOTE:0",
+    "NOTE:1",
+    "NOTE:2",
+    "NOTE:5"
+  ]
+}
+```
+
+## 4. Actual retrieval ranks and RRF arithmetic
+
+| Run | Source | Keyword rank | Semantic rank | Calculated RRF | Saved RRF |
+|---|---|---:|---:|---:|---:|
+| lr_005_seed3 | DERIVED_ANALYSIS | 1 | 3 | 0.032266 | 0.032266 |
+| lr_01_seed3 | DERIVED_ANALYSIS | 2 | 5 | 0.031514 | 0.031514 |
+| lr_01_seed2 | EXPERIMENT_NOTE | None | 1 | 0.016393 | 0.016393 |
+
+Exact-ID/source priority also affects final ordering. RRF arithmetic does not replace those explicit policies.
+
+## 5. Exact measurements and source registry
+
+```json
+{
+  "RUN:lr_005_seed3": {
+    "source_type": "EXPERIMENT_JSON",
+    "source": "runs/lr_005_seed3.json",
+    "sha256": "a556e93fa4019bbdbb8778b1f6db4d87b26ed8a2728f922b9a12ea5749b4d644",
+    "value": {
+      "config": {
+        "run_id": "lr_005_seed3",
+        "dataset": "FashionMNIST",
+        "source_partition": "train",
+        "preprocessing": "ToTensor",
+        "train_size": 10000,
+        "val_size": 2000,
+        "validation_start": 10000,
+        "split_seed": 42,
+        "shuffle_seed": 243,
+        "model_seed": 244,
+        "batch_size": 128,
+        "hidden_units": 128,
+        "dropout": 0.0,
+        "optimizer": "SGD",
+        "learning_rate": 0.05,
+        "epochs": 5
+      },
+      "metrics": [
+        {
+          "epoch": 1,
+          "train_loss_during_epoch": 1.5768690871238709,
+          "train_loss_after_epoch": 1.0953938115119934,
+          "train_accuracy_after_epoch": 0.612,
+          "val_loss": 1.077092869758606,
+          "val_accuracy": 0.626
+        },
+        {
+          "epoch": 2,
+          "train_loss_during_epoch": 0.9157467240333557,
+          "train_loss_after_epoch": 0.8976822423934937,
+          "train_accuracy_after_epoch": 0.6745,
+          "val_loss": 0.8978471145629883,
+          "val_accuracy": 0.6775
+        },
+        {
+          "epoch": 3,
+          "train_loss_during_epoch": 0.7648744816780091,
+          "train_loss_after_epoch": 0.8522588306427002,
+          "train_accuracy_after_epoch": 0.6881,
+          "val_loss": 0.8446058855056763,
+          "val_accuracy": 0.687
+        },
+        {
+          "epoch": 4,
+          "train_loss_during_epoch": 0.6941012891769409,
+          "train_loss_after_epoch": 0.6855860265254974,
+          "train_accuracy_after_epoch": 0.7522,
+          "val_loss": 0.6975534653663635,
+          "val_accuracy": 0.7305
+        },
+        {
+          "epoch": 5,
+          "train_loss_during_epoch": 0.6385964094161988,
+          "train_loss_after_epoch": 0.6929299505233765,
+          "train_accuracy_after_epoch": 0.7534,
+          "val_loss": 0.680600378036499,
+          "val_accuracy": 0.759
+        }
+      ]
+    }
+  },
+  "RUN:lr_01_seed3": {
+    "source_type": "EXPERIMENT_JSON",
+    "source": "runs/lr_01_seed3.json",
+    "sha256": "7ab5a52aca144db118b16afda54a4dc73cd9e3621faed9b468849fd7a5c1a066",
+    "value": {
+      "config": {
+        "run_id": "lr_01_seed3",
+        "dataset": "FashionMNIST",
+        "source_partition": "train",
+        "preprocessing": "ToTensor",
+        "train_size": 10000,
+        "val_size": 2000,
+        "validation_start": 10000,
+        "split_seed": 42,
+        "shuffle_seed": 243,
+        "model_seed": 244,
+        "batch_size": 128,
+        "hidden_units": 128,
+        "dropout": 0.0,
+        "optimizer": "SGD",
+        "learning_rate": 0.1,
+        "epochs": 5
+      },
+      "metrics": [
+        {
+          "epoch": 1,
+          "train_loss_during_epoch": 1.2794325910568238,
+          "train_loss_after_epoch": 0.9111308251380921,
+          "train_accuracy_after_epoch": 0.6495,
+          "val_loss": 0.8865399732589722,
+          "val_accuracy": 0.6645
+        },
+        {
+          "epoch": 2,
+          "train_loss_during_epoch": 0.7691367017745971,
+          "train_loss_after_epoch": 1.0264610683441162,
+          "train_accuracy_after_epoch": 0.6864,
+          "val_loss": 1.0251937484741211,
+          "val_accuracy": 0.6875
+        },
+        {
+          "epoch": 3,
+          "train_loss_during_epoch": 0.6635693133354187,
+          "train_loss_after_epoch": 0.8690615137100219,
+          "train_accuracy_after_epoch": 0.6762,
+          "val_loss": 0.8684509625434875,
+          "val_accuracy": 0.674
+        },
+        {
+          "epoch": 4,
+          "train_loss_during_epoch": 0.6114804370880127,
+          "train_loss_after_epoch": 0.6598312929391861,
+          "train_accuracy_after_epoch": 0.7469,
+          "val_loss": 0.6828413162231445,
+          "val_accuracy": 0.732
+        },
+        {
+          "epoch": 5,
+          "train_loss_during_epoch": 0.5592419065475464,
+          "train_loss_after_epoch": 0.8131413830757142,
+          "train_accuracy_after_epoch": 0.7162,
+          "val_loss": 0.810864956855774,
+          "val_accuracy": 0.7145
+        }
+      ]
+    }
+  },
+  "RUN:lr_005_gap_001": {
+    "source_type": "EXPERIMENT_JSON",
+    "source": "runs/lr_005_gap_001.json",
+    "sha256": "01f1dad9208b75c43ea30e833ed2dfb2a781fc44b0a05bb9b58bc445631ddbb8",
+    "value": {
+      "config": {
+        "run_id": "lr_005_gap_001",
+        "dataset": "FashionMNIST",
+        "source_partition": "train",
+        "preprocessing": "ToTensor",
+        "train_size": 10000,
+        "val_size": 2000,
+        "split_seed": 42,
+        "shuffle_seed": 43,
+        "model_seed": 44,
+        "batch_size": 128,
+        "hidden_units": 128,
+        "optimizer": "SGD",
+        "learning_rate": 0.05,
+        "epochs": 5
+      },
+      "metrics": [
+        {
+          "epoch": 1,
+          "train_loss_during_epoch": 1.5666301128387452,
+          "train_loss_after_epoch": 1.073829147720337,
+          "train_accuracy_after_epoch": 0.6476,
+          "val_loss": 1.0545751457214356,
+          "val_accuracy": 0.649
+        },
+        {
+          "epoch": 2,
+          "train_loss_during_epoch": 0.9119185653686523,
+          "train_loss_after_epoch": 0.9968783388137817,
+          "train_accuracy_after_epoch": 0.6515,
+          "val_loss": 1.0082858295440673,
+          "val_accuracy": 0.6565
+        },
+        {
+          "epoch": 3,
+          "train_loss_during_epoch": 0.7680734439849853,
+          "train_loss_after_epoch": 0.7941052691459656,
+          "train_accuracy_after_epoch": 0.693,
+          "val_loss": 0.763293098449707,
+          "val_accuracy": 0.709
+        },
+        {
+          "epoch": 4,
+          "train_loss_during_epoch": 0.6890689352989197,
+          "train_loss_after_epoch": 0.7420328899860382,
+          "train_accuracy_after_epoch": 0.7306,
+          "val_loss": 0.7394451971054077,
+          "val_accuracy": 0.727
+        },
+        {
+          "epoch": 5,
+          "train_loss_during_epoch": 0.6421152505874633,
+          "train_loss_after_epoch": 0.6849735041618347,
+          "train_accuracy_after_epoch": 0.7493,
+          "val_loss": 0.6875842409133911,
+          "val_accuracy": 0.7515
+        }
+      ]
+    }
+  },
+  "RUN:baseline_001": {
+    "source_type": "EXPERIMENT_JSON",
+    "source": "runs/baseline_001.json",
+    "sha256": "a19bdf843389358351494df4cf4c077941c25c98cd093b0f4e040a215ce6367b",
+    "value": {
+      "config": {
+        "run_id": "baseline_001",
+        "dataset": "FashionMNIST",
+        "source_partition": "train",
+        "preprocessing": "ToTensor",
+        "train_size": 10000,
+        "val_size": 2000,
+        "split_seed": 42,
+        "shuffle_seed": 43,
+        "model_seed": 44,
+        "batch_size": 128,
+        "hidden_units": 128,
+        "optimizer": "SGD",
+        "learning_rate": 0.1,
+        "epochs": 5
+      },
+      "metrics": [
+        {
+          "epoch": 1,
+          "train_loss_during_epoch": 1.2743709097385407,
+          "val_loss": 0.8696367411613465,
+          "val_accuracy": 0.6635
+        },
+        {
+          "epoch": 2,
+          "train_loss_during_epoch": 0.7620800113677979,
+          "val_loss": 1.4185610065460206,
+          "val_accuracy": 0.615
+        },
+        {
+          "epoch": 3,
+          "train_loss_during_epoch": 0.6735970516681671,
+          "val_loss": 0.6662915515899658,
+          "val_accuracy": 0.751
+        },
+        {
+          "epoch": 4,
+          "train_loss_during_epoch": 0.6022407117843628,
+          "val_loss": 0.7384269852638244,
+          "val_accuracy": 0.731
+        },
+        {
+          "epoch": 5,
+          "train_loss_during_epoch": 0.5674220984458923,
+          "val_loss": 0.8207873892784119,
+          "val_accuracy": 0.7125
+        }
+      ]
+    }
+  },
+  "RUN:lr_005_seed2": {
+    "source_type": "EXPERIMENT_JSON",
+    "source": "runs/lr_005_seed2.json",
+    "sha256": "93b0acce8209e41fa6783db2e079f8a2e9c267c24beefab2848d3c1d7e628ac2",
+    "value": {
+      "config": {
+        "run_id": "lr_005_seed2",
+        "dataset": "FashionMNIST",
+        "source_partition": "train",
+        "preprocessing": "ToTensor",
+        "train_size": 10000,
+        "val_size": 2000,
+        "split_seed": 42,
+        "shuffle_seed": 143,
+        "model_seed": 144,
+        "batch_size": 128,
+        "hidden_units": 128,
+        "optimizer": "SGD",
+        "learning_rate": 0.05,
+        "epochs": 5
+      },
+      "metrics": [
+        {
+          "epoch": 1,
+          "train_loss_during_epoch": 1.5315584199905397,
+          "train_loss_after_epoch": 1.0901034973144532,
+          "train_accuracy_after_epoch": 0.6104,
+          "val_loss": 1.0847976474761962,
+          "val_accuracy": 0.6245
+        },
+        {
+          "epoch": 2,
+          "train_loss_during_epoch": 0.9101661073684693,
+          "train_loss_after_epoch": 0.9570370040893554,
+          "train_accuracy_after_epoch": 0.6502,
+          "val_loss": 0.9494747867584229,
+          "val_accuracy": 0.656
+        },
+        {
+          "epoch": 3,
+          "train_loss_during_epoch": 0.7630627304077149,
+          "train_loss_after_epoch": 0.7550262860298157,
+          "train_accuracy_after_epoch": 0.7568,
+          "val_loss": 0.7456555824279785,
+          "val_accuracy": 0.7655
+        },
+        {
+          "epoch": 4,
+          "train_loss_during_epoch": 0.6889050116539002,
+          "train_loss_after_epoch": 0.7424132695198059,
+          "train_accuracy_after_epoch": 0.7367,
+          "val_loss": 0.7468963384628295,
+          "val_accuracy": 0.732
+        },
+        {
+          "epoch": 5,
+          "train_loss_during_epoch": 0.6398591944694519,
+          "train_loss_after_epoch": 0.6934895318031311,
+          "train_accuracy_after_epoch": 0.7545,
+          "val_loss": 0.6847728147506714,
+          "val_accuracy": 0.7605
+        }
+      ]
+    }
+  },
+  "RUN:lr_01_seed2": {
+    "source_type": "EXPERIMENT_JSON",
+    "source": "runs/lr_01_seed2.json",
+    "sha256": "d70d761a0007ddfbf5e2606e140e17c792ec6956cc2f3a8bece11bdaa5690c60",
+    "value": {
+      "config": {
+        "run_id": "lr_01_seed2",
+        "dataset": "FashionMNIST",
+        "source_partition": "train",
+        "preprocessing": "ToTensor",
+        "train_size": 10000,
+        "val_size": 2000,
+        "split_seed": 42,
+        "shuffle_seed": 143,
+        "model_seed": 144,
+        "batch_size": 128,
+        "hidden_units": 128,
+        "optimizer": "SGD",
+        "learning_rate": 0.1,
+        "epochs": 5
+      },
+      "metrics": [
+        {
+          "epoch": 1,
+          "train_loss_during_epoch": 1.2585902948379517,
+          "train_loss_after_epoch": 1.1092852766036987,
+          "train_accuracy_after_epoch": 0.6343,
+          "val_loss": 1.1125362911224366,
+          "val_accuracy": 0.6415
+        },
+        {
+          "epoch": 2,
+          "train_loss_during_epoch": 0.771264350605011,
+          "train_loss_after_epoch": 0.9085725147247314,
+          "train_accuracy_after_epoch": 0.6757,
+          "val_loss": 0.9025846681594849,
+          "val_accuracy": 0.674
+        },
+        {
+          "epoch": 3,
+          "train_loss_during_epoch": 0.6569976014137268,
+          "train_loss_after_epoch": 0.7324729803562164,
+          "train_accuracy_after_epoch": 0.7359,
+          "val_loss": 0.7136394624710083,
+          "val_accuracy": 0.754
+        },
+        {
+          "epoch": 4,
+          "train_loss_during_epoch": 0.6016732814788819,
+          "train_loss_after_epoch": 0.7922292562484741,
+          "train_accuracy_after_epoch": 0.732,
+          "val_loss": 0.8141668553352356,
+          "val_accuracy": 0.7205
+        },
+        {
+          "epoch": 5,
+          "train_loss_during_epoch": 0.5686421188354492,
+          "train_loss_after_epoch": 0.6916582312107086,
+          "train_accuracy_after_epoch": 0.7575,
+          "val_loss": 0.6792771730422974,
+          "val_accuracy": 0.7635
+        }
+      ]
+    }
+  },
+  "PAIR:0": {
+    "source_type": "DERIVED_ANALYSIS",
+    "sources": [
+      "runs/lr_005_seed3.json",
+      "runs/lr_01_seed3.json"
+    ],
+    "value": {
+      "baseline_run_id": "lr_005_seed3",
+      "target_run_id": "lr_01_seed3",
+      "sources": [
+        "runs/lr_005_seed3.json",
+        "runs/lr_01_seed3.json"
+      ],
+      "source_type": "DERIVED_ANALYSIS",
+      "changed_settings": {
+        "learning_rate": {
+          "baseline": 0.05,
+          "target": 0.1
+        }
+      },
+      "missing_controls": [],
+      "curves": {
+        "lr_005_seed3": {
+          "final_accuracy_percent": 75.9,
+          "final_loss": 0.6806,
+          "final_epoch": 5,
+          "best_accuracy_percent": 75.9,
+          "best_epoch": 5,
+          "minimum_loss": 0.6806,
+          "minimum_loss_epoch": 5,
+          "largest_loss_rise": 0.0,
+          "recoveries": [],
+          "final_loss_gap_val_minus_train": -0.01233,
+          "candidate_generalization_intervals": []
+        },
+        "lr_01_seed3": {
+          "final_accuracy_percent": 71.45,
+          "final_loss": 0.810865,
+          "final_epoch": 5,
+          "best_accuracy_percent": 73.2,
+          "best_epoch": 4,
+          "minimum_loss": 0.682841,
+          "minimum_loss_epoch": 4,
+          "largest_loss_rise": 0.138654,
+          "recoveries": [
+            {
+              "epochs": [
+                1,
+                2,
+                3
+              ],
+              "losses": [
+                0.8865,
+                1.0252,
+                0.8685
+              ]
+            }
+          ],
+          "final_loss_gap_val_minus_train": -0.002276,
+          "candidate_generalization_intervals": []
+        }
+      },
+      "matching_scope": "All recorded configuration fields; hidden_units and dropout describe architecture settings, not complete architecture provenance.",
+      "missing_provenance": [
+        "Exact model-class/trainer revision was not recorded in historical JSON.",
+        "Hardware and software versions were not recorded in historical JSON."
+      ],
+      "controlled_learning_rate_pair": true,
+      "confounded": false,
+      "accuracy_delta_pp": -4.45,
+      "loss_delta": 0.130265,
+      "rise_delta": 0.138654
+    }
+  },
+  "PAIR:1": {
+    "source_type": "DERIVED_ANALYSIS",
+    "sources": [
+      "runs/lr_005_gap_001.json",
+      "runs/baseline_001.json"
+    ],
+    "value": {
+      "baseline_run_id": "lr_005_gap_001",
+      "target_run_id": "baseline_001",
+      "sources": [
+        "runs/lr_005_gap_001.json",
+        "runs/baseline_001.json"
+      ],
+      "source_type": "DERIVED_ANALYSIS",
+      "changed_settings": {
+        "learning_rate": {
+          "baseline": 0.05,
+          "target": 0.1
+        }
+      },
+      "missing_controls": [
+        "validation_start",
+        "dropout"
+      ],
+      "curves": {
+        "lr_005_gap_001": {
+          "final_accuracy_percent": 75.15,
+          "final_loss": 0.687584,
+          "final_epoch": 5,
+          "best_accuracy_percent": 75.15,
+          "best_epoch": 5,
+          "minimum_loss": 0.687584,
+          "minimum_loss_epoch": 5,
+          "largest_loss_rise": 0.0,
+          "recoveries": [],
+          "final_loss_gap_val_minus_train": 0.002611,
+          "candidate_generalization_intervals": []
+        },
+        "baseline_001": {
+          "final_accuracy_percent": 71.25,
+          "final_loss": 0.820787,
+          "final_epoch": 5,
+          "best_accuracy_percent": 75.1,
+          "best_epoch": 3,
+          "minimum_loss": 0.666292,
+          "minimum_loss_epoch": 3,
+          "largest_loss_rise": 0.548924,
+          "recoveries": [
+            {
+              "epochs": [
+                1,
+                2,
+                3
+              ],
+              "losses": [
+                0.8696,
+                1.4186,
+                0.6663
+              ]
+            }
+          ],
+          "final_loss_gap_val_minus_train": null,
+          "candidate_generalization_intervals": []
+        }
+      },
+      "matching_scope": "All recorded configuration fields; hidden_units and dropout describe architecture settings, not complete architecture provenance.",
+      "missing_provenance": [
+        "Exact model-class/trainer revision was not recorded in historical JSON.",
+        "Hardware and software versions were not recorded in historical JSON."
+      ],
+      "controlled_learning_rate_pair": false,
+      "confounded": false,
+      "accuracy_delta_pp": -3.9,
+      "loss_delta": 0.133203,
+      "rise_delta": 0.548924
+    }
+  },
+  "PAIR:2": {
+    "source_type": "DERIVED_ANALYSIS",
+    "sources": [
+      "runs/lr_005_seed2.json",
+      "runs/lr_01_seed2.json"
+    ],
+    "value": {
+      "baseline_run_id": "lr_005_seed2",
+      "target_run_id": "lr_01_seed2",
+      "sources": [
+        "runs/lr_005_seed2.json",
+        "runs/lr_01_seed2.json"
+      ],
+      "source_type": "DERIVED_ANALYSIS",
+      "changed_settings": {
+        "learning_rate": {
+          "baseline": 0.05,
+          "target": 0.1
+        }
+      },
+      "missing_controls": [
+        "validation_start",
+        "dropout"
+      ],
+      "curves": {
+        "lr_005_seed2": {
+          "final_accuracy_percent": 76.05,
+          "final_loss": 0.684773,
+          "final_epoch": 5,
+          "best_accuracy_percent": 76.55,
+          "best_epoch": 3,
+          "minimum_loss": 0.684773,
+          "minimum_loss_epoch": 5,
+          "largest_loss_rise": 0.001241,
+          "recoveries": [
+            {
+              "epochs": [
+                3,
+                4,
+                5
+              ],
+              "losses": [
+                0.7457,
+                0.7469,
+                0.6848
+              ]
+            }
+          ],
+          "final_loss_gap_val_minus_train": -0.008717,
+          "candidate_generalization_intervals": [
+            [
+              3,
+              4
+            ]
+          ]
+        },
+        "lr_01_seed2": {
+          "final_accuracy_percent": 76.35,
+          "final_loss": 0.679277,
+          "final_epoch": 5,
+          "best_accuracy_percent": 76.35,
+          "best_epoch": 5,
+          "minimum_loss": 0.679277,
+          "minimum_loss_epoch": 5,
+          "largest_loss_rise": 0.100527,
+          "recoveries": [
+            {
+              "epochs": [
+                3,
+                4,
+                5
+              ],
+              "losses": [
+                0.7136,
+                0.8142,
+                0.6793
+              ]
+            }
+          ],
+          "final_loss_gap_val_minus_train": -0.012381,
+          "candidate_generalization_intervals": []
+        }
+      },
+      "matching_scope": "All recorded configuration fields; hidden_units and dropout describe architecture settings, not complete architecture provenance.",
+      "missing_provenance": [
+        "Exact model-class/trainer revision was not recorded in historical JSON.",
+        "Hardware and software versions were not recorded in historical JSON."
+      ],
+      "controlled_learning_rate_pair": false,
+      "confounded": false,
+      "accuracy_delta_pp": 0.3,
+      "loss_delta": -0.005496,
+      "rise_delta": 0.099287
+    }
+  },
+  "PAIR:3": {
+    "source_type": "DERIVED_ANALYSIS",
+    "sources": [
+      "runs/lr_005_seed3.json",
+      "runs/lr_01_seed3.json"
+    ],
+    "value": {
+      "baseline_run_id": "lr_005_seed3",
+      "target_run_id": "lr_01_seed3",
+      "sources": [
+        "runs/lr_005_seed3.json",
+        "runs/lr_01_seed3.json"
+      ],
+      "source_type": "DERIVED_ANALYSIS",
+      "changed_settings": {
+        "learning_rate": {
+          "baseline": 0.05,
+          "target": 0.1
+        }
+      },
+      "missing_controls": [],
+      "curves": {
+        "lr_005_seed3": {
+          "final_accuracy_percent": 75.9,
+          "final_loss": 0.6806,
+          "final_epoch": 5,
+          "best_accuracy_percent": 75.9,
+          "best_epoch": 5,
+          "minimum_loss": 0.6806,
+          "minimum_loss_epoch": 5,
+          "largest_loss_rise": 0.0,
+          "recoveries": [],
+          "final_loss_gap_val_minus_train": -0.01233,
+          "candidate_generalization_intervals": []
+        },
+        "lr_01_seed3": {
+          "final_accuracy_percent": 71.45,
+          "final_loss": 0.810865,
+          "final_epoch": 5,
+          "best_accuracy_percent": 73.2,
+          "best_epoch": 4,
+          "minimum_loss": 0.682841,
+          "minimum_loss_epoch": 4,
+          "largest_loss_rise": 0.138654,
+          "recoveries": [
+            {
+              "epochs": [
+                1,
+                2,
+                3
+              ],
+              "losses": [
+                0.8865,
+                1.0252,
+                0.8685
+              ]
+            }
+          ],
+          "final_loss_gap_val_minus_train": -0.002276,
+          "candidate_generalization_intervals": []
+        }
+      },
+      "matching_scope": "All recorded configuration fields; hidden_units and dropout describe architecture settings, not complete architecture provenance.",
+      "missing_provenance": [
+        "Exact model-class/trainer revision was not recorded in historical JSON.",
+        "Hardware and software versions were not recorded in historical JSON."
+      ],
+      "controlled_learning_rate_pair": true,
+      "confounded": false,
+      "accuracy_delta_pp": -4.45,
+      "loss_delta": 0.130265,
+      "rise_delta": 0.138654
+    }
+  },
+  "ML:validation": {
+    "source_type": "ML_KNOWLEDGE",
+    "source": "knowledge/validation.md",
+    "url": "https://developers.google.com/machine-learning/crash-course/overfitting/interpreting-loss-curves",
+    "value": "Loss curves can oscillate or rise for several reasons. Reducing a learning rate can be useful when debugging an oscillating training-loss curve. When training loss improves but validation loss rises, overfitting is one possible interpretation. These are general diagnostic ideas, not proof of a cause for any particular saved run."
+  },
+  "ML:overfitting": {
+    "source_type": "ML_KNOWLEDGE",
+    "source": "knowledge/overfitting.md",
+    "url": "https://scikit-learn.org/stable/modules/learning_curve.html",
+    "value": "Training and validation scores together can help identify possible overfitting. A high training score paired with a lower validation score is a warning that performance may not generalize as well to unseen data. A pattern in one short saved curve is only a candidate signal; other explanations and repeated checks remain possible."
+  },
+  "NOTE:0": {
+    "source_type": "DERIVED_ANALYSIS",
+    "source": "runs/lr_005_seed3.json",
+    "value": "DERIVED_ANALYSIS machine-generated summary from runs/lr_005_seed3.json. Run lr_005_seed3. Learning rate 0.05, dropout 0.0, train size 10000, model seed 244, shuffle seed 243. Final validation accuracy 75.9 percent; final loss 0.6806; largest validation loss rise 0.0. no recorded rise followed by recovery; validation loss decreased or stayed flat every epoch."
+  },
+  "NOTE:1": {
+    "source_type": "DERIVED_ANALYSIS",
+    "source": "runs/lr_01_seed3.json",
+    "value": "DERIVED_ANALYSIS machine-generated summary from runs/lr_01_seed3.json. Run lr_01_seed3. Learning rate 0.1, dropout 0.0, train size 10000, model seed 244, shuffle seed 243. Final validation accuracy 71.45 percent; final loss 0.810865; largest validation loss rise 0.138654. validation loss spike and recovery."
+  },
+  "NOTE:2": {
+    "source_type": "EXPERIMENT_NOTE",
+    "source": "notes/lr_01_seed2.md",
+    "value": "With alternate model and shuffle seeds, validation loss rose from 0.7136 at epoch 3 to 0.8142 at epoch 4, then fell to 0.6793 at epoch 5. Final validation accuracy was 76.35%."
+  },
+  "NOTE:5": {
+    "source_type": "DERIVED_ANALYSIS",
+    "source": "runs/lr_001.json",
+    "value": "DERIVED_ANALYSIS machine-generated summary from runs/lr_001.json. Run lr_001. Learning rate 0.01, dropout unknown, train size 10000, model seed 44, shuffle seed 43. Final validation accuracy 66.4 percent; final loss 1.030395; largest validation loss rise 0.0. no recorded rise followed by recovery; validation loss decreased or stayed flat every epoch."
+  }
+}
+```
+
+## 6. Competing hypotheses and validation
+
+```json
+{
+  "hypotheses": [
+    {
+      "source_type": "HYPOTHESIS",
+      "relevant_ml_knowledge": [
+        "ML:validation",
+        "ML:overfitting"
+      ],
+      "assumptions": [
+        "Recorded configurations and epoch metrics accurately describe the runs."
+      ],
+      "missing_evidence": [
+        "Independent replication and optimizer-step/gradient measurements are absent.",
+        "Validation-loss rises cannot directly demonstrate overshooting; gradients and optimizer trajectories were not recorded."
+      ],
+      "status": "Consistent with current evidence",
+      "hypothesis_id": "H1",
+      "statement": "A higher learning rate may contribute to larger validation-loss rises through unstable optimization.",
+      "supporting_experiment_evidence": [
+        "PAIR:0",
+        "PAIR:1",
+        "PAIR:2",
+        "PAIR:3"
+      ],
+      "contradicting_experiment_evidence": [],
+      "proposed_test": "Compare maximum positive consecutive-epoch validation-loss rises under matched new seeds and different learning rates.",
+      "selected_by": "LLM",
+      "statement_origin": "PYTHON evidence-conditioned candidate"
+    },
+    {
+      "source_type": "HYPOTHESIS",
+      "relevant_ml_knowledge": [
+        "ML:validation",
+        "ML:overfitting"
+      ],
+      "assumptions": [
+        "Recorded configurations and epoch metrics accurately describe the runs."
+      ],
+      "missing_evidence": [
+        "Independent replication and optimizer-step/gradient measurements are absent.",
+        "A small number of observed seed blocks cannot establish a distribution or separate all sources of randomness."
+      ],
+      "status": "Consistent with current evidence",
+      "hypothesis_id": "H2",
+      "statement": "Seed-dependent training variability may contribute to differences in final validation accuracy.",
+      "supporting_experiment_evidence": [
+        "PAIR:0",
+        "PAIR:1",
+        "PAIR:2",
+        "PAIR:3"
+      ],
+      "contradicting_experiment_evidence": [],
+      "proposed_test": "Repeat a controlled learning-rate comparison under a new shared model/shuffle seed block; predefine accuracy and loss-rise comparisons.",
+      "selected_by": "LLM",
+      "statement_origin": "PYTHON evidence-conditioned candidate"
+    },
+    {
+      "source_type": "HYPOTHESIS",
+      "relevant_ml_knowledge": [
+        "ML:validation",
+        "ML:overfitting"
+      ],
+      "assumptions": [
+        "Recorded configurations and epoch metrics accurately describe the runs."
+      ],
+      "missing_evidence": [
+        "Independent replication and optimizer-step/gradient measurements are absent.",
+        "Longer independently approved training and predeclared stopping criteria are unavailable."
+      ],
+      "status": "Consistent with current evidence",
+      "hypothesis_id": "H3",
+      "statement": "The short recorded training horizon may leave the final-epoch ranking sensitive to transient behavior.",
+      "supporting_experiment_evidence": [
+        "RUN:lr_005_seed3",
+        "RUN:lr_01_seed3",
+        "RUN:lr_005_gap_001",
+        "RUN:baseline_001",
+        "RUN:lr_005_seed2",
+        "RUN:lr_01_seed2"
+      ],
+      "contradicting_experiment_evidence": [],
+      "proposed_test": "Replicate the existing horizon first; consider a separately approved longer-horizon study if ambiguity remains.",
+      "selected_by": "LLM",
+      "statement_origin": "PYTHON evidence-conditioned candidate"
+    },
+    {
+      "source_type": "HYPOTHESIS",
+      "relevant_ml_knowledge": [
+        "ML:validation",
+        "ML:overfitting"
+      ],
+      "assumptions": [
+        "Recorded configurations and epoch metrics accurately describe the runs."
+      ],
+      "missing_evidence": [
+        "Independent replication and optimizer-step/gradient measurements are absent.",
+        "This interval rule is a diagnostic candidate, not proof of overfitting."
+      ],
+      "status": "Consistent with current evidence",
+      "hypothesis_id": "H4",
+      "statement": "A generalization gap may contribute during intervals where training loss improves and validation loss rises.",
+      "supporting_experiment_evidence": [
+        "PAIR:2"
+      ],
+      "contradicting_experiment_evidence": [],
+      "proposed_test": "Inspect matched train/validation curves and test one regularization change in a separate controlled proposal.",
+      "selected_by": "LLM",
+      "statement_origin": "PYTHON evidence-conditioned candidate"
+    }
+  ],
+  "evidence_validation": {
+    "valid": true,
+    "errors": [],
+    "unsupported_structured_citations": 0,
+    "scope": "Structured evidence links and recorded snapshots; not a proof of causal mechanisms."
+  },
+  "uncertainties": [
+    "Independent replication and optimizer-step/gradient measurements are absent.",
+    "Validation-loss rises cannot directly demonstrate overshooting; gradients and optimizer trajectories were not recorded.",
+    "A small number of observed seed blocks cannot establish a distribution or separate all sources of randomness.",
+    "Longer independently approved training and predeclared stopping criteria are unavailable.",
+    "This interval rule is a diagnostic candidate, not proof of overfitting."
+  ]
+}
+```
+
+## 7. Pending/rejected proof and dry-run decision
+
+```json
+[
+  {
+    "journey": "5 Human approval",
+    "blocked_states": [
+      "pending",
+      "rejected"
+    ],
+    "outcome": "dry_run_completed",
+    "live_training": false
+  }
+]
+```
+
+## 8. Final investigation report
+
+# Investigation report: INV-A2B6989CC1
+
+## 1. Research question
+
+Investigate why lr_01_seed3 performed worse than lr_005_seed3. Search notes, check previous experiments, retrieve ML knowledge, and propose a controlled follow-up.
+
+## 2. Relevant experiments
+
+- `EXPERIMENT_JSON` runs/lr_005_seed3.json
+- `EXPERIMENT_JSON` runs/lr_01_seed3.json
+- `EXPERIMENT_JSON` runs/lr_005_gap_001.json
+- `EXPERIMENT_JSON` runs/baseline_001.json
+- `EXPERIMENT_JSON` runs/lr_005_seed2.json
+- `EXPERIMENT_JSON` runs/lr_01_seed2.json
+
+## 3. Measured observations
+
+- lr_005_seed3: final validation accuracy **75.90%**, loss **0.6806**, epoch 5. [EXPERIMENT_JSON](../runs/lr_005_seed3.json)
+- lr_01_seed3: final validation accuracy **71.45%**, loss **0.8109**, epoch 5. [EXPERIMENT_JSON](../runs/lr_01_seed3.json)
+- lr_005_gap_001: final validation accuracy **75.15%**, loss **0.6876**, epoch 5. [EXPERIMENT_JSON](../runs/lr_005_gap_001.json)
+- baseline_001: final validation accuracy **71.25%**, loss **0.8208**, epoch 5. [EXPERIMENT_JSON](../runs/baseline_001.json)
+- lr_005_seed2: final validation accuracy **76.05%**, loss **0.6848**, epoch 5. [EXPERIMENT_JSON](../runs/lr_005_seed2.json)
+- lr_01_seed2: final validation accuracy **76.35%**, loss **0.6793**, epoch 5. [EXPERIMENT_JSON](../runs/lr_01_seed2.json)
+
+## 4. Controlled comparisons
+
+### lr_01_seed3 minus lr_005_seed3
+
+Controlled learning-rate pair: `True`. Confounded: `False`. Missing controls: `[]`.
+
+- Accuracy difference: **-4.45 percentage points**; validation-loss difference: **+0.1303**.
+
+```json
+{
+  "baseline_run_id": "lr_005_seed3",
+  "target_run_id": "lr_01_seed3",
+  "sources": [
+    "runs/lr_005_seed3.json",
+    "runs/lr_01_seed3.json"
+  ],
+  "source_type": "DERIVED_ANALYSIS",
+  "changed_settings": {
+    "learning_rate": {
+      "baseline": 0.05,
+      "target": 0.1
+    }
+  },
+  "missing_controls": [],
+  "curves": {
+    "lr_005_seed3": {
+      "final_accuracy_percent": 75.9,
+      "final_loss": 0.6806,
+      "final_epoch": 5,
+      "best_accuracy_percent": 75.9,
+      "best_epoch": 5,
+      "minimum_loss": 0.6806,
+      "minimum_loss_epoch": 5,
+      "largest_loss_rise": 0.0,
+      "recoveries": [],
+      "final_loss_gap_val_minus_train": -0.01233,
+      "candidate_generalization_intervals": []
+    },
+    "lr_01_seed3": {
+      "final_accuracy_percent": 71.45,
+      "final_loss": 0.810865,
+      "final_epoch": 5,
+      "best_accuracy_percent": 73.2,
+      "best_epoch": 4,
+      "minimum_loss": 0.682841,
+      "minimum_loss_epoch": 4,
+      "largest_loss_rise": 0.138654,
+      "recoveries": [
+        {
+          "epochs": [
+            1,
+            2,
+            3
+          ],
+          "losses": [
+            0.8865,
+            1.0252,
+            0.8685
+          ]
+        }
+      ],
+      "final_loss_gap_val_minus_train": -0.002276,
+      "candidate_generalization_intervals": []
+    }
+  },
+  "matching_scope": "All recorded configuration fields; hidden_units and dropout describe architecture settings, not complete architecture provenance.",
+  "missing_provenance": [
+    "Exact model-class/trainer revision was not recorded in historical JSON.",
+    "Hardware and software versions were not recorded in historical JSON."
+  ],
+  "controlled_learning_rate_pair": true,
+  "confounded": false,
+  "accuracy_delta_pp": -4.45,
+  "loss_delta": 0.130265,
+  "rise_delta": 0.138654
+}
+```
+
+## 5. Competing hypotheses
+
+### H1 — Consistent with current evidence
+
+`HYPOTHESIS` A higher learning rate may contribute to larger validation-loss rises through unstable optimization.
+
+- Supporting experiment evidence: PAIR:0, PAIR:1, PAIR:2, PAIR:3
+- Opposing experiment evidence: None found; absence is not proof
+- General ML knowledge: ML:validation, ML:overfitting
+- Assumptions: Recorded configurations and epoch metrics accurately describe the runs.
+- Missing evidence: Independent replication and optimizer-step/gradient measurements are absent. Validation-loss rises cannot directly demonstrate overshooting; gradients and optimizer trajectories were not recorded.
+- Proposed test: Compare maximum positive consecutive-epoch validation-loss rises under matched new seeds and different learning rates.
+- Selected by: LLM; wording: PYTHON evidence-conditioned candidate
+
+### H2 — Consistent with current evidence
+
+`HYPOTHESIS` Seed-dependent training variability may contribute to differences in final validation accuracy.
+
+- Supporting experiment evidence: PAIR:0, PAIR:1, PAIR:2, PAIR:3
+- Opposing experiment evidence: None found; absence is not proof
+- General ML knowledge: ML:validation, ML:overfitting
+- Assumptions: Recorded configurations and epoch metrics accurately describe the runs.
+- Missing evidence: Independent replication and optimizer-step/gradient measurements are absent. A small number of observed seed blocks cannot establish a distribution or separate all sources of randomness.
+- Proposed test: Repeat a controlled learning-rate comparison under a new shared model/shuffle seed block; predefine accuracy and loss-rise comparisons.
+- Selected by: LLM; wording: PYTHON evidence-conditioned candidate
+
+### H3 — Consistent with current evidence
+
+`HYPOTHESIS` The short recorded training horizon may leave the final-epoch ranking sensitive to transient behavior.
+
+- Supporting experiment evidence: RUN:lr_005_seed3, RUN:lr_01_seed3, RUN:lr_005_gap_001, RUN:baseline_001, RUN:lr_005_seed2, RUN:lr_01_seed2
+- Opposing experiment evidence: None found; absence is not proof
+- General ML knowledge: ML:validation, ML:overfitting
+- Assumptions: Recorded configurations and epoch metrics accurately describe the runs.
+- Missing evidence: Independent replication and optimizer-step/gradient measurements are absent. Longer independently approved training and predeclared stopping criteria are unavailable.
+- Proposed test: Replicate the existing horizon first; consider a separately approved longer-horizon study if ambiguity remains.
+- Selected by: LLM; wording: PYTHON evidence-conditioned candidate
+
+### H4 — Consistent with current evidence
+
+`HYPOTHESIS` A generalization gap may contribute during intervals where training loss improves and validation loss rises.
+
+- Supporting experiment evidence: PAIR:2
+- Opposing experiment evidence: None found; absence is not proof
+- General ML knowledge: ML:validation, ML:overfitting
+- Assumptions: Recorded configurations and epoch metrics accurately describe the runs.
+- Missing evidence: Independent replication and optimizer-step/gradient measurements are absent. This interval rule is a diagnostic candidate, not proof of overfitting.
+- Proposed test: Inspect matched train/validation curves and test one regularization change in a separate controlled proposal.
+- Selected by: LLM; wording: PYTHON evidence-conditioned candidate
+
+## 6. Supporting evidence
+
+Evidence identifiers resolve in the source registry below. Hypothesis status is descriptive, not a statistical proof.
+
+## 7. Contradicting evidence
+
+- baseline_001 minus lr_005_gap_001: accuracy -3.9 pp; maximum validation-loss-rise difference 0.548924. Missing controls: ['validation_start', 'dropout']. `DERIVED_ANALYSIS`, sources: runs/lr_005_gap_001.json, runs/baseline_001.json
+- lr_01_seed2 minus lr_005_seed2: accuracy 0.3 pp; maximum validation-loss-rise difference 0.099287. Missing controls: ['validation_start', 'dropout']. `DERIVED_ANALYSIS`, sources: runs/lr_005_seed2.json, runs/lr_01_seed2.json
+- lr_01_seed3 minus lr_005_seed3: accuracy -4.45 pp; maximum validation-loss-rise difference 0.138654. Missing controls: []. `DERIVED_ANALYSIS`, sources: runs/lr_005_seed3.json, runs/lr_01_seed3.json
+
+## 8. Relevant ML knowledge
+
+- `ML_KNOWLEDGE` [Overfitting: Interpreting loss curves](https://developers.google.com/machine-learning/crash-course/overfitting/interpreting-loss-curves), local `knowledge/validation.md`: Loss curves can oscillate or rise for several reasons. Reducing a learning rate can be useful when debugging an oscillating training-loss curve. When training loss improves but validation loss rises, overfitting is one possible interpretation. These are general diagnostic ideas, not proof of a cause for any particular saved run.
+- `ML_KNOWLEDGE` [Validation curves: plotting scores to evaluate models](https://scikit-learn.org/stable/modules/learning_curve.html), local `knowledge/overfitting.md`: Training and validation scores together can help identify possible overfitting. A high training score paired with a lower validation score is a warning that performance may not generalize as well to unseen data. A pattern in one short saved curve is only a candidate signal; other explanations and repeated checks remain possible.
+
+General documentation supports possible mechanisms; it cannot prove the cause of a saved run.
+
+## 9. Missing evidence
+
+- Independent replication and optimizer-step/gradient measurements are absent.
+- Validation-loss rises cannot directly demonstrate overshooting; gradients and optimizer trajectories were not recorded.
+- A small number of observed seed blocks cannot establish a distribution or separate all sources of randomness.
+- Longer independently approved training and predeclared stopping criteria are unavailable.
+- This interval rule is a diagnostic candidate, not proof of overfitting.
+
+## 10. Proposed experiments
+
+```json
+{
+  "proposal_id": "INV-A2B6989CC1-P1",
+  "investigation_id": "INV-A2B6989CC1",
+  "hypothesis_ids": [
+    "H1",
+    "H2"
+  ],
+  "changed_variable": "learning_rate",
+  "controlled_variables": [
+    "dataset",
+    "source_partition",
+    "preprocessing",
+    "train_size",
+    "val_size",
+    "validation_start",
+    "split_seed",
+    "shuffle_seed",
+    "model_seed",
+    "batch_size",
+    "hidden_units",
+    "optimizer",
+    "epochs",
+    "dropout"
+  ],
+  "runs": [
+    {
+      "run_id": "v3_inv_a2b6989cc1_control",
+      "dataset": "FashionMNIST",
+      "source_partition": "train",
+      "preprocessing": "ToTensor",
+      "train_size": 10000,
+      "val_size": 2000,
+      "validation_start": 10000,
+      "split_seed": 42,
+      "shuffle_seed": 443,
+      "model_seed": 444,
+      "batch_size": 128,
+      "hidden_units": 128,
+      "dropout": 0.0,
+      "optimizer": "SGD",
+      "learning_rate": 0.05,
+      "epochs": 5
+    },
+    {
+      "run_id": "v3_inv_a2b6989cc1_target",
+      "dataset": "FashionMNIST",
+      "source_partition": "train",
+      "preprocessing": "ToTensor",
+      "train_size": 10000,
+      "val_size": 2000,
+      "validation_start": 10000,
+      "split_seed": 42,
+      "shuffle_seed": 443,
+      "model_seed": 444,
+      "batch_size": 128,
+      "hidden_units": 128,
+      "dropout": 0.0,
+      "optimizer": "SGD",
+      "learning_rate": 0.1,
+      "epochs": 5
+    }
+  ],
+  "rationale": "A new shared seed block tests whether the observed loss-rise ordering replicates while all other recorded controls are matched.",
+  "seed_rationale": "Seeds exceed recorded runs and reserved legacy plans. The same fresh seeds are used by both arms.",
+  "primary_metric": "largest_positive_consecutive_epoch_validation_loss_rise",
+  "secondary_metrics": [
+    "final_validation_accuracy_percent",
+    "final_validation_loss"
+  ],
+  "supported_if": "The higher-rate arm has a strictly larger maximum validation-loss rise.",
+  "contradicted_if": "The higher-rate arm has a smaller maximum rise; equality is inconclusive.",
+  "limitations": [
+    "One new seed block does not establish general causation.",
+    "The same fixed validation split is reused; the official test set is excluded.",
+    "Validation metrics do not directly measure overshooting.",
+    "Other hypotheses may require separately approved designs."
+  ],
+  "limits": {
+    "max_total_seconds": 600,
+    "max_runs": 2,
+    "cpu_threads": 2
+  },
+  "training_code_sha256": "a3bde6ef9e2b371fa2ccefb0f278bc910501ba64fb16f9567d0373b9bd72b4ba"
+}
+```
+
+Exact proposal SHA-256: `a0eab42e818f2c6c62fd269bab618a44f4194ecbc115600ae3dbd285562b1e00`.
+
+## 11. Approval/execution status
+
+Investigation: **dry_run_completed**.
+Proposal: **dry_run_completed**, mode: `dry_run`.
+
+```json
+[
+  {
+    "id": 6,
+    "proposal_id": "INV-A2B6989CC1-P1",
+    "hash": "a0eab42e818f2c6c62fd269bab618a44f4194ecbc115600ae3dbd285562b1e00",
+    "decision": "rejected",
+    "mode": "dry_run",
+    "actor": "development_dry_run",
+    "reason": "",
+    "timestamp": "2026-10-28T09:05:01.400292+00:00"
+  },
+  {
+    "id": 7,
+    "proposal_id": "INV-A2B6989CC1-P1",
+    "hash": "a0eab42e818f2c6c62fd269bab618a44f4194ecbc115600ae3dbd285562b1e00",
+    "decision": "approved",
+    "mode": "dry_run",
+    "actor": "development_dry_run",
+    "reason": "Final development demonstration; dry run only",
+    "timestamp": "2026-10-28T09:05:01.510790+00:00"
+  }
+]
+```
+
+## 12. Follow-up results
+
+```json
+{
+  "status": "dry_run_completed",
+  "mode": "dry_run",
+  "started": "2026-10-28T09:05:01.742409+00:00",
+  "run_ids": [],
+  "logs": [],
+  "ingested": [],
+  "planned_configs": [
+    {
+      "run_id": "v3_inv_a2b6989cc1_control",
+      "dataset": "FashionMNIST",
+      "source_partition": "train",
+      "preprocessing": "ToTensor",
+      "train_size": 10000,
+      "val_size": 2000,
+      "validation_start": 10000,
+      "split_seed": 42,
+      "shuffle_seed": 443,
+      "model_seed": 444,
+      "batch_size": 128,
+      "hidden_units": 128,
+      "dropout": 0.0,
+      "optimizer": "SGD",
+      "learning_rate": 0.05,
+      "epochs": 5
+    },
+    {
+      "run_id": "v3_inv_a2b6989cc1_target",
+      "dataset": "FashionMNIST",
+      "source_partition": "train",
+      "preprocessing": "ToTensor",
+      "train_size": 10000,
+      "val_size": 2000,
+      "validation_start": 10000,
+      "split_seed": 42,
+      "shuffle_seed": 443,
+      "model_seed": 444,
+      "batch_size": 128,
+      "hidden_units": 128,
+      "dropout": 0.0,
+      "optimizer": "SGD",
+      "learning_rate": 0.1,
+      "epochs": 5
+    }
+  ],
+  "message": "Approval and resource checks passed. No trainer was launched; no metrics or run files were created.",
+  "finished": "2026-10-28T09:05:01.773988+00:00"
+}
+```
+No new measured follow-up outcomes. A dry run never creates synthetic measurements.
+
+## 13. Interpretation
+
+The saved data can support or oppose candidate explanations; it does not establish a unique cause.
+
+## 14. Limitations
+
+- One fixed validation split and a small number of recorded seed blocks limit generalization.
+- Missing historical metadata remains unknown; no default is silently inferred.
+- The model selects bounded plan options and hypotheses; Python calculates, validates, and renders facts.
+- The current executor supports only the existing bounded Fashion-MNIST MLP learning-rate comparison.
+- Live training through the restricted executor has not been verified.
+
+## 15. Sources
+
+- `RUN:lr_005_seed3` — `EXPERIMENT_JSON` — runs/lr_005_seed3.json
+- `RUN:lr_01_seed3` — `EXPERIMENT_JSON` — runs/lr_01_seed3.json
+- `RUN:lr_005_gap_001` — `EXPERIMENT_JSON` — runs/lr_005_gap_001.json
+- `RUN:baseline_001` — `EXPERIMENT_JSON` — runs/baseline_001.json
+- `RUN:lr_005_seed2` — `EXPERIMENT_JSON` — runs/lr_005_seed2.json
+- `RUN:lr_01_seed2` — `EXPERIMENT_JSON` — runs/lr_01_seed2.json
+- `PAIR:0` — `DERIVED_ANALYSIS` — runs/lr_005_seed3.json, runs/lr_01_seed3.json
+- `PAIR:1` — `DERIVED_ANALYSIS` — runs/lr_005_gap_001.json, runs/baseline_001.json
+- `PAIR:2` — `DERIVED_ANALYSIS` — runs/lr_005_seed2.json, runs/lr_01_seed2.json
+- `PAIR:3` — `DERIVED_ANALYSIS` — runs/lr_005_seed3.json, runs/lr_01_seed3.json
+- `ML:validation` — `ML_KNOWLEDGE` — knowledge/validation.md
+- `ML:overfitting` — `ML_KNOWLEDGE` — knowledge/overfitting.md
+- `NOTE:0` — `DERIVED_ANALYSIS` — runs/lr_005_seed3.json
+- `NOTE:1` — `DERIVED_ANALYSIS` — runs/lr_01_seed3.json
+- `NOTE:2` — `EXPERIMENT_NOTE` — notes/lr_01_seed2.md
+- `NOTE:5` — `DERIVED_ANALYSIS` — runs/lr_001.json
+
+## Structured plan
+
+```json
+[
+  {
+    "id": "collect",
+    "description": "Read exact experiment evidence",
+    "tool": "get_experiment",
+    "depends_on": [],
+    "status": "completed",
+    "proposed_by": "PYTHON"
+  },
+  {
+    "id": "notes",
+    "description": "Find earlier experiment observations",
+    "tool": "search_notes",
+    "depends_on": [],
+    "status": "completed",
+    "proposed_by": "LLM"
+  },
+  {
+    "id": "analyze",
+    "description": "Compute curves, controls and seed comparisons",
+    "tool": "analyze_experiments",
+    "depends_on": [
+      "collect"
+    ],
+    "status": "completed",
+    "proposed_by": "PYTHON"
+  },
+  {
+    "id": "knowledge",
+    "description": "Retrieve possible general mechanisms",
+    "tool": "search_ml_knowledge",
+    "depends_on": [
+      "analyze"
+    ],
+    "status": "completed",
+    "proposed_by": "LLM"
+  },
+  {
+    "id": "hypotheses",
+    "description": "Select competing evidence-backed hypotheses",
+    "tool": "select_hypotheses",
+    "depends_on": [
+      "analyze"
+    ],
+    "status": "completed",
+    "proposed_by": "PYTHON"
+  },
+  {
+    "id": "validate",
+    "description": "Validate citations and hypothesis evidence",
+    "tool": "validate_evidence",
+    "depends_on": [
+      "hypotheses"
+    ],
+    "status": "completed",
+    "proposed_by": "PYTHON"
+  },
+  {
+    "id": "design",
+    "description": "Design a new controlled experiment",
+    "tool": "design_followup",
+    "depends_on": [
+      "validate"
+    ],
+    "status": "completed",
+    "proposed_by": "PYTHON"
+  },
+  {
+    "id": "approval",
+    "description": "Wait for an exact human decision",
+    "tool": "human_approval",
+    "depends_on": [
+      "design"
+    ],
+    "status": "completed",
+    "proposed_by": "APP POLICY"
+  },
+  {
+    "id": "execute",
+    "description": "Execute only an approved configuration",
+    "tool": "restricted_executor",
+    "depends_on": [
+      "approval"
+    ],
+    "status": "completed",
+    "proposed_by": "APP POLICY"
+  },
+  {
+    "id": "outcome",
+    "description": "Analyze new measured outcomes",
+    "tool": "analyze_outcome",
+    "depends_on": [
+      "execute"
+    ],
+    "status": "skipped",
+    "proposed_by": "PYTHON",
+    "detail": "No complete new measured pair; dry runs contain no measurements"
+  },
+  {
+    "id": "report",
+    "description": "Save sourced investigation report",
+    "tool": "render_report",
+    "depends_on": [
+      "validate"
+    ],
+    "status": "completed",
+    "proposed_by": "PYTHON"
+  }
+]
+```
+
+## 9. Final state and sources
+
+```json
+{
+  "investigation_id": "INV-A2B6989CC1",
+  "status": "dry_run_completed",
+  "proposal_id": "INV-A2B6989CC1-P1",
+  "execution": {
+    "status": "dry_run_completed",
+    "mode": "dry_run",
+    "started": "2026-10-28T09:05:01.742409+00:00",
+    "run_ids": [],
+    "logs": [],
+    "ingested": [],
+    "planned_configs": [
+      {
+        "run_id": "v3_inv_a2b6989cc1_control",
+        "dataset": "FashionMNIST",
+        "source_partition": "train",
+        "preprocessing": "ToTensor",
+        "train_size": 10000,
+        "val_size": 2000,
+        "validation_start": 10000,
+        "split_seed": 42,
+        "shuffle_seed": 443,
+        "model_seed": 444,
+        "batch_size": 128,
+        "hidden_units": 128,
+        "dropout": 0.0,
+        "optimizer": "SGD",
+        "learning_rate": 0.05,
+        "epochs": 5
+      },
+      {
+        "run_id": "v3_inv_a2b6989cc1_target",
+        "dataset": "FashionMNIST",
+        "source_partition": "train",
+        "preprocessing": "ToTensor",
+        "train_size": 10000,
+        "val_size": 2000,
+        "validation_start": 10000,
+        "split_seed": 42,
+        "shuffle_seed": 443,
+        "model_seed": 444,
+        "batch_size": 128,
+        "hidden_units": 128,
+        "dropout": 0.0,
+        "optimizer": "SGD",
+        "learning_rate": 0.1,
+        "epochs": 5
+      }
+    ],
+    "message": "Approval and resource checks passed. No trainer was launched; no metrics or run files were created.",
+    "finished": "2026-10-28T09:05:01.773988+00:00"
+  },
+  "outcome": null,
+  "conversation_after_question": {
+    "focused_run_id": null,
+    "referenced_run_ids": [
+      "lr_01_seed3",
+      "lr_005_seed3"
+    ],
+    "comparison_run_ids": [
+      "lr_005_seed3",
+      "lr_01_seed3"
+    ],
+    "recent_turns": [
+      {
+        "question": "Investigate why lr_01_seed3 performed worse than lr_005_seed3. Search notes, check previous experiments, retrieve ML knowledge, and propose a controlled follow-up.",
+        "resolved_question": "Investigate why lr_01_seed3 performed worse than lr_005_seed3. Search notes, check previous experiments, retrieve ML knowledge, and propose a controlled follow-up.",
+        "tool_decisions": [],
+        "run_ids": [
+          "lr_01_seed3",
+          "lr_005_seed3"
+        ]
+      }
+    ],
+    "history_bound": 4
+  }
+}
+```
+
+No new measured training outcomes exist. Both-arm successful ingestion, outcome interpretation and hypothesis updates were exercised with clearly labeled fixtures in deterministic tests; they are not substituted into this real saved-run demonstration. A separate new-process restart check is recorded in reports/final/compatibility.json.

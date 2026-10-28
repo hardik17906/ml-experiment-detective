@@ -1,105 +1,117 @@
-# ML Experiment Detective V3
+# ML Experiment Detective — Agentic AI Research Assistant
 
-V3 adds a persistent **Agentic Research Investigator** alongside the preserved V1/V2 agents. It plans investigations, checks exact run metrics and controls, considers competing hypotheses, proposes a controlled experiment, and pauses for an explicit human decision. SQLite/LangGraph checkpoints let an investigation survive application restarts.
+A local RAG and tool-using application for exploring saved Fashion-MNIST experiments, investigating unexpected behavior, and reviewing controlled follow-up experiments before authorizing training. It combines experiment exploration, grounded chat and persistent investigations in one Streamlit interface.
 
-## Use V3
+## Run the installed project
+
+In PowerShell:
 
 ```powershell
 cd "D:\Agentic_ai_rag projects"
 .\.venv\Scripts\streamlit.exe run ui.py
 ```
 
-Open the displayed local address and use **Investigations (V3)**. Start a question, inspect the plan/evidence/hypotheses, and review the proposed settings. **Approve dry run** exercises the workflow without training. Live training requires selecting the explicit live-training checkbox and approving that exact proposal. Editing invalidates earlier approval. **Chat and runs (V1/V2)** retains the existing agents and run charts.
+Open the local address printed by Streamlit (normally http://127.0.0.1:8501). Navigation offers **Overview**, **Experiment Explorer**, **AI Chat**, and **Investigations**. No run-ID knowledge is required to browse the table or start asking questions.
+
+If Ollama is stopped, open a second PowerShell window:
 
 ```powershell
-.\.venv\Scripts\python.exe app.py --agent research --question "Investigate why lr_01_seed3 performed worse than lr_005_seed3."
-.\.venv\Scripts\python.exe -m v3.cli list
-.\.venv\Scripts\python.exe -m v3.cli resume "INV-ID-FROM-START"
-.\.venv\Scripts\python.exe -m v3.cli show "INV-ID-FROM-START"
-.\.venv\Scripts\python.exe -m v3.cli export "INV-ID-FROM-START"
+& "D:\Ollama\ollama.exe" serve
 ```
 
-Replace the quoted investigation-ID placeholder with the ID printed by `start`/`list`. Reopening/resuming does not approve training. The CLI also supports `decide` and `modify`; see [the complete V3 reference](docs/V3_COMPLETE_IMPLEMENTATION_CONTEXT.md) for exact commands and permissions.
+The installed user configuration keeps model files in `D:\Ollama\models`. The required local model is `qwen3:1.7b`. The existing MiniLM and optional reranker are under project `.model_cache/`; Fashion-MNIST is under `data/`. No additional model is required.
+
+## Try these workflows
+
+| Workflow | Example |
+|---|---|
+| Discover | What experiments do we have? |
+| Rank | Which had the best final validation accuracy? |
+| Follow up | Show its training and validation curves. |
+| Compare | Tell me about lr_01_seed3. Then: Compare that run with lr_005_seed3. |
+| Explain | Why might the difference exist? |
+| RAG | Have we seen unstable validation-loss behavior before? |
+| Investigate | Investigate why lr_01_seed3 underperformed. |
+| Design | What should we test next? |
+
+Every chat response has an expandable explanation of tools, model choices, Python policy, retrieval and sources. The Explorer displays exact settings and curve comparisons. The Investigation Workspace saves plans, evidence, hypotheses, proposals, decisions, execution information and reports.
+
+## Approval and execution
+
+Questions and proposals do not authorize training. Review the entire proposal in Investigations, then approve a **dry run**, reject, defer, modify, or explicitly authorize **live training**. Permission is tied to the exact configuration hash and mode; editing invalidates it. A dry run creates no training measurements.
+
+The restricted executor reuses the original Fashion-MNIST MLP and training-partition split. It supports a two-run learning-rate intervention, shared fresh seeds, maximum five epochs per arm, two CPU threads and a 600-second total budget. It rejects duplicate IDs/configurations and preserves original files. Live work runs in the background; refresh its saved status or request cooperative cancellation. The CLI can also request cancellation. No arbitrary shell command is accepted from an LLM.
+
+**Full live training was not performed during final development.** Approval, dry-run execution, failures, cancellation boundaries, ingestion and post-experiment reporting are tested through dry runs, mocks and labeled fixtures. This is a trusted single-user local application, not a production job scheduler or multi-user permission system.
+
+## CLI
 
 ```powershell
-.\.venv\Scripts\python.exe evaluate_v3.py
-.\.venv\Scripts\python.exe evaluate_v3_retrieval.py
-.\.venv\Scripts\python.exe validate_v3_ui.py
-.\.venv\Scripts\python.exe validate_v3_live.py
-.\.venv\Scripts\python.exe -m v3.demo
+.\.venv\Scripts\python.exe app.py --question "What experiments do we have?"
+.\.venv\Scripts\python.exe app.py
+.\.venv\Scripts\python.exe app.py --offline --lexical --question "Investigate why lr_01_seed3 underperformed."
+.\.venv\Scripts\python.exe investigate.py list
+.\.venv\Scripts\python.exe investigate.py show "INV-ID-FROM-LIST"
+.\.venv\Scripts\python.exe investigate.py resume "INV-ID-FROM-LIST"
+.\.venv\Scripts\python.exe investigate.py export "INV-ID-FROM-LIST"
+.\.venv\Scripts\python.exe investigate.py cancel "INV-ID-FROM-LIST"
 ```
 
-The demo reads real saved data and grants **development dry-run permission only**. It creates no training measurements. Test fixtures are explicitly labeled. Live end-to-end training has not been performed during V3 development; fixture ingestion, failures/timeouts, approval enforcement, persistence and UI behavior have been exercised separately. The executor supports the existing bounded Fashion-MNIST MLP learning-rate intervention, rather than arbitrary training jobs.
+Replace quoted ID placeholders with an actual saved investigation ID. `app.py` uses the integrated assistant by default; `clear` resets chat memory and `exit` quits. `--offline` uses visibly labeled Python choices without Ollama; `--lexical` additionally avoids embedding imports. These primary-assistant options work without internet after Python dependencies are installed. `investigate.py` retains explicit research operations, including `decide`/`modify`; its research `--offline` flag disables research model decisions. Normal operation uses only localhost and cached files.
 
-Runtime investigation state/logs/exports are stored under ignored `investigations/` on D:. Reviewable demonstrations and evaluation results are under `reports/v3_*`. Human notes, original run JSON and ML-knowledge files are preserved. The original V2 retrieval benchmark remains available; V3's measured source-priority policy keeps generated summaries supplementary because flat mixing degraded those labels. Reranking remains off by default.
-
-Study [V3 architecture](docs/V3_ARCHITECTURE.md), [the learning order](docs/STUDY_V3.md), [the verified trace](docs/V3_COMPLETE_TRACE.md), [evaluation and limitations](docs/V3_EVALUATION.md), and the single uploadable [complete implementation context](docs/V3_COMPLETE_IMPLEMENTATION_CONTEXT.md).
-
-## Preserved V1/V2 project
-
-A local learning project for RAG and tool-using agents over saved Fashion-MNIST experiments. It keeps the original explicit agent loop and adds bounded conversation memory, hybrid note retrieval, optional reranking, deterministic analysis tools, separate ML-knowledge retrieval, a Streamlit UI, and a LangGraph version.
-
-The included `runs/*.json` files contain the measured results. `notes/*.md` help find relevant runs; `knowledge/*.md` contains attributed general ML explanations. The app reads exact numbers from run JSON and keeps possible explanations separate from observations. No experiment retraining is required to explore V2.
-
-## Requirements
-
-- Windows with Python 3.12 and a local [Ollama](https://ollama.com/) server running `qwen3:1.7b`.
-- Enough disk space for the Python environment, Ollama model, MiniLM embedding model, and optional reranker. Model weights and the Fashion-MNIST download are excluded from Git.
-
-The original machine keeps Ollama and downloaded models on D:. See [OLLAMA_SETUP.md](OLLAMA_SETUP.md) for that setup; adapt its paths to your computer. Configure `OLLAMA_MODELS` before pulling a model if you need to keep its files off your system drive.
-
-## Start on Windows
-
-From the cloned project directory in PowerShell:
-
-```powershell
-py -3.12 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-ollama pull qwen3:1.7b
-.\.venv\Scripts\python.exe semantic_search_notes.py "unstable validation behavior" --top-k 1
-.\.venv\Scripts\python.exe app.py --agent manual
-```
-
-The semantic-search command downloads `sentence-transformers/all-MiniLM-L6-v2` once into the project-local `.model_cache/`. Later V2 searches load it locally. Ollama must be running before starting the app. The optional reranker is a separate download of roughly 62.5 MB of model weights:
-
-```powershell
-.\.venv\Scripts\python.exe download_reranker.py
-.\.venv\Scripts\python.exe app.py --agent manual --rerank
-```
-
-Reranking is off by default because it lowered scores on this project's five retrieval evaluation cases.
-
-## Choose an interface
+The manual loop and historical agents remain educational references:
 
 ```powershell
 .\.venv\Scripts\python.exe app.py --agent manual
 .\.venv\Scripts\python.exe app.py --agent graph
 .\.venv\Scripts\python.exe app.py --agent simple
-.\.venv\Scripts\streamlit.exe run ui.py
 ```
 
-The CLI shows the tool trace by default. Type `clear` to reset session memory or `exit` to quit. Pass `--question "..."` for one question and `--no-trace` to hide the trace. The Streamlit UI has agent and reranker switches, run charts, and an expandable trace.
+## Fresh setup and downloads
 
-Try:
-
-- `What is the final validation accuracy of lr_01_seed3?`
-- `Have we seen unstable validation behavior before?`
-- `Tell me about lr_01_seed3.` followed by `Compare that run with lr_005_seed3.`
-- `Why might lr_01_seed3 have behaved worse than lr_005_seed3?`
-
-## Verification and study
+The original machine already has the environment and caches. On a new Windows/Python 3.12 installation, initial package and model setup needs internet and disk space. Put the clone/environment on the intended drive and set caches before downloading:
 
 ```powershell
-.\.venv\Scripts\python.exe validate_v2.py
-.\.venv\Scripts\python.exe evaluate_retrieval.py
+py -3.12 -m venv .venv
+$env:PIP_CACHE_DIR = Join-Path (Get-Location) '.pip_cache'
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+$env:OLLAMA_MODELS = 'D:\Ollama\models'
+ollama pull qwen3:1.7b
+.\.venv\Scripts\python.exe semantic_search_notes.py "unstable validation behavior" --top-k 1
 ```
 
-The first command asks 17 manual/graph questions and saves full traces to `reports/v2_validation_traces.json`; it requires Ollama and the MiniLM cache. The second compares keyword, semantic, hybrid, and reranked results across five labeled queries; it also requires the optional reranker cache.
+Install Ollama itself using [the existing D: setup notes](OLLAMA_SETUP.md), adapting paths to the new machine. Persist `OLLAMA_MODELS` before launching its server if needed. The semantic command populates project `.model_cache/`; subsequent normal retrieval uses local-only weights. Reranking is optional and off by default; `download_reranker.py` is the explicit initial download command if desired. Fresh training-data setup is separate; the approved executor refuses to download a missing dataset. The original `phase0.py` remains the user-operated dataset/training entry point; its `--dry-run` validates a configuration without training or downloading data.
 
-Start with [the architecture](docs/V2_ARCHITECTURE.md), then use [the study order](docs/STUDY_V2.md) and [the complete implementation context](docs/V2_COMPLETE_IMPLEMENTATION_CONTEXT.md). The [real V2 trace](docs/V2_COMPLETE_TRACE.md) shows how memory, experiment RAG, exact JSON, and general ML knowledge interact.
+## Reproduce checks
 
-The repository includes saved metrics, examples, and documentation. It excludes downloaded datasets, model weights, virtual environments, and local caches. Retrieved similarity scores are ranking signals; observed run differences do not prove a cause.
+```powershell
+.\.venv\Scripts\python.exe evaluate_final.py
+.\.venv\Scripts\python.exe validate_final_ui.py
+.\.venv\Scripts\python.exe evaluate_final_retrieval.py
+.\.venv\Scripts\python.exe demonstrate_final.py --live
+.\.venv\Scripts\python.exe docs\build_final_docs.py
+```
+
+Deterministic checks do not train models. Retrieval evaluation needs cached MiniLM and, for actual reranking scores, the cached optional cross-encoder. `demonstrate_final.py --live` uses real local language/embedding models but grants only development **dry-run** experiment permission. Final executed artifacts are under `reports/final/`; historical evaluations are preserved separately. A small local benchmark is not a general scientific or model-quality guarantee.
+
+## Learn the finished implementation
+
+1. [Complete learning guide: 30 beginner-first chapters](docs/FINAL_COMPLETE_LEARNING_GUIDE.md).
+2. [Code walkthrough with actual line references](docs/FINAL_CODE_WALKTHROUGH.md).
+3. [Actual end-to-end investigation trace](docs/FINAL_END_TO_END_TRACE.md).
+4. [Single self-contained master context for an AI tutor](docs/FINAL_PROJECT_MASTER_CONTEXT.md).
+5. [Audit and final scope](docs/FINAL_AUDIT.md).
+
+The guide derives cosine similarity, RRF, evaluation metrics and experiment calculations, then connects each concept to actual code and outputs. The master reference begins with the architecture and includes schemas, state, evidence, evaluation, limitations and source excerpts. Earlier learning guides remain available; the linked guides describe the complete application.
+
+## Data, models and limits
+
+`runs/*.json` holds measured experiment records; `notes/*.md` holds the five original observation notes; `knowledge/*.md` holds attributed local ML references. Clearly labeled derived summaries expand discovery to runs without notes. Knowledge can suggest mechanisms but cannot prove a particular run's cause. Numerical answers come from Python and saved data.
+
+Runtime SQLite checkpoints, investigation state, execution logs and exports live under ignored `investigations/`. Model weights, datasets, virtual environments, secrets and local caches are excluded from Git. Current package versions and D: locations are recorded in `reports/final/environment.json`.
+
+The model selects bounded tools and hypotheses; Python prescribes scope checks, measurements, validation and permission. Missing historical architecture/software provenance, one reused validation split, a small corpus, imperfect retrieval and a restricted executable intervention family limit conclusions. Scores rank documents; they are not hypothesis probabilities. Interrupted live execution is not automatically retried or reattached.
 
 ## Development history
 
-The project files were built locally during October 2–4, 2026 and published as milestone commits on October 19. The feature commits' author dates follow the original local artifacts; their committer dates show when this Git history was assembled and published.
+The original project files were built locally during October 2–4, 2026 and published as milestone commits on October 19. Their author dates follow the original local artifacts; committer dates show when that Git history was assembled and published. The persistent investigator extends the original tool workflow; the final integration completes its local user workflows and learning package. This concludes the planned development scope.
