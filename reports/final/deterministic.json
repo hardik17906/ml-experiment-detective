@@ -1,0 +1,332 @@
+{
+  "type": "deterministic scenarios and labeled mocks; no live training",
+  "tests_run": 81,
+  "passed": 81,
+  "failures": 0,
+  "scenarios": [
+    {
+      "scenario": "test_final.FinalApplicationTests.test_ambiguous_pair_pronoun_is_not_guessed",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_best_then_curve_journey",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_cancellation_prevents_trainer_launch",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_catalog_discovery_without_ids",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_corresponding_rate_uses_recorded_controls",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_generalization_problem_query_uses_measured_rule",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_global_live_execution_limit",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_invalid_native_tool_uses_visible_fallback",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_invalid_rank_enum_rejected",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_next_experiment_without_any_run_reference",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_no_id_experiment_design_finds_complete_pair",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_ollama_transport_failure_recovers",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_pair_reference_and_mechanism_journey",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_reset_clears_reference",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_retrieval_ranks_scores_and_sources_visible",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_running_progress_visible_before_worker_returns",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_saved_research_list_excludes_plain_lookup_turns",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_seed_question_uses_covered_knowledge",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_separate_seed_knowledge_exists",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_single_run_investigation_finds_control",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_spike_ranking_is_measured",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_stale_proposal_can_be_rejected",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_unrelated_question_never_searches",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_unsupported_ml_topic_has_no_generated_answer",
+      "passed": true
+    },
+    {
+      "scenario": "test_final.FinalApplicationTests.test_wrong_id_offers_saved_alternatives",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_01_exact_numeric_difference",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_02_controlled_pair_checks_every_field",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_03_missing_historical_controls_not_assumed",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_04_confounded_comparison",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_05_incomplete_metrics",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_06_unequal_epochs_do_not_compare_final",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_07_pending_approval_blocks_execution",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_08_rejection_blocks_execution",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_09_dry_run_cannot_authorize_live_training",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_10_stale_hash_cannot_approve",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_11_modification_invalidates_approval",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_12_arbitrary_command_field_rejected",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_13_resource_limits_enforced",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_14_changed_trainer_requires_new_proposal",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_15_duplicate_configuration_rejected",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_16_new_seed_block_and_exact_shared_controls",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_17_structured_plan_dependencies",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_18_offline_trace_never_claims_model_decisions",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_19_hypothesis_grounding_and_competition",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_20_forged_evidence_rejected",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_21_knowledge_cannot_prove_run_outcome",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_22_state_survives_new_store",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_23_checkpoint_resume_dry_run_no_trainer",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_24_resume_token_does_not_grant_permission",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_25_reject_routes_to_report",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_26_wrong_model_tool_bounded_fallback",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_27_no_model_tool_call_bounded_fallback",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_28_valid_model_decision_changes_plan",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_29_unrelated_question_never_searches",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_30_uncovered_ml_question_explains_limit",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_31_wrong_run_id_fails_explicitly",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_32_training_failure_captured_without_training",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_33_fixture_ingestion_and_post_experiment_cycle",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_34_fixture_label_and_config_mandatory",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_35_evidence_snapshot_tampering_detected",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_36_memory_is_separate_from_persistence",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_37_derived_summaries_include_unnoted_run",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_38_configuration_filter",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_39_stopwords_removed_negation_retained",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_40_simple_question_uses_v2_without_full_plan",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_41_approval_consumed_once",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_42_missing_file_reported",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_43_defer_preserves_proposal",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_44_retrieval_failure_falls_back_to_explicit_runs",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_45_invalid_tool_arguments",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_46_model_cannot_grant_live_permission",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_47_outcome_incomplete_opposing_and_equal",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_48_timeout_recorded_and_no_unbounded_retry",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_49_report_numbers_and_source_attribution",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_50_source_priority_protects_human_notes",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_51_no_run_id_discovers_and_inspects_sources",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_52_restart_during_execution_does_not_relaunch",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_53_completed_execution_recovery_is_idempotent",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_54_successful_fixture_execution_updates_report_and_hypothesis",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_55_wrong_run_in_simple_comparison_is_not_ignored",
+      "passed": true
+    },
+    {
+      "scenario": "test_v3.InvestigatorTests.test_56_general_ml_mechanism_is_a_simple_question",
+      "passed": true
+    }
+  ]
+}

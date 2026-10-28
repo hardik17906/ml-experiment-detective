@@ -1,0 +1,17 @@
+{
+  "python": "3.12",
+  "packages": {
+    "torch": "2.14.1",
+    "torchvision": "0.29.1",
+    "sentence-transformers": "6.1.0",
+    "streamlit": "1.65.0",
+    "langgraph": "1.2.12",
+    "langgraph-checkpoint-sqlite": "3.1.2"
+  },
+  "ollama_executable": "D:\\Ollama\\ollama.exe",
+  "ollama_models": "D:\\Ollama\\models",
+  "embedding_cache": "D:\\Agentic_ai_rag projects\\.model_cache",
+  "pip_cache": "D:\\Agentic_ai_rag projects\\.pip_cache",
+  "dataset_cache": "D:\\Agentic_ai_rag projects\\data",
+  "new_model_or_dataset_downloaded": false
+}

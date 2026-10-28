@@ -1,0 +1,815 @@
+{
+  "historical_five": {
+    "keyword": {
+      "recall_at_2": 0.9,
+      "mrr_at_2": 0.8
+    },
+    "semantic": {
+      "recall_at_2": 1.0,
+      "mrr_at_2": 0.9
+    },
+    "hybrid": {
+      "recall_at_2": 1.0,
+      "mrr_at_2": 0.9
+    },
+    "reranked": {
+      "recall_at_2": 0.8,
+      "mrr_at_2": 0.7
+    }
+  },
+  "additional_twelve": {
+    "keyword": {
+      "recall_at_2": 0.7917,
+      "mrr_at_2": 0.75
+    },
+    "semantic": {
+      "recall_at_2": 0.9167,
+      "mrr_at_2": 0.8333
+    },
+    "hybrid": {
+      "recall_at_2": 0.9583,
+      "mrr_at_2": 0.9167
+    },
+    "reranked": {
+      "recall_at_2": 0.875,
+      "mrr_at_2": 0.8333
+    }
+  },
+  "all_seventeen": {
+    "keyword": {
+      "recall_at_2": 0.8235,
+      "mrr_at_2": 0.7647
+    },
+    "semantic": {
+      "recall_at_2": 0.9412,
+      "mrr_at_2": 0.8529
+    },
+    "hybrid": {
+      "recall_at_2": 0.9706,
+      "mrr_at_2": 0.9118
+    },
+    "reranked": {
+      "recall_at_2": 0.8529,
+      "mrr_at_2": 0.7941
+    }
+  },
+  "cases": [
+    {
+      "id": "held_out_spike",
+      "query": "Did the held-out error spike and recover?",
+      "relevant": [
+        "baseline_gap_001",
+        "lr_01_seed2"
+      ],
+      "reason": "Both observations record validation loss rising and then falling.",
+      "methods": {
+        "keyword": {
+          "recall_at_2": 0.5,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "small_dropout_05_001",
+            "baseline_gap_001"
+          ]
+        },
+        "semantic": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "baseline_gap_001",
+            "lr_01_seed2"
+          ]
+        },
+        "hybrid": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "baseline_gap_001",
+            "lr_01_seed2"
+          ]
+        },
+        "reranked": {
+          "recall_at_2": 0.0,
+          "mrr_at_2": 0,
+          "top_ids": [
+            "small_no_dropout_001",
+            "lr_005_gap_001"
+          ]
+        }
+      },
+      "reranker_status": "cached cross-encoder; source priority preserved"
+    },
+    {
+      "id": "dropout_applied",
+      "query": "Which small-data run trained with dropout 0.5?",
+      "relevant": [
+        "small_dropout_05_001"
+      ],
+      "reason": "Only this run applied dropout 0.5.",
+      "methods": {
+        "keyword": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "lr_01_seed2"
+          ]
+        },
+        "semantic": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "hybrid": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "baseline_gap_001"
+          ]
+        },
+        "reranked": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        }
+      },
+      "reranker_status": "cached cross-encoder; source priority preserved"
+    },
+    {
+      "id": "no_dropout",
+      "query": "Which small-data run trained without dropout?",
+      "relevant": [
+        "small_no_dropout_001"
+      ],
+      "reason": "This run explicitly used no dropout; the matched run used dropout 0.5.",
+      "methods": {
+        "keyword": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "semantic": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "hybrid": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "reranked": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        }
+      },
+      "reranker_status": "cached cross-encoder; source priority preserved"
+    },
+    {
+      "id": "steady_loss",
+      "query": "Which learning-rate run had validation loss decrease every epoch?",
+      "relevant": [
+        "lr_005_gap_001"
+      ],
+      "reason": "Its observation says validation loss decreased in each of five epochs.",
+      "methods": {
+        "keyword": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_005_gap_001",
+            "small_dropout_05_001"
+          ]
+        },
+        "semantic": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_005_gap_001",
+            "baseline_gap_001"
+          ]
+        },
+        "hybrid": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_005_gap_001",
+            "baseline_gap_001"
+          ]
+        },
+        "reranked": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_005_gap_001",
+            "small_no_dropout_001"
+          ]
+        }
+      },
+      "reranker_status": "cached cross-encoder; source priority preserved"
+    },
+    {
+      "id": "alternate_seed_spike",
+      "query": "Which alternate-seed run had a temporary validation loss increase?",
+      "relevant": [
+        "lr_01_seed2"
+      ],
+      "reason": "This note mentions alternate seeds and a validation-loss rise followed by a fall.",
+      "methods": {
+        "keyword": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_01_seed2",
+            "small_dropout_05_001"
+          ]
+        },
+        "semantic": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_01_seed2",
+            "baseline_gap_001"
+          ]
+        },
+        "hybrid": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_01_seed2",
+            "baseline_gap_001"
+          ]
+        },
+        "reranked": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_01_seed2",
+            "lr_005_gap_001"
+          ]
+        }
+      },
+      "reranker_status": "cached cross-encoder; source priority preserved"
+    },
+    {
+      "id": "heldout_paraphrase",
+      "query": "Did validation loss increase and subsequently recover?",
+      "relevant": [
+        "baseline_gap_001",
+        "lr_01_seed2"
+      ],
+      "reason": "Both notes explicitly record a rise then fall.",
+      "methods": {
+        "keyword": {
+          "recall_at_2": 0.5,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "baseline_gap_001",
+            "lr_005_gap_001"
+          ]
+        },
+        "semantic": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "baseline_gap_001",
+            "lr_01_seed2"
+          ]
+        },
+        "hybrid": {
+          "recall_at_2": 0.5,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "baseline_gap_001",
+            "lr_005_gap_001"
+          ]
+        },
+        "reranked": {
+          "recall_at_2": 0.5,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "baseline_gap_001",
+            "lr_005_gap_001"
+          ]
+        }
+      },
+      "reranker_status": "cached cross-encoder; source priority preserved"
+    },
+    {
+      "id": "early_spike",
+      "query": "Which observation describes a loss jump at the second epoch?",
+      "relevant": [
+        "baseline_gap_001"
+      ],
+      "reason": "Only this note describes the epoch-one to epoch-two spike.",
+      "methods": {
+        "keyword": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "baseline_gap_001",
+            "lr_01_seed2"
+          ]
+        },
+        "semantic": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "baseline_gap_001",
+            "lr_01_seed2"
+          ]
+        },
+        "hybrid": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "baseline_gap_001",
+            "lr_01_seed2"
+          ]
+        },
+        "reranked": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "lr_005_gap_001",
+            "baseline_gap_001"
+          ]
+        }
+      },
+      "reranker_status": "cached cross-encoder; source priority preserved"
+    },
+    {
+      "id": "late_spike",
+      "query": "Which alternate-seed observation has a loss rise at epoch four?",
+      "relevant": [
+        "lr_01_seed2"
+      ],
+      "reason": "Explicit alternate-seed epoch-four peak.",
+      "methods": {
+        "keyword": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_01_seed2",
+            "baseline_gap_001"
+          ]
+        },
+        "semantic": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_01_seed2",
+            "baseline_gap_001"
+          ]
+        },
+        "hybrid": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_01_seed2",
+            "baseline_gap_001"
+          ]
+        },
+        "reranked": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_01_seed2",
+            "baseline_gap_001"
+          ]
+        }
+      },
+      "reranker_status": "cached cross-encoder; source priority preserved"
+    },
+    {
+      "id": "monotonic_synonym",
+      "query": "Find the learning-rate experiment with steadily declining validation loss.",
+      "relevant": [
+        "lr_005_gap_001"
+      ],
+      "reason": "Its five saved validation losses decrease.",
+      "methods": {
+        "keyword": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_005_gap_001",
+            "lr_01_seed2"
+          ]
+        },
+        "semantic": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_005_gap_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "hybrid": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_005_gap_001",
+            "baseline_gap_001"
+          ]
+        },
+        "reranked": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_005_gap_001",
+            "small_no_dropout_001"
+          ]
+        }
+      },
+      "reranker_status": "cached cross-encoder; source priority preserved"
+    },
+    {
+      "id": "lr_identifier",
+      "query": "What did the note for lr_005_gap_001 observe?",
+      "relevant": [
+        "lr_005_gap_001"
+      ],
+      "reason": "Exact existing technical run identifier.",
+      "methods": {
+        "keyword": {
+          "recall_at_2": 0.0,
+          "mrr_at_2": 0,
+          "top_ids": [
+            "small_dropout_05_001"
+          ]
+        },
+        "semantic": {
+          "recall_at_2": 0.0,
+          "mrr_at_2": 0,
+          "top_ids": [
+            "baseline_gap_001",
+            "lr_01_seed2"
+          ]
+        },
+        "hybrid": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_005_gap_001",
+            "baseline_gap_001"
+          ]
+        },
+        "reranked": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_005_gap_001",
+            "small_dropout_05_001"
+          ]
+        }
+      },
+      "reranker_status": "cached cross-encoder; source priority preserved"
+    },
+    {
+      "id": "regularized_small",
+      "query": "Find the 1000-image experiment using dropout probability 0.5.",
+      "relevant": [
+        "small_dropout_05_001"
+      ],
+      "reason": "Explicit training size and dropout metadata.",
+      "methods": {
+        "keyword": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "baseline_gap_001"
+          ]
+        },
+        "semantic": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "hybrid": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "reranked": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        }
+      },
+      "reranker_status": "cached cross-encoder; source priority preserved"
+    },
+    {
+      "id": "unregularized_small",
+      "query": "Find the small training subset run without dropout.",
+      "relevant": [
+        "small_no_dropout_001"
+      ],
+      "reason": "The note explicitly says no dropout.",
+      "methods": {
+        "keyword": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "semantic": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "hybrid": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "reranked": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        }
+      },
+      "reranker_status": "cached cross-encoder; source priority preserved"
+    },
+    {
+      "id": "dropout_accuracy",
+      "query": "Which dropout run achieved 76.45 validation accuracy after 40 epochs?",
+      "relevant": [
+        "small_dropout_05_001"
+      ],
+      "reason": "Numbers and settings are in the human observation.",
+      "methods": {
+        "keyword": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "semantic": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "hybrid": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "reranked": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        }
+      },
+      "reranker_status": "cached cross-encoder; source priority preserved"
+    },
+    {
+      "id": "no_dropout_accuracy",
+      "query": "Which no-dropout experiment achieved 76.85 validation accuracy?",
+      "relevant": [
+        "small_no_dropout_001"
+      ],
+      "reason": "The note's primary run has that measured value.",
+      "methods": {
+        "keyword": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "semantic": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "hybrid": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 0.5,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "reranked": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_no_dropout_001",
+            "small_dropout_05_001"
+          ]
+        }
+      },
+      "reranker_status": "cached cross-encoder; source priority preserved"
+    },
+    {
+      "id": "seed_variation",
+      "query": "Find a temporary loss increase under different initialization and shuffle seeds.",
+      "relevant": [
+        "lr_01_seed2"
+      ],
+      "reason": "Alternate model/shuffle seeds and a temporary increase are explicit.",
+      "methods": {
+        "keyword": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_01_seed2",
+            "baseline_gap_001"
+          ]
+        },
+        "semantic": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_01_seed2",
+            "baseline_gap_001"
+          ]
+        },
+        "hybrid": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_01_seed2",
+            "baseline_gap_001"
+          ]
+        },
+        "reranked": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "lr_01_seed2",
+            "lr_005_gap_001"
+          ]
+        }
+      },
+      "reranker_status": "cached cross-encoder; source priority preserved"
+    },
+    {
+      "id": "technical_error",
+      "query": "Which observations show a transient held-out error spike?",
+      "relevant": [
+        "baseline_gap_001",
+        "lr_01_seed2"
+      ],
+      "reason": "Held-out error is interpreted as validation loss for this label.",
+      "methods": {
+        "keyword": {
+          "recall_at_2": 0.0,
+          "mrr_at_2": 0,
+          "top_ids": []
+        },
+        "semantic": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "baseline_gap_001",
+            "lr_01_seed2"
+          ]
+        },
+        "hybrid": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "baseline_gap_001",
+            "lr_01_seed2"
+          ]
+        },
+        "reranked": {
+          "recall_at_2": 0.0,
+          "mrr_at_2": 0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        }
+      },
+      "reranker_status": "cached cross-encoder; source priority preserved"
+    },
+    {
+      "id": "small_training_score",
+      "query": "Find the regularized small-data run with training accuracy 81.00 percent.",
+      "relevant": [
+        "small_dropout_05_001"
+      ],
+      "reason": "Exact post-epoch training-accuracy observation.",
+      "methods": {
+        "keyword": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "lr_005_gap_001"
+          ]
+        },
+        "semantic": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        },
+        "hybrid": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "lr_005_gap_001"
+          ]
+        },
+        "reranked": {
+          "recall_at_2": 1.0,
+          "mrr_at_2": 1.0,
+          "top_ids": [
+            "small_dropout_05_001",
+            "small_no_dropout_001"
+          ]
+        }
+      },
+      "reranker_status": "cached cross-encoder; source priority preserved"
+    }
+  ],
+  "exact_unnoted_coverage": [
+    {
+      "run_id": "baseline_001",
+      "found_first": true
+    },
+    {
+      "run_id": "lr_001",
+      "found_first": true
+    },
+    {
+      "run_id": "lr_005_seed2",
+      "found_first": true
+    },
+    {
+      "run_id": "lr_005_seed3",
+      "found_first": true
+    },
+    {
+      "run_id": "lr_01_seed3",
+      "found_first": true
+    },
+    {
+      "run_id": "lr_gap_001",
+      "found_first": true
+    }
+  ],
+  "scope": "17 note-relevance labels plus 6 exact-ID coverage cases. New labels are explicit local judgments, not a blind external benchmark. No tuning after scoring."
+}

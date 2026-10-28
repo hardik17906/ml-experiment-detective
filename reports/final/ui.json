@@ -1,0 +1,16 @@
+{
+  "passed": 10,
+  "checks": [
+    "Overview statistics and model status render",
+    "Experiment catalog and per-epoch charts render",
+    "Two-run comparison settings and visualizations render",
+    "Exact learning-rate filter works",
+    "Chat renders measured answer and expandable tool trace",
+    "Conversational comparison reference resolves",
+    "Investigation creation displays plan, evidence and hypotheses",
+    "Resume preserves the approval boundary",
+    "UI approval completes a dry run without training",
+    "Report export writes Markdown"
+  ],
+  "scope": "Streamlit AppTest; no browser screenshot or live training"
+}

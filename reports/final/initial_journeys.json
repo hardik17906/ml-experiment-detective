@@ -1,0 +1,4109 @@
+{
+  "mode": "live Ollama and cached MiniLM; dry-run execution",
+  "results": [
+    {
+      "journey": "1 Exploration",
+      "question": "What experiments do we have?",
+      "status": "completed",
+      "answer": "### Observed experiment facts\n- 11 saved records match all saved records.\n  - baseline_001: final validation accuracy 71.25% at epoch 5.\n  - baseline_gap_001: final validation accuracy 71.25% at epoch 5.\n  - lr_001: final validation accuracy 66.40% at epoch 5.\n  - lr_005_gap_001: final validation accuracy 75.15% at epoch 5.\n  - lr_005_seed2: final validation accuracy 76.05% at epoch 5.\n  - lr_005_seed3: final validation accuracy 75.90% at epoch 5.\n  - lr_01_seed2: final validation accuracy 76.35% at epoch 5.\n  - lr_01_seed3: final validation accuracy 71.45% at epoch 5.\n  - lr_gap_001: final validation accuracy 66.40% at epoch 5.\n  - small_dropout_05_001: final validation accuracy 76.45% at epoch 40.\n  - small_no_dropout_001: final validation accuracy 76.85% at epoch 40.\n\n### Limitations\n- Saved records can repeat configurations or differ in other settings; differences do not prove causation.\n\n### Sources\n**Experiment records and notes**\n- [runs/baseline_001.json](runs/baseline_001.json)\n- [runs/baseline_gap_001.json](runs/baseline_gap_001.json)\n- [runs/lr_001.json](runs/lr_001.json)\n- [runs/lr_005_gap_001.json](runs/lr_005_gap_001.json)\n- [runs/lr_005_seed2.json](runs/lr_005_seed2.json)\n- [runs/lr_005_seed3.json](runs/lr_005_seed3.json)\n- [runs/lr_01_seed2.json](runs/lr_01_seed2.json)\n- [runs/lr_01_seed3.json](runs/lr_01_seed3.json)\n- [runs/lr_gap_001.json](runs/lr_gap_001.json)\n- [runs/small_dropout_05_001.json](runs/small_dropout_05_001.json)\n- [runs/small_no_dropout_001.json](runs/small_no_dropout_001.json)",
+      "elapsed_seconds": 2.187,
+      "trace": [
+        {
+          "kind": "STATE UPDATE",
+          "origin": "PYTHON",
+          "data": {
+            "original_question": "What experiments do we have?",
+            "resolved_question": "What experiments do we have?",
+            "conversation_before": {
+              "focused_run_id": null,
+              "referenced_run_ids": [],
+              "comparison_run_ids": [],
+              "recent_turns": [],
+              "history_bound": 4
+            },
+            "reference_resolution": {
+              "focused_run_id_before": null,
+              "explicit_run_ids": [],
+              "resolved_reference": null,
+              "resolved_question": "What experiments do we have?",
+              "recent_turns": 0
+            },
+            "explicit_run_ids": []
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "origin": "PYTHON",
+          "data": {
+            "classification": "simple"
+          }
+        },
+        {
+          "kind": "USER",
+          "data": "What experiments do we have?"
+        },
+        {
+          "kind": "MEMORY BEFORE",
+          "data": {
+            "focused_run_id_before": null,
+            "explicit_run_ids": [],
+            "resolved_reference": null,
+            "resolved_question": "What experiments do we have?",
+            "recent_turns": 0
+          }
+        },
+        {
+          "kind": "TOOL MENU",
+          "data": [
+            {
+              "type": "function",
+              "function": {
+                "name": "search_runs",
+                "description": "Filter saved JSON by exact learning_rate, train_size or dropout; do not use for behavior wording.",
+                "parameters": {
+                  "type": "object",
+                  "properties": {
+                    "learning_rate": {
+                      "type": "number"
+                    },
+                    "train_size": {
+                      "type": "integer"
+                    },
+                    "dropout": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [],
+                  "additionalProperties": false
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "APP POLICY",
+          "data": {
+            "model_failure": "<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>",
+            "action": "bounded deterministic recovery"
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "data": {
+            "tool": "search_runs",
+            "arguments": {}
+          }
+        },
+        {
+          "kind": "TOOL RESULT",
+          "data": {
+            "tool": "search_runs",
+            "result": {
+              "filters": {},
+              "matches": [
+                {
+                  "run_id": "baseline_001",
+                  "source": "runs/baseline_001.json",
+                  "learning_rate": 0.1,
+                  "train_size": 10000,
+                  "dropout": null,
+                  "final_epoch": 5,
+                  "final_validation_accuracy_percent": 71.25,
+                  "final_validation_loss": 0.8208
+                },
+                {
+                  "run_id": "baseline_gap_001",
+                  "source": "runs/baseline_gap_001.json",
+                  "learning_rate": 0.1,
+                  "train_size": 10000,
+                  "dropout": null,
+                  "final_epoch": 5,
+                  "final_validation_accuracy_percent": 71.25,
+                  "final_validation_loss": 0.8208
+                },
+                {
+                  "run_id": "lr_001",
+                  "source": "runs/lr_001.json",
+                  "learning_rate": 0.01,
+                  "train_size": 10000,
+                  "dropout": null,
+                  "final_epoch": 5,
+                  "final_validation_accuracy_percent": 66.4,
+                  "final_validation_loss": 1.0304
+                },
+                {
+                  "run_id": "lr_005_gap_001",
+                  "source": "runs/lr_005_gap_001.json",
+                  "learning_rate": 0.05,
+                  "train_size": 10000,
+                  "dropout": null,
+                  "final_epoch": 5,
+                  "final_validation_accuracy_percent": 75.15,
+                  "final_validation_loss": 0.6876
+                },
+                {
+                  "run_id": "lr_005_seed2",
+                  "source": "runs/lr_005_seed2.json",
+                  "learning_rate": 0.05,
+                  "train_size": 10000,
+                  "dropout": null,
+                  "final_epoch": 5,
+                  "final_validation_accuracy_percent": 76.05,
+                  "final_validation_loss": 0.6848
+                },
+                {
+                  "run_id": "lr_005_seed3",
+                  "source": "runs/lr_005_seed3.json",
+                  "learning_rate": 0.05,
+                  "train_size": 10000,
+                  "dropout": 0.0,
+                  "final_epoch": 5,
+                  "final_validation_accuracy_percent": 75.9,
+                  "final_validation_loss": 0.6806
+                },
+                {
+                  "run_id": "lr_01_seed2",
+                  "source": "runs/lr_01_seed2.json",
+                  "learning_rate": 0.1,
+                  "train_size": 10000,
+                  "dropout": null,
+                  "final_epoch": 5,
+                  "final_validation_accuracy_percent": 76.35,
+                  "final_validation_loss": 0.6793
+                },
+                {
+                  "run_id": "lr_01_seed3",
+                  "source": "runs/lr_01_seed3.json",
+                  "learning_rate": 0.1,
+                  "train_size": 10000,
+                  "dropout": 0.0,
+                  "final_epoch": 5,
+                  "final_validation_accuracy_percent": 71.45,
+                  "final_validation_loss": 0.8109
+                },
+                {
+                  "run_id": "lr_gap_001",
+                  "source": "runs/lr_gap_001.json",
+                  "learning_rate": 0.01,
+                  "train_size": 10000,
+                  "dropout": null,
+                  "final_epoch": 5,
+                  "final_validation_accuracy_percent": 66.4,
+                  "final_validation_loss": 1.0304
+                },
+                {
+                  "run_id": "small_dropout_05_001",
+                  "source": "runs/small_dropout_05_001.json",
+                  "learning_rate": 0.05,
+                  "train_size": 1000,
+                  "dropout": 0.5,
+                  "final_epoch": 40,
+                  "final_validation_accuracy_percent": 76.45,
+                  "final_validation_loss": 0.7121
+                },
+                {
+                  "run_id": "small_no_dropout_001",
+                  "source": "runs/small_no_dropout_001.json",
+                  "learning_rate": 0.05,
+                  "train_size": 1000,
+                  "dropout": 0.0,
+                  "final_epoch": 40,
+                  "final_validation_accuracy_percent": 76.85,
+                  "final_validation_loss": 0.6891
+                }
+              ]
+            }
+          }
+        },
+        {
+          "kind": "TOOL MENU",
+          "data": []
+        },
+        {
+          "kind": "MEMORY AFTER",
+          "data": {
+            "focused_run_id": null,
+            "referenced_run_ids": [],
+            "comparison_run_ids": [],
+            "recent_turns": [
+              {
+                "question": "What experiments do we have?",
+                "resolved_question": "What experiments do we have?",
+                "tool_decisions": [
+                  {
+                    "origin": "APP POLICY",
+                    "tool": "search_runs",
+                    "arguments": {}
+                  }
+                ],
+                "run_ids": []
+              }
+            ],
+            "history_bound": 4
+          }
+        },
+        {
+          "kind": "FINAL",
+          "data": "### Observed experiment facts\n- 11 saved records match all saved records.\n  - baseline_001: final validation accuracy 71.25% at epoch 5.\n  - baseline_gap_001: final validation accuracy 71.25% at epoch 5.\n  - lr_001: final validation accuracy 66.40% at epoch 5.\n  - lr_005_gap_001: final validation accuracy 75.15% at epoch 5.\n  - lr_005_seed2: final validation accuracy 76.05% at epoch 5.\n  - lr_005_seed3: final validation accuracy 75.90% at epoch 5.\n  - lr_01_seed2: final validation accuracy 76.35% at epoch 5.\n  - lr_01_seed3: final validation accuracy 71.45% at epoch 5.\n  - lr_gap_001: final validation accuracy 66.40% at epoch 5.\n  - small_dropout_05_001: final validation accuracy 76.45% at epoch 40.\n  - small_no_dropout_001: final validation accuracy 76.85% at epoch 40.\n\n### Limitations\n- Saved records can repeat configurations or differ in other settings; differences do not prove causation.\n\n### Sources\n**Experiment records and notes**\n- [runs/baseline_001.json](runs/baseline_001.json)\n- [runs/baseline_gap_001.json](runs/baseline_gap_001.json)\n- [runs/lr_001.json](runs/lr_001.json)\n- [runs/lr_005_gap_001.json](runs/lr_005_gap_001.json)\n- [runs/lr_005_seed2.json](runs/lr_005_seed2.json)\n- [runs/lr_005_seed3.json](runs/lr_005_seed3.json)\n- [runs/lr_01_seed2.json](runs/lr_01_seed2.json)\n- [runs/lr_01_seed3.json](runs/lr_01_seed3.json)\n- [runs/lr_gap_001.json](runs/lr_gap_001.json)\n- [runs/small_dropout_05_001.json](runs/small_dropout_05_001.json)\n- [runs/small_no_dropout_001.json](runs/small_no_dropout_001.json)"
+        },
+        {
+          "kind": "STATE UPDATE",
+          "origin": "PYTHON",
+          "data": {
+            "focused_run_id": null,
+            "referenced_run_ids": [],
+            "comparison_run_ids": [],
+            "recent_turns": [
+              {
+                "question": "What experiments do we have?",
+                "resolved_question": "What experiments do we have?",
+                "tool_decisions": [
+                  {
+                    "tool": "search_runs",
+                    "arguments": {},
+                    "origin": "APP POLICY"
+                  }
+                ],
+                "run_ids": []
+              }
+            ],
+            "history_bound": 4
+          }
+        }
+      ]
+    },
+    {
+      "journey": "1 Exploration",
+      "question": "Which had the best final validation accuracy?",
+      "status": "completed",
+      "answer": "### Observed experiment facts\n- Saved experiments ranked by **accuracy** (11 matching records).\n  - **small_no_dropout_001**: accuracy 76.85%; loss 0.6891; largest validation-loss rise 0.032491.\n\n### Limitations\n- Saved records can repeat configurations or differ in other settings; differences do not prove causation.\n\n### Sources\n**Experiment records and notes**\n- [runs/small_no_dropout_001.json](runs/small_no_dropout_001.json)",
+      "elapsed_seconds": 2.125,
+      "trace": [
+        {
+          "kind": "STATE UPDATE",
+          "origin": "PYTHON",
+          "data": {
+            "original_question": "Which had the best final validation accuracy?",
+            "resolved_question": "Which had the best final validation accuracy?",
+            "conversation_before": {
+              "focused_run_id": null,
+              "referenced_run_ids": [],
+              "comparison_run_ids": [],
+              "recent_turns": [
+                {
+                  "question": "What experiments do we have?",
+                  "resolved_question": "What experiments do we have?",
+                  "tool_decisions": [
+                    {
+                      "tool": "search_runs",
+                      "arguments": {},
+                      "origin": "APP POLICY"
+                    }
+                  ],
+                  "run_ids": []
+                }
+              ],
+              "history_bound": 4
+            },
+            "reference_resolution": {
+              "focused_run_id_before": null,
+              "explicit_run_ids": [],
+              "resolved_reference": null,
+              "resolved_question": "Which had the best final validation accuracy?",
+              "recent_turns": 1
+            },
+            "explicit_run_ids": []
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "origin": "PYTHON",
+          "data": {
+            "classification": "simple"
+          }
+        },
+        {
+          "kind": "USER",
+          "data": "Which had the best final validation accuracy?"
+        },
+        {
+          "kind": "MEMORY BEFORE",
+          "data": {
+            "focused_run_id_before": null,
+            "explicit_run_ids": [],
+            "resolved_reference": null,
+            "resolved_question": "Which had the best final validation accuracy?",
+            "recent_turns": 0
+          }
+        },
+        {
+          "kind": "TOOL MENU",
+          "data": [
+            {
+              "type": "function",
+              "function": {
+                "name": "rank_experiments",
+                "description": "Rank saved experiments by final accuracy, validation loss, or largest validation-loss rise. Exact filters remain separate from semantic matching.",
+                "parameters": {
+                  "type": "object",
+                  "properties": {
+                    "sort_by": {
+                      "type": "string",
+                      "enum": [
+                        "accuracy",
+                        "loss",
+                        "spike"
+                      ]
+                    },
+                    "learning_rate": {
+                      "type": "number"
+                    },
+                    "train_size": {
+                      "type": "integer"
+                    },
+                    "dropout": {
+                      "type": "number"
+                    },
+                    "top_k": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [],
+                  "additionalProperties": false
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "APP POLICY",
+          "data": {
+            "model_failure": "<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>",
+            "action": "bounded deterministic recovery"
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "data": {
+            "tool": "rank_experiments",
+            "arguments": {
+              "sort_by": "accuracy",
+              "top_k": 1
+            }
+          }
+        },
+        {
+          "kind": "TOOL RESULT",
+          "data": {
+            "tool": "rank_experiments",
+            "result": {
+              "filters": {},
+              "matches": [
+                {
+                  "run_id": "small_no_dropout_001",
+                  "source": "runs/small_no_dropout_001.json",
+                  "learning_rate": 0.05,
+                  "train_size": 1000,
+                  "dropout": 0.0,
+                  "final_epoch": 40,
+                  "final_validation_accuracy_percent": 76.85,
+                  "final_validation_loss": 0.6891,
+                  "largest_loss_rise": 0.032491
+                }
+              ],
+              "sort_by": "accuracy",
+              "total_matches": 11,
+              "limit": "Ranking saved records is descriptive; configurations and horizons can differ. A loss rise is not a diagnosis."
+            }
+          }
+        },
+        {
+          "kind": "TOOL MENU",
+          "data": []
+        },
+        {
+          "kind": "MEMORY AFTER",
+          "data": {
+            "focused_run_id": "small_no_dropout_001",
+            "referenced_run_ids": [
+              "small_no_dropout_001"
+            ],
+            "comparison_run_ids": [],
+            "recent_turns": [
+              {
+                "question": "Which had the best final validation accuracy?",
+                "resolved_question": "Which had the best final validation accuracy?",
+                "tool_decisions": [
+                  {
+                    "origin": "APP POLICY",
+                    "tool": "rank_experiments",
+                    "arguments": {
+                      "sort_by": "accuracy",
+                      "top_k": 1
+                    }
+                  }
+                ],
+                "run_ids": [
+                  "small_no_dropout_001"
+                ]
+              }
+            ],
+            "history_bound": 4
+          }
+        },
+        {
+          "kind": "FINAL",
+          "data": "### Observed experiment facts\n- Saved experiments ranked by **accuracy** (11 matching records).\n  - **small_no_dropout_001**: accuracy 76.85%; loss 0.6891; largest validation-loss rise 0.032491.\n\n### Limitations\n- Saved records can repeat configurations or differ in other settings; differences do not prove causation.\n\n### Sources\n**Experiment records and notes**\n- [runs/small_no_dropout_001.json](runs/small_no_dropout_001.json)"
+        },
+        {
+          "kind": "STATE UPDATE",
+          "origin": "PYTHON",
+          "data": {
+            "focused_run_id": "small_no_dropout_001",
+            "referenced_run_ids": [
+              "small_no_dropout_001"
+            ],
+            "comparison_run_ids": [],
+            "recent_turns": [
+              {
+                "question": "What experiments do we have?",
+                "resolved_question": "What experiments do we have?",
+                "tool_decisions": [
+                  {
+                    "tool": "search_runs",
+                    "arguments": {},
+                    "origin": "APP POLICY"
+                  }
+                ],
+                "run_ids": []
+              },
+              {
+                "question": "Which had the best final validation accuracy?",
+                "resolved_question": "Which had the best final validation accuracy?",
+                "tool_decisions": [
+                  {
+                    "tool": "rank_experiments",
+                    "arguments": {
+                      "sort_by": "accuracy",
+                      "top_k": 1
+                    },
+                    "origin": "APP POLICY"
+                  }
+                ],
+                "run_ids": [
+                  "small_no_dropout_001"
+                ]
+              }
+            ],
+            "history_bound": 4
+          }
+        }
+      ]
+    },
+    {
+      "journey": "1 Exploration",
+      "question": "Show its training and validation curves.",
+      "status": "completed",
+      "answer": "### Observed experiment facts\n- **small_no_dropout_001** has 40 saved epoch points for post-epoch training loss, validation loss, and validation accuracy. Select the run in the UI to view the chart.\n\n### Sources\n**Experiment records and notes**\n- [runs/small_no_dropout_001.json](runs/small_no_dropout_001.json)",
+      "elapsed_seconds": 2.094,
+      "trace": [
+        {
+          "kind": "STATE UPDATE",
+          "origin": "PYTHON",
+          "data": {
+            "original_question": "Show its training and validation curves.",
+            "resolved_question": "Show small_no_dropout_001 training and validation curves.",
+            "conversation_before": {
+              "focused_run_id": "small_no_dropout_001",
+              "referenced_run_ids": [
+                "small_no_dropout_001"
+              ],
+              "comparison_run_ids": [],
+              "recent_turns": [
+                {
+                  "question": "What experiments do we have?",
+                  "resolved_question": "What experiments do we have?",
+                  "tool_decisions": [
+                    {
+                      "tool": "search_runs",
+                      "arguments": {},
+                      "origin": "APP POLICY"
+                    }
+                  ],
+                  "run_ids": []
+                },
+                {
+                  "question": "Which had the best final validation accuracy?",
+                  "resolved_question": "Which had the best final validation accuracy?",
+                  "tool_decisions": [
+                    {
+                      "tool": "rank_experiments",
+                      "arguments": {
+                        "sort_by": "accuracy",
+                        "top_k": 1
+                      },
+                      "origin": "APP POLICY"
+                    }
+                  ],
+                  "run_ids": [
+                    "small_no_dropout_001"
+                  ]
+                }
+              ],
+              "history_bound": 4
+            },
+            "reference_resolution": {
+              "focused_run_id_before": "small_no_dropout_001",
+              "explicit_run_ids": [],
+              "resolved_reference": "small_no_dropout_001",
+              "resolved_question": "Show small_no_dropout_001 training and validation curves.",
+              "recent_turns": 2
+            },
+            "explicit_run_ids": [
+              "small_no_dropout_001"
+            ]
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "origin": "PYTHON",
+          "data": {
+            "classification": "simple"
+          }
+        },
+        {
+          "kind": "USER",
+          "data": "Show small_no_dropout_001 training and validation curves."
+        },
+        {
+          "kind": "MEMORY BEFORE",
+          "data": {
+            "focused_run_id_before": null,
+            "explicit_run_ids": [
+              "small_no_dropout_001"
+            ],
+            "resolved_reference": null,
+            "resolved_question": "Show small_no_dropout_001 training and validation curves.",
+            "recent_turns": 0
+          }
+        },
+        {
+          "kind": "TOOL MENU",
+          "data": [
+            {
+              "type": "function",
+              "function": {
+                "name": "plot_run_metrics",
+                "description": "Return epoch, post-epoch train loss, validation loss and validation accuracy for a chart.",
+                "parameters": {
+                  "type": "object",
+                  "properties": {
+                    "run_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "run_id"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "APP POLICY",
+          "data": {
+            "model_failure": "<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>",
+            "action": "bounded deterministic recovery"
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "data": {
+            "tool": "plot_run_metrics",
+            "arguments": {
+              "run_id": "small_no_dropout_001"
+            }
+          }
+        },
+        {
+          "kind": "TOOL RESULT",
+          "data": {
+            "tool": "plot_run_metrics",
+            "result": {
+              "run_id": "small_no_dropout_001",
+              "source": "runs/small_no_dropout_001.json",
+              "points": [
+                {
+                  "epoch": 1,
+                  "train_loss": 2.1256,
+                  "validation_loss": 2.1382,
+                  "validation_accuracy_percent": 42.6
+                },
+                {
+                  "epoch": 2,
+                  "train_loss": 1.9554,
+                  "validation_loss": 1.9673,
+                  "validation_accuracy_percent": 53.9
+                },
+                {
+                  "epoch": 3,
+                  "train_loss": 1.777,
+                  "validation_loss": 1.7848,
+                  "validation_accuracy_percent": 53.75
+                },
+                {
+                  "epoch": 4,
+                  "train_loss": 1.606,
+                  "validation_loss": 1.6064,
+                  "validation_accuracy_percent": 57.4
+                },
+                {
+                  "epoch": 5,
+                  "train_loss": 1.4624,
+                  "validation_loss": 1.462,
+                  "validation_accuracy_percent": 58.55
+                },
+                {
+                  "epoch": 6,
+                  "train_loss": 1.3423,
+                  "validation_loss": 1.3362,
+                  "validation_accuracy_percent": 63.55
+                },
+                {
+                  "epoch": 7,
+                  "train_loss": 1.2547,
+                  "validation_loss": 1.2526,
+                  "validation_accuracy_percent": 62.95
+                },
+                {
+                  "epoch": 8,
+                  "train_loss": 1.1655,
+                  "validation_loss": 1.1607,
+                  "validation_accuracy_percent": 63.3
+                },
+                {
+                  "epoch": 9,
+                  "train_loss": 1.101,
+                  "validation_loss": 1.0975,
+                  "validation_accuracy_percent": 65.2
+                },
+                {
+                  "epoch": 10,
+                  "train_loss": 1.0491,
+                  "validation_loss": 1.0482,
+                  "validation_accuracy_percent": 64.6
+                },
+                {
+                  "epoch": 11,
+                  "train_loss": 1.0073,
+                  "validation_loss": 1.005,
+                  "validation_accuracy_percent": 66.35
+                },
+                {
+                  "epoch": 12,
+                  "train_loss": 0.9754,
+                  "validation_loss": 0.9751,
+                  "validation_accuracy_percent": 64.7
+                },
+                {
+                  "epoch": 13,
+                  "train_loss": 0.9384,
+                  "validation_loss": 0.9386,
+                  "validation_accuracy_percent": 67.3
+                },
+                {
+                  "epoch": 14,
+                  "train_loss": 0.9057,
+                  "validation_loss": 0.9055,
+                  "validation_accuracy_percent": 69.45
+                },
+                {
+                  "epoch": 15,
+                  "train_loss": 0.8894,
+                  "validation_loss": 0.8977,
+                  "validation_accuracy_percent": 68.75
+                },
+                {
+                  "epoch": 16,
+                  "train_loss": 0.8679,
+                  "validation_loss": 0.8794,
+                  "validation_accuracy_percent": 68.0
+                },
+                {
+                  "epoch": 17,
+                  "train_loss": 0.839,
+                  "validation_loss": 0.8486,
+                  "validation_accuracy_percent": 70.55
+                },
+                {
+                  "epoch": 18,
+                  "train_loss": 0.8263,
+                  "validation_loss": 0.8428,
+                  "validation_accuracy_percent": 69.3
+                },
+                {
+                  "epoch": 19,
+                  "train_loss": 0.8231,
+                  "validation_loss": 0.8415,
+                  "validation_accuracy_percent": 69.9
+                },
+                {
+                  "epoch": 20,
+                  "train_loss": 0.7972,
+                  "validation_loss": 0.8126,
+                  "validation_accuracy_percent": 70.05
+                },
+                {
+                  "epoch": 21,
+                  "train_loss": 0.7733,
+                  "validation_loss": 0.7956,
+                  "validation_accuracy_percent": 72.0
+                },
+                {
+                  "epoch": 22,
+                  "train_loss": 0.7692,
+                  "validation_loss": 0.7959,
+                  "validation_accuracy_percent": 72.85
+                },
+                {
+                  "epoch": 23,
+                  "train_loss": 0.7601,
+                  "validation_loss": 0.7903,
+                  "validation_accuracy_percent": 72.05
+                },
+                {
+                  "epoch": 24,
+                  "train_loss": 0.7454,
+                  "validation_loss": 0.7735,
+                  "validation_accuracy_percent": 72.8
+                },
+                {
+                  "epoch": 25,
+                  "train_loss": 0.7289,
+                  "validation_loss": 0.7588,
+                  "validation_accuracy_percent": 74.5
+                },
+                {
+                  "epoch": 26,
+                  "train_loss": 0.7331,
+                  "validation_loss": 0.7679,
+                  "validation_accuracy_percent": 73.35
+                },
+                {
+                  "epoch": 27,
+                  "train_loss": 0.7261,
+                  "validation_loss": 0.7582,
+                  "validation_accuracy_percent": 72.55
+                },
+                {
+                  "epoch": 28,
+                  "train_loss": 0.7098,
+                  "validation_loss": 0.7451,
+                  "validation_accuracy_percent": 73.5
+                },
+                {
+                  "epoch": 29,
+                  "train_loss": 0.6812,
+                  "validation_loss": 0.7226,
+                  "validation_accuracy_percent": 75.5
+                },
+                {
+                  "epoch": 30,
+                  "train_loss": 0.6819,
+                  "validation_loss": 0.726,
+                  "validation_accuracy_percent": 74.4
+                },
+                {
+                  "epoch": 31,
+                  "train_loss": 0.6592,
+                  "validation_loss": 0.7069,
+                  "validation_accuracy_percent": 76.1
+                },
+                {
+                  "epoch": 32,
+                  "train_loss": 0.6884,
+                  "validation_loss": 0.7394,
+                  "validation_accuracy_percent": 73.25
+                },
+                {
+                  "epoch": 33,
+                  "train_loss": 0.6532,
+                  "validation_loss": 0.7101,
+                  "validation_accuracy_percent": 76.0
+                },
+                {
+                  "epoch": 34,
+                  "train_loss": 0.6344,
+                  "validation_loss": 0.6883,
+                  "validation_accuracy_percent": 77.3
+                },
+                {
+                  "epoch": 35,
+                  "train_loss": 0.643,
+                  "validation_loss": 0.7076,
+                  "validation_accuracy_percent": 75.7
+                },
+                {
+                  "epoch": 36,
+                  "train_loss": 0.6381,
+                  "validation_loss": 0.7037,
+                  "validation_accuracy_percent": 76.35
+                },
+                {
+                  "epoch": 37,
+                  "train_loss": 0.6263,
+                  "validation_loss": 0.6859,
+                  "validation_accuracy_percent": 75.65
+                },
+                {
+                  "epoch": 38,
+                  "train_loss": 0.6333,
+                  "validation_loss": 0.7047,
+                  "validation_accuracy_percent": 75.4
+                },
+                {
+                  "epoch": 39,
+                  "train_loss": 0.6058,
+                  "validation_loss": 0.6766,
+                  "validation_accuracy_percent": 77.15
+                },
+                {
+                  "epoch": 40,
+                  "train_loss": 0.6133,
+                  "validation_loss": 0.6891,
+                  "validation_accuracy_percent": 76.85
+                }
+              ]
+            }
+          }
+        },
+        {
+          "kind": "TOOL MENU",
+          "data": []
+        },
+        {
+          "kind": "MEMORY AFTER",
+          "data": {
+            "focused_run_id": "small_no_dropout_001",
+            "referenced_run_ids": [
+              "small_no_dropout_001"
+            ],
+            "comparison_run_ids": [],
+            "recent_turns": [
+              {
+                "question": "Show small_no_dropout_001 training and validation curves.",
+                "resolved_question": "Show small_no_dropout_001 training and validation curves.",
+                "tool_decisions": [
+                  {
+                    "origin": "APP POLICY",
+                    "tool": "plot_run_metrics",
+                    "arguments": {
+                      "run_id": "small_no_dropout_001"
+                    }
+                  }
+                ],
+                "run_ids": [
+                  "small_no_dropout_001"
+                ]
+              }
+            ],
+            "history_bound": 4
+          }
+        },
+        {
+          "kind": "FINAL",
+          "data": "### Observed experiment facts\n- **small_no_dropout_001** has 40 saved epoch points for post-epoch training loss, validation loss, and validation accuracy. Select the run in the UI to view the chart.\n\n### Sources\n**Experiment records and notes**\n- [runs/small_no_dropout_001.json](runs/small_no_dropout_001.json)"
+        },
+        {
+          "kind": "STATE UPDATE",
+          "origin": "PYTHON",
+          "data": {
+            "focused_run_id": "small_no_dropout_001",
+            "referenced_run_ids": [
+              "small_no_dropout_001"
+            ],
+            "comparison_run_ids": [],
+            "recent_turns": [
+              {
+                "question": "What experiments do we have?",
+                "resolved_question": "What experiments do we have?",
+                "tool_decisions": [
+                  {
+                    "tool": "search_runs",
+                    "arguments": {},
+                    "origin": "APP POLICY"
+                  }
+                ],
+                "run_ids": []
+              },
+              {
+                "question": "Which had the best final validation accuracy?",
+                "resolved_question": "Which had the best final validation accuracy?",
+                "tool_decisions": [
+                  {
+                    "tool": "rank_experiments",
+                    "arguments": {
+                      "sort_by": "accuracy",
+                      "top_k": 1
+                    },
+                    "origin": "APP POLICY"
+                  }
+                ],
+                "run_ids": [
+                  "small_no_dropout_001"
+                ]
+              },
+              {
+                "question": "Show its training and validation curves.",
+                "resolved_question": "Show small_no_dropout_001 training and validation curves.",
+                "tool_decisions": [
+                  {
+                    "tool": "plot_run_metrics",
+                    "arguments": {
+                      "run_id": "small_no_dropout_001"
+                    },
+                    "origin": "APP POLICY"
+                  }
+                ],
+                "run_ids": [
+                  "small_no_dropout_001"
+                ]
+              }
+            ],
+            "history_bound": 4
+          }
+        }
+      ]
+    },
+    {
+      "journey": "2 Conversation",
+      "question": "Tell me about lr_01_seed3.",
+      "status": "completed",
+      "answer": "### Observed experiment facts\n- **lr_01_seed3**: final validation accuracy 71.45% and loss 0.8109 at epoch 5.\n\n### Sources\n**Experiment records and notes**\n- [runs/lr_01_seed3.json](runs/lr_01_seed3.json)",
+      "elapsed_seconds": 2.14,
+      "trace": [
+        {
+          "kind": "STATE UPDATE",
+          "origin": "PYTHON",
+          "data": {
+            "original_question": "Tell me about lr_01_seed3.",
+            "resolved_question": "Tell me about lr_01_seed3.",
+            "conversation_before": {
+              "focused_run_id": null,
+              "referenced_run_ids": [],
+              "comparison_run_ids": [],
+              "recent_turns": [],
+              "history_bound": 4
+            },
+            "reference_resolution": {
+              "focused_run_id_before": null,
+              "explicit_run_ids": [
+                "lr_01_seed3"
+              ],
+              "resolved_reference": null,
+              "resolved_question": "Tell me about lr_01_seed3.",
+              "recent_turns": 0
+            },
+            "explicit_run_ids": [
+              "lr_01_seed3"
+            ]
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "origin": "PYTHON",
+          "data": {
+            "classification": "simple"
+          }
+        },
+        {
+          "kind": "USER",
+          "data": "Tell me about lr_01_seed3."
+        },
+        {
+          "kind": "MEMORY BEFORE",
+          "data": {
+            "focused_run_id_before": null,
+            "explicit_run_ids": [
+              "lr_01_seed3"
+            ],
+            "resolved_reference": null,
+            "resolved_question": "Tell me about lr_01_seed3.",
+            "recent_turns": 0
+          }
+        },
+        {
+          "kind": "TOOL MENU",
+          "data": [
+            {
+              "type": "function",
+              "function": {
+                "name": "get_experiment",
+                "description": "Read one saved experiment. Use only for a question about one run; for two run IDs, use compare_experiments instead.",
+                "parameters": {
+                  "type": "object",
+                  "properties": {
+                    "run_id": {
+                      "type": "string",
+                      "description": "Exact saved run ID"
+                    }
+                  },
+                  "required": [
+                    "run_id"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "APP POLICY",
+          "data": {
+            "model_failure": "<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>",
+            "action": "bounded deterministic recovery"
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "data": {
+            "tool": "get_experiment",
+            "arguments": {
+              "run_id": "lr_01_seed3"
+            }
+          }
+        },
+        {
+          "kind": "TOOL RESULT",
+          "data": {
+            "tool": "get_experiment",
+            "result": {
+              "run_id": "lr_01_seed3",
+              "source": "runs/lr_01_seed3.json",
+              "config": {
+                "run_id": "lr_01_seed3",
+                "dataset": "FashionMNIST",
+                "source_partition": "train",
+                "preprocessing": "ToTensor",
+                "train_size": 10000,
+                "val_size": 2000,
+                "validation_start": 10000,
+                "split_seed": 42,
+                "shuffle_seed": 243,
+                "model_seed": 244,
+                "batch_size": 128,
+                "hidden_units": 128,
+                "dropout": 0.0,
+                "optimizer": "SGD",
+                "learning_rate": 0.1,
+                "epochs": 5
+              },
+              "final_epoch": 5,
+              "final_validation_loss": 0.8109,
+              "final_validation_accuracy_percent": 71.45,
+              "epoch_metrics": [
+                {
+                  "epoch": 1,
+                  "validation_loss": 0.8865,
+                  "validation_accuracy_percent": 66.45
+                },
+                {
+                  "epoch": 2,
+                  "validation_loss": 1.0252,
+                  "validation_accuracy_percent": 68.75
+                },
+                {
+                  "epoch": 3,
+                  "validation_loss": 0.8685,
+                  "validation_accuracy_percent": 67.4
+                },
+                {
+                  "epoch": 4,
+                  "validation_loss": 0.6828,
+                  "validation_accuracy_percent": 73.2
+                },
+                {
+                  "epoch": 5,
+                  "validation_loss": 0.8109,
+                  "validation_accuracy_percent": 71.45
+                }
+              ],
+              "validation_loss_recoveries": [
+                {
+                  "epochs": [
+                    1,
+                    2,
+                    3
+                  ],
+                  "losses": [
+                    0.8865,
+                    1.0252,
+                    0.8685
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "kind": "TOOL MENU",
+          "data": []
+        },
+        {
+          "kind": "MEMORY AFTER",
+          "data": {
+            "focused_run_id": "lr_01_seed3",
+            "referenced_run_ids": [
+              "lr_01_seed3"
+            ],
+            "comparison_run_ids": [],
+            "recent_turns": [
+              {
+                "question": "Tell me about lr_01_seed3.",
+                "resolved_question": "Tell me about lr_01_seed3.",
+                "tool_decisions": [
+                  {
+                    "origin": "APP POLICY",
+                    "tool": "get_experiment",
+                    "arguments": {
+                      "run_id": "lr_01_seed3"
+                    }
+                  }
+                ],
+                "run_ids": [
+                  "lr_01_seed3"
+                ]
+              }
+            ],
+            "history_bound": 4
+          }
+        },
+        {
+          "kind": "FINAL",
+          "data": "### Observed experiment facts\n- **lr_01_seed3**: final validation accuracy 71.45% and loss 0.8109 at epoch 5.\n\n### Sources\n**Experiment records and notes**\n- [runs/lr_01_seed3.json](runs/lr_01_seed3.json)"
+        },
+        {
+          "kind": "STATE UPDATE",
+          "origin": "PYTHON",
+          "data": {
+            "focused_run_id": "lr_01_seed3",
+            "referenced_run_ids": [
+              "lr_01_seed3"
+            ],
+            "comparison_run_ids": [],
+            "recent_turns": [
+              {
+                "question": "Tell me about lr_01_seed3.",
+                "resolved_question": "Tell me about lr_01_seed3.",
+                "tool_decisions": [
+                  {
+                    "tool": "get_experiment",
+                    "arguments": {
+                      "run_id": "lr_01_seed3"
+                    },
+                    "origin": "APP POLICY"
+                  }
+                ],
+                "run_ids": [
+                  "lr_01_seed3"
+                ]
+              }
+            ],
+            "history_bound": 4
+          }
+        }
+      ]
+    },
+    {
+      "journey": "2 Conversation",
+      "question": "Compare that run with lr_005_seed3.",
+      "status": "completed",
+      "answer": "### Observed experiment facts\n- **lr_01_seed3 -> lr_005_seed3** at epoch 5: validation accuracy 71.45% -> 75.90% (+4.45 percentage points); validation loss 0.8109 -> 0.6806 (-0.1303). Changed recorded settings: learning_rate: 0.1 -> 0.05.\n\n### Limitations\n- Saved records can repeat configurations or differ in other settings; differences do not prove causation.\n\n### Sources\n**Experiment records and notes**\n- [runs/lr_005_seed3.json](runs/lr_005_seed3.json)\n- [runs/lr_01_seed3.json](runs/lr_01_seed3.json)",
+      "elapsed_seconds": 2.11,
+      "trace": [
+        {
+          "kind": "STATE UPDATE",
+          "origin": "PYTHON",
+          "data": {
+            "original_question": "Compare that run with lr_005_seed3.",
+            "resolved_question": "Compare lr_01_seed3 with lr_005_seed3.",
+            "conversation_before": {
+              "focused_run_id": "lr_01_seed3",
+              "referenced_run_ids": [
+                "lr_01_seed3"
+              ],
+              "comparison_run_ids": [],
+              "recent_turns": [
+                {
+                  "question": "Tell me about lr_01_seed3.",
+                  "resolved_question": "Tell me about lr_01_seed3.",
+                  "tool_decisions": [
+                    {
+                      "tool": "get_experiment",
+                      "arguments": {
+                        "run_id": "lr_01_seed3"
+                      },
+                      "origin": "APP POLICY"
+                    }
+                  ],
+                  "run_ids": [
+                    "lr_01_seed3"
+                  ]
+                }
+              ],
+              "history_bound": 4
+            },
+            "reference_resolution": {
+              "focused_run_id_before": "lr_01_seed3",
+              "explicit_run_ids": [
+                "lr_005_seed3"
+              ],
+              "resolved_reference": "lr_01_seed3",
+              "resolved_question": "Compare lr_01_seed3 with lr_005_seed3.",
+              "recent_turns": 1
+            },
+            "explicit_run_ids": [
+              "lr_01_seed3",
+              "lr_005_seed3"
+            ]
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "origin": "PYTHON",
+          "data": {
+            "classification": "simple"
+          }
+        },
+        {
+          "kind": "USER",
+          "data": "Compare lr_01_seed3 with lr_005_seed3."
+        },
+        {
+          "kind": "MEMORY BEFORE",
+          "data": {
+            "focused_run_id_before": null,
+            "explicit_run_ids": [
+              "lr_01_seed3",
+              "lr_005_seed3"
+            ],
+            "resolved_reference": null,
+            "resolved_question": "Compare lr_01_seed3 with lr_005_seed3.",
+            "recent_turns": 0
+          }
+        },
+        {
+          "kind": "TOOL MENU",
+          "data": [
+            {
+              "type": "function",
+              "function": {
+                "name": "compare_experiments",
+                "description": "Preferred tool whenever a question mentions two run IDs. Compare their recorded settings and final metrics. Use baseline_run_id for the reference and target_run_id for the run being explained; differences are target minus baseline.",
+                "parameters": {
+                  "type": "object",
+                  "properties": {
+                    "baseline_run_id": {
+                      "type": "string",
+                      "description": "Reference run ID"
+                    },
+                    "target_run_id": {
+                      "type": "string",
+                      "description": "Run ID being compared with the reference"
+                    }
+                  },
+                  "required": [
+                    "baseline_run_id",
+                    "target_run_id"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "APP POLICY",
+          "data": {
+            "model_failure": "<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>",
+            "action": "bounded deterministic recovery"
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "data": {
+            "tool": "compare_experiments",
+            "arguments": {
+              "baseline_run_id": "lr_01_seed3",
+              "target_run_id": "lr_005_seed3"
+            }
+          }
+        },
+        {
+          "kind": "TOOL RESULT",
+          "data": {
+            "tool": "compare_experiments",
+            "result": {
+              "baseline_run_id": "lr_01_seed3",
+              "target_run_id": "lr_005_seed3",
+              "baseline_source": "runs/lr_01_seed3.json",
+              "target_source": "runs/lr_005_seed3.json",
+              "changed_settings": {
+                "learning_rate": {
+                  "baseline": 0.1,
+                  "target": 0.05
+                }
+              },
+              "final_epoch": 5,
+              "baseline_validation_accuracy_percent": 71.45,
+              "target_validation_accuracy_percent": 75.9,
+              "accuracy_change_target_minus_baseline_pp": 4.45,
+              "baseline_validation_loss": 0.8109,
+              "target_validation_loss": 0.6806,
+              "loss_change_target_minus_baseline": -0.1303,
+              "largest_one_epoch_validation_loss_rise": {
+                "lr_01_seed3": 0.1387,
+                "lr_005_seed3": 0.0
+              }
+            }
+          }
+        },
+        {
+          "kind": "TOOL MENU",
+          "data": []
+        },
+        {
+          "kind": "MEMORY AFTER",
+          "data": {
+            "focused_run_id": null,
+            "referenced_run_ids": [
+              "lr_01_seed3",
+              "lr_005_seed3"
+            ],
+            "comparison_run_ids": [
+              "lr_01_seed3",
+              "lr_005_seed3"
+            ],
+            "recent_turns": [
+              {
+                "question": "Compare lr_01_seed3 with lr_005_seed3.",
+                "resolved_question": "Compare lr_01_seed3 with lr_005_seed3.",
+                "tool_decisions": [
+                  {
+                    "origin": "APP POLICY",
+                    "tool": "compare_experiments",
+                    "arguments": {
+                      "baseline_run_id": "lr_01_seed3",
+                      "target_run_id": "lr_005_seed3"
+                    }
+                  }
+                ],
+                "run_ids": [
+                  "lr_01_seed3",
+                  "lr_005_seed3"
+                ]
+              }
+            ],
+            "history_bound": 4
+          }
+        },
+        {
+          "kind": "FINAL",
+          "data": "### Observed experiment facts\n- **lr_01_seed3 -> lr_005_seed3** at epoch 5: validation accuracy 71.45% -> 75.90% (+4.45 percentage points); validation loss 0.8109 -> 0.6806 (-0.1303). Changed recorded settings: learning_rate: 0.1 -> 0.05.\n\n### Limitations\n- Saved records can repeat configurations or differ in other settings; differences do not prove causation.\n\n### Sources\n**Experiment records and notes**\n- [runs/lr_005_seed3.json](runs/lr_005_seed3.json)\n- [runs/lr_01_seed3.json](runs/lr_01_seed3.json)"
+        },
+        {
+          "kind": "STATE UPDATE",
+          "origin": "PYTHON",
+          "data": {
+            "focused_run_id": null,
+            "referenced_run_ids": [
+              "lr_01_seed3",
+              "lr_005_seed3"
+            ],
+            "comparison_run_ids": [
+              "lr_01_seed3",
+              "lr_005_seed3"
+            ],
+            "recent_turns": [
+              {
+                "question": "Tell me about lr_01_seed3.",
+                "resolved_question": "Tell me about lr_01_seed3.",
+                "tool_decisions": [
+                  {
+                    "tool": "get_experiment",
+                    "arguments": {
+                      "run_id": "lr_01_seed3"
+                    },
+                    "origin": "APP POLICY"
+                  }
+                ],
+                "run_ids": [
+                  "lr_01_seed3"
+                ]
+              },
+              {
+                "question": "Compare that run with lr_005_seed3.",
+                "resolved_question": "Compare lr_01_seed3 with lr_005_seed3.",
+                "tool_decisions": [
+                  {
+                    "tool": "compare_experiments",
+                    "arguments": {
+                      "baseline_run_id": "lr_01_seed3",
+                      "target_run_id": "lr_005_seed3"
+                    },
+                    "origin": "APP POLICY"
+                  }
+                ],
+                "run_ids": [
+                  "lr_01_seed3",
+                  "lr_005_seed3"
+                ]
+              }
+            ],
+            "history_bound": 4
+          }
+        }
+      ]
+    },
+    {
+      "journey": "2 Conversation",
+      "question": "Why might the difference exist?",
+      "status": "completed",
+      "answer": "### Observed experiment facts\n- **lr_01_seed3 -> lr_005_seed3** at epoch 5: validation accuracy 71.45% -> 75.90% (+4.45 percentage points); validation loss 0.8109 -> 0.6806 (-0.1303). Changed recorded settings: learning_rate: 0.1 -> 0.05.\n\n### Relevant ML knowledge\n- **Linear regression: Hyperparameters** (learning rates and optimization): The learning rate controls the size of a gradient-descent parameter update. A rate that is too high can make optimization bounce around a minimum or fail to converge; a rate that is too low can make progress slow. The useful rate depends on the model and data. This general mechanism does not establish why any specific Fashion-MNIST run changed.\n- **Optimizing Model Parameters** (SGD, loss, and weight updates): Optimization changes model parameters to reduce error. In PyTorch's training loop, zero_grad clears accumulated gradients, backward computes gradients of loss, and optimizer.step updates parameters. The SGD optimizer receives a learning-rate setting. A saved validation-loss curve records outcomes after those updates; it does not reveal every internal step.\n\n### Possible interpretation\nThe observed pattern is compatible with one or more general mechanisms described above. The saved runs do not establish which mechanism, if any, caused it.\n\n### Limitations\n- A similarity or reranker score ranks text; it is not a probability or proof.\n- Saved records can repeat configurations or differ in other settings; differences do not prove causation.\n\n### Sources\n**Experiment records and notes**\n- [runs/lr_005_seed3.json](runs/lr_005_seed3.json)\n- [runs/lr_01_seed3.json](runs/lr_01_seed3.json)\n**General ML references**\n- [Linear regression: Hyperparameters](https://developers.google.com/machine-learning/crash-course/linear-regression/hyperparameters)\n- [Optimizing Model Parameters](https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html)",
+      "elapsed_seconds": 60.281,
+      "trace": [
+        {
+          "kind": "STATE UPDATE",
+          "origin": "PYTHON",
+          "data": {
+            "original_question": "Why might the difference exist?",
+            "resolved_question": "Compare lr_01_seed3 with lr_005_seed3. Why might the difference exist?",
+            "conversation_before": {
+              "focused_run_id": null,
+              "referenced_run_ids": [
+                "lr_01_seed3",
+                "lr_005_seed3"
+              ],
+              "comparison_run_ids": [
+                "lr_01_seed3",
+                "lr_005_seed3"
+              ],
+              "recent_turns": [
+                {
+                  "question": "Tell me about lr_01_seed3.",
+                  "resolved_question": "Tell me about lr_01_seed3.",
+                  "tool_decisions": [
+                    {
+                      "tool": "get_experiment",
+                      "arguments": {
+                        "run_id": "lr_01_seed3"
+                      },
+                      "origin": "APP POLICY"
+                    }
+                  ],
+                  "run_ids": [
+                    "lr_01_seed3"
+                  ]
+                },
+                {
+                  "question": "Compare that run with lr_005_seed3.",
+                  "resolved_question": "Compare lr_01_seed3 with lr_005_seed3.",
+                  "tool_decisions": [
+                    {
+                      "tool": "compare_experiments",
+                      "arguments": {
+                        "baseline_run_id": "lr_01_seed3",
+                        "target_run_id": "lr_005_seed3"
+                      },
+                      "origin": "APP POLICY"
+                    }
+                  ],
+                  "run_ids": [
+                    "lr_01_seed3",
+                    "lr_005_seed3"
+                  ]
+                }
+              ],
+              "history_bound": 4
+            },
+            "reference_resolution": {
+              "resolved_question": "Compare lr_01_seed3 with lr_005_seed3. Why might the difference exist?",
+              "resolved_reference": [
+                "lr_01_seed3",
+                "lr_005_seed3"
+              ],
+              "recent_turns": 2,
+              "explicit_run_ids": []
+            },
+            "explicit_run_ids": [
+              "lr_01_seed3",
+              "lr_005_seed3"
+            ]
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "origin": "PYTHON",
+          "data": {
+            "classification": "simple"
+          }
+        },
+        {
+          "kind": "USER",
+          "data": "Compare lr_01_seed3 with lr_005_seed3. Why might the difference exist?"
+        },
+        {
+          "kind": "MEMORY BEFORE",
+          "data": {
+            "focused_run_id_before": null,
+            "explicit_run_ids": [
+              "lr_01_seed3",
+              "lr_005_seed3"
+            ],
+            "resolved_reference": null,
+            "resolved_question": "Compare lr_01_seed3 with lr_005_seed3. Why might the difference exist?",
+            "recent_turns": 0
+          }
+        },
+        {
+          "kind": "TOOL MENU",
+          "data": [
+            {
+              "type": "function",
+              "function": {
+                "name": "compare_experiments",
+                "description": "Preferred tool whenever a question mentions two run IDs. Compare their recorded settings and final metrics. Use baseline_run_id for the reference and target_run_id for the run being explained; differences are target minus baseline.",
+                "parameters": {
+                  "type": "object",
+                  "properties": {
+                    "baseline_run_id": {
+                      "type": "string",
+                      "description": "Reference run ID"
+                    },
+                    "target_run_id": {
+                      "type": "string",
+                      "description": "Run ID being compared with the reference"
+                    }
+                  },
+                  "required": [
+                    "baseline_run_id",
+                    "target_run_id"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "APP POLICY",
+          "data": {
+            "model_failure": "<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>",
+            "action": "bounded deterministic recovery"
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "data": {
+            "tool": "compare_experiments",
+            "arguments": {
+              "baseline_run_id": "lr_01_seed3",
+              "target_run_id": "lr_005_seed3"
+            }
+          }
+        },
+        {
+          "kind": "TOOL RESULT",
+          "data": {
+            "tool": "compare_experiments",
+            "result": {
+              "baseline_run_id": "lr_01_seed3",
+              "target_run_id": "lr_005_seed3",
+              "baseline_source": "runs/lr_01_seed3.json",
+              "target_source": "runs/lr_005_seed3.json",
+              "changed_settings": {
+                "learning_rate": {
+                  "baseline": 0.1,
+                  "target": 0.05
+                }
+              },
+              "final_epoch": 5,
+              "baseline_validation_accuracy_percent": 71.45,
+              "target_validation_accuracy_percent": 75.9,
+              "accuracy_change_target_minus_baseline_pp": 4.45,
+              "baseline_validation_loss": 0.8109,
+              "target_validation_loss": 0.6806,
+              "loss_change_target_minus_baseline": -0.1303,
+              "largest_one_epoch_validation_loss_rise": {
+                "lr_01_seed3": 0.1387,
+                "lr_005_seed3": 0.0
+              }
+            }
+          }
+        },
+        {
+          "kind": "TOOL MENU",
+          "data": [
+            {
+              "type": "function",
+              "function": {
+                "name": "search_ml_knowledge",
+                "description": "Search the separate offline corpus of general ML documentation. It cannot prove a specific run's cause.",
+                "parameters": {
+                  "type": "object",
+                  "properties": {
+                    "query": {
+                      "type": "string"
+                    },
+                    "top_k": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "query"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "APP POLICY",
+          "data": {
+            "model_failure": "<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>",
+            "action": "bounded deterministic recovery"
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "data": {
+            "tool": "search_ml_knowledge",
+            "arguments": {
+              "query": "high learning rate optimization instability",
+              "top_k": 2
+            }
+          }
+        },
+        {
+          "kind": "TOOL RESULT",
+          "data": {
+            "tool": "search_ml_knowledge",
+            "result": {
+              "query": "high learning rate optimization instability",
+              "source_category": "general ML knowledge",
+              "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+              "ranking_method": "keyword + MiniLM reciprocal rank fusion",
+              "matches": [
+                {
+                  "id": "learning_rates",
+                  "path": "knowledge/learning_rates.md",
+                  "source_title": "Linear regression: Hyperparameters",
+                  "source_url": "https://developers.google.com/machine-learning/crash-course/linear-regression/hyperparameters",
+                  "topic": "learning rates and optimization",
+                  "source_type": "ML_KNOWLEDGE",
+                  "text": "The learning rate controls the size of a gradient-descent parameter update. A rate that is too high can make optimization bounce around a minimum or fail to converge; a rate that is too low can make progress slow. The useful rate depends on the model and data. This general mechanism does not establish why any specific Fashion-MNIST run changed.",
+                  "semantic_rank": 1,
+                  "keyword_rank": 1,
+                  "cosine_similarity": 0.5258,
+                  "hybrid_score": 0.032787,
+                  "rank": 1
+                },
+                {
+                  "id": "optimization",
+                  "path": "knowledge/optimization.md",
+                  "source_title": "Optimizing Model Parameters",
+                  "source_url": "https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html",
+                  "topic": "SGD, loss, and weight updates",
+                  "source_type": "ML_KNOWLEDGE",
+                  "text": "Optimization changes model parameters to reduce error. In PyTorch's training loop, zero_grad clears accumulated gradients, backward computes gradients of loss, and optimizer.step updates parameters. The SGD optimizer receives a learning-rate setting. A saved validation-loss curve records outcomes after those updates; it does not reveal every internal step.",
+                  "semantic_rank": 2,
+                  "keyword_rank": 2,
+                  "cosine_similarity": 0.4475,
+                  "hybrid_score": 0.032258,
+                  "rank": 2
+                }
+              ]
+            }
+          }
+        },
+        {
+          "kind": "TOOL MENU",
+          "data": []
+        },
+        {
+          "kind": "MEMORY AFTER",
+          "data": {
+            "focused_run_id": null,
+            "referenced_run_ids": [
+              "lr_01_seed3",
+              "lr_005_seed3"
+            ],
+            "comparison_run_ids": [
+              "lr_01_seed3",
+              "lr_005_seed3"
+            ],
+            "recent_turns": [
+              {
+                "question": "Compare lr_01_seed3 with lr_005_seed3. Why might the difference exist?",
+                "resolved_question": "Compare lr_01_seed3 with lr_005_seed3. Why might the difference exist?",
+                "tool_decisions": [
+                  {
+                    "origin": "APP POLICY",
+                    "tool": "compare_experiments",
+                    "arguments": {
+                      "baseline_run_id": "lr_01_seed3",
+                      "target_run_id": "lr_005_seed3"
+                    }
+                  },
+                  {
+                    "origin": "APP POLICY",
+                    "tool": "search_ml_knowledge",
+                    "arguments": {
+                      "query": "high learning rate optimization instability",
+                      "top_k": 2
+                    }
+                  }
+                ],
+                "run_ids": [
+                  "lr_01_seed3",
+                  "lr_005_seed3"
+                ]
+              }
+            ],
+            "history_bound": 4
+          }
+        },
+        {
+          "kind": "FINAL",
+          "data": "### Observed experiment facts\n- **lr_01_seed3 -> lr_005_seed3** at epoch 5: validation accuracy 71.45% -> 75.90% (+4.45 percentage points); validation loss 0.8109 -> 0.6806 (-0.1303). Changed recorded settings: learning_rate: 0.1 -> 0.05.\n\n### Relevant ML knowledge\n- **Linear regression: Hyperparameters** (learning rates and optimization): The learning rate controls the size of a gradient-descent parameter update. A rate that is too high can make optimization bounce around a minimum or fail to converge; a rate that is too low can make progress slow. The useful rate depends on the model and data. This general mechanism does not establish why any specific Fashion-MNIST run changed.\n- **Optimizing Model Parameters** (SGD, loss, and weight updates): Optimization changes model parameters to reduce error. In PyTorch's training loop, zero_grad clears accumulated gradients, backward computes gradients of loss, and optimizer.step updates parameters. The SGD optimizer receives a learning-rate setting. A saved validation-loss curve records outcomes after those updates; it does not reveal every internal step.\n\n### Possible interpretation\nThe observed pattern is compatible with one or more general mechanisms described above. The saved runs do not establish which mechanism, if any, caused it.\n\n### Limitations\n- A similarity or reranker score ranks text; it is not a probability or proof.\n- Saved records can repeat configurations or differ in other settings; differences do not prove causation.\n\n### Sources\n**Experiment records and notes**\n- [runs/lr_005_seed3.json](runs/lr_005_seed3.json)\n- [runs/lr_01_seed3.json](runs/lr_01_seed3.json)\n**General ML references**\n- [Linear regression: Hyperparameters](https://developers.google.com/machine-learning/crash-course/linear-regression/hyperparameters)\n- [Optimizing Model Parameters](https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html)"
+        },
+        {
+          "kind": "STATE UPDATE",
+          "origin": "PYTHON",
+          "data": {
+            "focused_run_id": null,
+            "referenced_run_ids": [
+              "lr_01_seed3",
+              "lr_005_seed3"
+            ],
+            "comparison_run_ids": [
+              "lr_01_seed3",
+              "lr_005_seed3"
+            ],
+            "recent_turns": [
+              {
+                "question": "Tell me about lr_01_seed3.",
+                "resolved_question": "Tell me about lr_01_seed3.",
+                "tool_decisions": [
+                  {
+                    "tool": "get_experiment",
+                    "arguments": {
+                      "run_id": "lr_01_seed3"
+                    },
+                    "origin": "APP POLICY"
+                  }
+                ],
+                "run_ids": [
+                  "lr_01_seed3"
+                ]
+              },
+              {
+                "question": "Compare that run with lr_005_seed3.",
+                "resolved_question": "Compare lr_01_seed3 with lr_005_seed3.",
+                "tool_decisions": [
+                  {
+                    "tool": "compare_experiments",
+                    "arguments": {
+                      "baseline_run_id": "lr_01_seed3",
+                      "target_run_id": "lr_005_seed3"
+                    },
+                    "origin": "APP POLICY"
+                  }
+                ],
+                "run_ids": [
+                  "lr_01_seed3",
+                  "lr_005_seed3"
+                ]
+              },
+              {
+                "question": "Why might the difference exist?",
+                "resolved_question": "Compare lr_01_seed3 with lr_005_seed3. Why might the difference exist?",
+                "tool_decisions": [
+                  {
+                    "tool": "compare_experiments",
+                    "arguments": {
+                      "baseline_run_id": "lr_01_seed3",
+                      "target_run_id": "lr_005_seed3"
+                    },
+                    "origin": "APP POLICY"
+                  },
+                  {
+                    "tool": "search_ml_knowledge",
+                    "arguments": {
+                      "query": "high learning rate optimization instability",
+                      "top_k": 2
+                    },
+                    "origin": "APP POLICY"
+                  }
+                ],
+                "run_ids": [
+                  "lr_01_seed3",
+                  "lr_005_seed3"
+                ]
+              }
+            ],
+            "history_bound": 4
+          }
+        }
+      ]
+    },
+    {
+      "journey": "3 RAG",
+      "question": "Have we seen unstable validation-loss behavior before?",
+      "status": "completed",
+      "answer": "### Observed experiment facts\n- **baseline_gap_001** (note rank 1, cosine 0.5608): Validation loss rose from 0.8696 at epoch 1 to 1.4186 at epoch 2, then fell to 0.6663 at epoch 3. At epoch 5, post-epoch training loss was 0.8092 and validation loss was 0.8208.\n  - Saved validation loss, epochs 1->2->3: 0.8696 -> 1.4186 -> 0.6663.\n\n### Limitations\n- A similarity or reranker score ranks text; it is not a probability or proof.\n\n### Sources\n**Experiment records and notes**\n- [notes/baseline_gap_001.md](notes/baseline_gap_001.md)\n- [runs/baseline_gap_001.json](runs/baseline_gap_001.json)",
+      "elapsed_seconds": 4.422,
+      "trace": [
+        {
+          "kind": "STATE UPDATE",
+          "origin": "PYTHON",
+          "data": {
+            "original_question": "Have we seen unstable validation-loss behavior before?",
+            "resolved_question": "Have we seen unstable validation-loss behavior before?",
+            "conversation_before": {
+              "focused_run_id": null,
+              "referenced_run_ids": [],
+              "comparison_run_ids": [],
+              "recent_turns": [],
+              "history_bound": 4
+            },
+            "reference_resolution": {
+              "focused_run_id_before": null,
+              "explicit_run_ids": [],
+              "resolved_reference": null,
+              "resolved_question": "Have we seen unstable validation-loss behavior before?",
+              "recent_turns": 0
+            },
+            "explicit_run_ids": []
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "origin": "PYTHON",
+          "data": {
+            "classification": "simple"
+          }
+        },
+        {
+          "kind": "USER",
+          "data": "Have we seen unstable validation-loss behavior before?"
+        },
+        {
+          "kind": "MEMORY BEFORE",
+          "data": {
+            "focused_run_id_before": null,
+            "explicit_run_ids": [],
+            "resolved_reference": null,
+            "resolved_question": "Have we seen unstable validation-loss behavior before?",
+            "recent_turns": 0
+          }
+        },
+        {
+          "kind": "TOOL MENU",
+          "data": [
+            {
+              "type": "function",
+              "function": {
+                "name": "search_notes",
+                "description": "Hybrid keyword and MiniLM search over experiment notes. Returns run IDs and visible ranking stages; inspect a returned run for exact metrics.",
+                "parameters": {
+                  "type": "object",
+                  "properties": {
+                    "query": {
+                      "type": "string"
+                    },
+                    "top_k": {
+                      "type": "integer"
+                    },
+                    "rerank": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "query"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "APP POLICY",
+          "data": {
+            "model_failure": "<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>",
+            "action": "bounded deterministic recovery"
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "data": {
+            "tool": "search_notes",
+            "arguments": {
+              "query": "Have we seen unstable validation-loss behavior before?",
+              "top_k": 2,
+              "rerank": false
+            }
+          }
+        },
+        {
+          "kind": "TOOL RESULT",
+          "data": {
+            "tool": "search_notes",
+            "result": {
+              "query": "Have we seen unstable validation-loss behavior before?",
+              "mode": "keyword + cached MiniLM RRF",
+              "source_policy": "human_first",
+              "reranker": "disabled",
+              "matches": [
+                {
+                  "run_id": "baseline_gap_001",
+                  "source_type": "EXPERIMENT_NOTE",
+                  "source": "notes/baseline_gap_001.md",
+                  "run_source": "runs/baseline_gap_001.json",
+                  "observation": "Validation loss rose from 0.8696 at epoch 1 to 1.4186 at epoch 2, then fell to 0.6663 at epoch 3. At epoch 5, post-epoch training loss was 0.8092 and validation loss was 0.8208.",
+                  "keyword_rank": 1,
+                  "semantic_rank": 1,
+                  "cosine_similarity": 0.5608,
+                  "exact_run_id_match": false,
+                  "rrf_score": 0.032787,
+                  "final_rank": 1,
+                  "hybrid_rank": 1,
+                  "note_source": "notes/baseline_gap_001.md"
+                },
+                {
+                  "run_id": "lr_01_seed2",
+                  "source_type": "EXPERIMENT_NOTE",
+                  "source": "notes/lr_01_seed2.md",
+                  "run_source": "runs/lr_01_seed2.json",
+                  "observation": "With alternate model and shuffle seeds, validation loss rose from 0.7136 at epoch 3 to 0.8142 at epoch 4, then fell to 0.6793 at epoch 5. Final validation accuracy was 76.35%.",
+                  "keyword_rank": 3,
+                  "semantic_rank": 2,
+                  "cosine_similarity": 0.5496,
+                  "exact_run_id_match": false,
+                  "rrf_score": 0.032002,
+                  "final_rank": 2,
+                  "hybrid_rank": 2,
+                  "note_source": "notes/lr_01_seed2.md"
+                }
+              ],
+              "supplementary_derived_matches": [
+                {
+                  "run_id": "baseline_001",
+                  "source_type": "DERIVED_ANALYSIS",
+                  "source": "runs/baseline_001.json",
+                  "run_source": "runs/baseline_001.json",
+                  "observation": "DERIVED_ANALYSIS machine-generated summary from runs/baseline_001.json. Run baseline_001. Learning rate 0.1, dropout unknown, train size 10000, model seed 44, shuffle seed 43. Final validation accuracy 71.25 percent; final loss 0.820787; largest validation loss rise 0.548924. validation loss spike and recovery.",
+                  "keyword_rank": 1,
+                  "semantic_rank": 1,
+                  "cosine_similarity": 0.3567,
+                  "exact_run_id_match": false,
+                  "rrf_score": 0.032787
+                },
+                {
+                  "run_id": "lr_001",
+                  "source_type": "DERIVED_ANALYSIS",
+                  "source": "runs/lr_001.json",
+                  "run_source": "runs/lr_001.json",
+                  "observation": "DERIVED_ANALYSIS machine-generated summary from runs/lr_001.json. Run lr_001. Learning rate 0.01, dropout unknown, train size 10000, model seed 44, shuffle seed 43. Final validation accuracy 66.4 percent; final loss 1.030395; largest validation loss rise 0.0. no recorded rise followed by recovery; validation loss decreased or stayed flat every epoch.",
+                  "keyword_rank": 2,
+                  "semantic_rank": 3,
+                  "cosine_similarity": 0.3311,
+                  "exact_run_id_match": false,
+                  "rrf_score": 0.032002
+                }
+              ],
+              "stages": {
+                "keyword": [
+                  "baseline_001",
+                  "baseline_gap_001",
+                  "lr_001",
+                  "lr_005_gap_001",
+                  "lr_005_seed2",
+                  "lr_005_seed3",
+                  "lr_01_seed2",
+                  "lr_01_seed3",
+                  "lr_gap_001",
+                  "small_no_dropout_001",
+                  "small_dropout_05_001"
+                ],
+                "semantic": [
+                  "baseline_gap_001",
+                  "lr_01_seed2",
+                  "small_no_dropout_001",
+                  "lr_005_gap_001",
+                  "small_dropout_05_001",
+                  "baseline_001",
+                  "lr_005_seed2",
+                  "lr_001",
+                  "lr_01_seed3",
+                  "lr_gap_001",
+                  "lr_005_seed3"
+                ],
+                "hybrid": [
+                  "baseline_gap_001",
+                  "lr_01_seed2",
+                  "lr_005_gap_001",
+                  "small_no_dropout_001",
+                  "small_dropout_05_001",
+                  "baseline_001",
+                  "lr_001",
+                  "lr_005_seed2",
+                  "lr_01_seed3",
+                  "lr_005_seed3",
+                  "lr_gap_001"
+                ]
+              },
+              "stage_details": {
+                "query_tokens": [
+                  "behavior",
+                  "loss",
+                  "unstable",
+                  "validation"
+                ],
+                "keyword": [
+                  {
+                    "run_id": "baseline_001",
+                    "overlap_count": 2,
+                    "rank": 1
+                  },
+                  {
+                    "run_id": "baseline_gap_001",
+                    "overlap_count": 2,
+                    "rank": 1
+                  },
+                  {
+                    "run_id": "lr_001",
+                    "overlap_count": 2,
+                    "rank": 2
+                  },
+                  {
+                    "run_id": "lr_005_gap_001",
+                    "overlap_count": 2,
+                    "rank": 2
+                  },
+                  {
+                    "run_id": "lr_005_seed2",
+                    "overlap_count": 2,
+                    "rank": 3
+                  },
+                  {
+                    "run_id": "lr_005_seed3",
+                    "overlap_count": 2,
+                    "rank": 4
+                  },
+                  {
+                    "run_id": "lr_01_seed2",
+                    "overlap_count": 2,
+                    "rank": 3
+                  },
+                  {
+                    "run_id": "lr_01_seed3",
+                    "overlap_count": 2,
+                    "rank": 5
+                  },
+                  {
+                    "run_id": "lr_gap_001",
+                    "overlap_count": 2,
+                    "rank": 6
+                  },
+                  {
+                    "run_id": "small_no_dropout_001",
+                    "overlap_count": 2,
+                    "rank": 4
+                  },
+                  {
+                    "run_id": "small_dropout_05_001",
+                    "overlap_count": 1,
+                    "rank": 5
+                  }
+                ],
+                "semantic": [
+                  {
+                    "run_id": "baseline_gap_001",
+                    "cosine_similarity": 0.5608,
+                    "rank": 1
+                  },
+                  {
+                    "run_id": "lr_01_seed2",
+                    "cosine_similarity": 0.549612,
+                    "rank": 2
+                  },
+                  {
+                    "run_id": "small_no_dropout_001",
+                    "cosine_similarity": 0.521648,
+                    "rank": 3
+                  },
+                  {
+                    "run_id": "lr_005_gap_001",
+                    "cosine_similarity": 0.499084,
+                    "rank": 4
+                  },
+                  {
+                    "run_id": "small_dropout_05_001",
+                    "cosine_similarity": 0.360193,
+                    "rank": 5
+                  },
+                  {
+                    "run_id": "baseline_001",
+                    "cosine_similarity": 0.356694,
+                    "rank": 1
+                  },
+                  {
+                    "run_id": "lr_005_seed2",
+                    "cosine_similarity": 0.342419,
+                    "rank": 2
+                  },
+                  {
+                    "run_id": "lr_001",
+                    "cosine_similarity": 0.331062,
+                    "rank": 3
+                  },
+                  {
+                    "run_id": "lr_01_seed3",
+                    "cosine_similarity": 0.327443,
+                    "rank": 4
+                  },
+                  {
+                    "run_id": "lr_gap_001",
+                    "cosine_similarity": 0.316599,
+                    "rank": 5
+                  },
+                  {
+                    "run_id": "lr_005_seed3",
+                    "cosine_similarity": 0.316069,
+                    "rank": 6
+                  }
+                ],
+                "fusion": [
+                  {
+                    "run_id": "baseline_gap_001",
+                    "keyword_rank": 1,
+                    "semantic_rank": 1,
+                    "rrf_score": 0.032787,
+                    "source_type": "EXPERIMENT_NOTE"
+                  },
+                  {
+                    "run_id": "lr_01_seed2",
+                    "keyword_rank": 3,
+                    "semantic_rank": 2,
+                    "rrf_score": 0.032002,
+                    "source_type": "EXPERIMENT_NOTE"
+                  },
+                  {
+                    "run_id": "lr_005_gap_001",
+                    "keyword_rank": 2,
+                    "semantic_rank": 4,
+                    "rrf_score": 0.031754,
+                    "source_type": "EXPERIMENT_NOTE"
+                  },
+                  {
+                    "run_id": "small_no_dropout_001",
+                    "keyword_rank": 4,
+                    "semantic_rank": 3,
+                    "rrf_score": 0.031498,
+                    "source_type": "EXPERIMENT_NOTE"
+                  },
+                  {
+                    "run_id": "small_dropout_05_001",
+                    "keyword_rank": 5,
+                    "semantic_rank": 5,
+                    "rrf_score": 0.030769,
+                    "source_type": "EXPERIMENT_NOTE"
+                  },
+                  {
+                    "run_id": "baseline_001",
+                    "keyword_rank": 1,
+                    "semantic_rank": 1,
+                    "rrf_score": 0.032787,
+                    "source_type": "DERIVED_ANALYSIS"
+                  },
+                  {
+                    "run_id": "lr_001",
+                    "keyword_rank": 2,
+                    "semantic_rank": 3,
+                    "rrf_score": 0.032002,
+                    "source_type": "DERIVED_ANALYSIS"
+                  },
+                  {
+                    "run_id": "lr_005_seed2",
+                    "keyword_rank": 3,
+                    "semantic_rank": 2,
+                    "rrf_score": 0.032002,
+                    "source_type": "DERIVED_ANALYSIS"
+                  },
+                  {
+                    "run_id": "lr_01_seed3",
+                    "keyword_rank": 5,
+                    "semantic_rank": 4,
+                    "rrf_score": 0.03101,
+                    "source_type": "DERIVED_ANALYSIS"
+                  },
+                  {
+                    "run_id": "lr_005_seed3",
+                    "keyword_rank": 4,
+                    "semantic_rank": 6,
+                    "rrf_score": 0.030777,
+                    "source_type": "DERIVED_ANALYSIS"
+                  },
+                  {
+                    "run_id": "lr_gap_001",
+                    "keyword_rank": 6,
+                    "semantic_rank": 5,
+                    "rrf_score": 0.030536,
+                    "source_type": "DERIVED_ANALYSIS"
+                  }
+                ]
+              },
+              "corpus": {
+                "human_notes": 5,
+                "derived_summaries": 6
+              }
+            }
+          }
+        },
+        {
+          "kind": "keyword",
+          "data": [
+            "baseline_001",
+            "baseline_gap_001",
+            "lr_001",
+            "lr_005_gap_001",
+            "lr_005_seed2",
+            "lr_005_seed3",
+            "lr_01_seed2",
+            "lr_01_seed3",
+            "lr_gap_001",
+            "small_no_dropout_001",
+            "small_dropout_05_001"
+          ]
+        },
+        {
+          "kind": "semantic",
+          "data": [
+            "baseline_gap_001",
+            "lr_01_seed2",
+            "small_no_dropout_001",
+            "lr_005_gap_001",
+            "small_dropout_05_001",
+            "baseline_001",
+            "lr_005_seed2",
+            "lr_001",
+            "lr_01_seed3",
+            "lr_gap_001",
+            "lr_005_seed3"
+          ]
+        },
+        {
+          "kind": "hybrid",
+          "data": [
+            "baseline_gap_001",
+            "lr_01_seed2",
+            "lr_005_gap_001",
+            "small_no_dropout_001",
+            "small_dropout_05_001",
+            "baseline_001",
+            "lr_001",
+            "lr_005_seed2",
+            "lr_01_seed3",
+            "lr_005_seed3",
+            "lr_gap_001"
+          ]
+        },
+        {
+          "kind": "TOOL MENU",
+          "data": [
+            {
+              "type": "function",
+              "function": {
+                "name": "get_experiment",
+                "description": "Read one saved experiment. Use only for a question about one run; for two run IDs, use compare_experiments instead.",
+                "parameters": {
+                  "type": "object",
+                  "properties": {
+                    "run_id": {
+                      "type": "string",
+                      "description": "Exact saved run ID"
+                    }
+                  },
+                  "required": [
+                    "run_id"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "APP POLICY",
+          "data": {
+            "model_failure": "<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>",
+            "action": "bounded deterministic recovery"
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "data": {
+            "tool": "get_experiment",
+            "arguments": {
+              "run_id": "baseline_gap_001"
+            }
+          }
+        },
+        {
+          "kind": "TOOL RESULT",
+          "data": {
+            "tool": "get_experiment",
+            "result": {
+              "run_id": "baseline_gap_001",
+              "source": "runs/baseline_gap_001.json",
+              "config": {
+                "run_id": "baseline_gap_001",
+                "dataset": "FashionMNIST",
+                "source_partition": "train",
+                "preprocessing": "ToTensor",
+                "train_size": 10000,
+                "val_size": 2000,
+                "split_seed": 42,
+                "shuffle_seed": 43,
+                "model_seed": 44,
+                "batch_size": 128,
+                "hidden_units": 128,
+                "optimizer": "SGD",
+                "learning_rate": 0.1,
+                "epochs": 5
+              },
+              "final_epoch": 5,
+              "final_validation_loss": 0.8208,
+              "final_validation_accuracy_percent": 71.25,
+              "epoch_metrics": [
+                {
+                  "epoch": 1,
+                  "validation_loss": 0.8696,
+                  "validation_accuracy_percent": 66.35
+                },
+                {
+                  "epoch": 2,
+                  "validation_loss": 1.4186,
+                  "validation_accuracy_percent": 61.5
+                },
+                {
+                  "epoch": 3,
+                  "validation_loss": 0.6663,
+                  "validation_accuracy_percent": 75.1
+                },
+                {
+                  "epoch": 4,
+                  "validation_loss": 0.7384,
+                  "validation_accuracy_percent": 73.1
+                },
+                {
+                  "epoch": 5,
+                  "validation_loss": 0.8208,
+                  "validation_accuracy_percent": 71.25
+                }
+              ],
+              "validation_loss_recoveries": [
+                {
+                  "epochs": [
+                    1,
+                    2,
+                    3
+                  ],
+                  "losses": [
+                    0.8696,
+                    1.4186,
+                    0.6663
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "kind": "TOOL MENU",
+          "data": []
+        },
+        {
+          "kind": "MEMORY AFTER",
+          "data": {
+            "focused_run_id": "baseline_gap_001",
+            "referenced_run_ids": [
+              "baseline_gap_001"
+            ],
+            "comparison_run_ids": [],
+            "recent_turns": [
+              {
+                "question": "Have we seen unstable validation-loss behavior before?",
+                "resolved_question": "Have we seen unstable validation-loss behavior before?",
+                "tool_decisions": [
+                  {
+                    "origin": "APP POLICY",
+                    "tool": "search_notes",
+                    "arguments": {
+                      "query": "Have we seen unstable validation-loss behavior before?",
+                      "top_k": 2,
+                      "rerank": false
+                    }
+                  },
+                  {
+                    "origin": "APP POLICY",
+                    "tool": "get_experiment",
+                    "arguments": {
+                      "run_id": "baseline_gap_001"
+                    }
+                  }
+                ],
+                "run_ids": [
+                  "baseline_gap_001"
+                ]
+              }
+            ],
+            "history_bound": 4
+          }
+        },
+        {
+          "kind": "FINAL",
+          "data": "### Observed experiment facts\n- **baseline_gap_001** (note rank 1, cosine 0.5608): Validation loss rose from 0.8696 at epoch 1 to 1.4186 at epoch 2, then fell to 0.6663 at epoch 3. At epoch 5, post-epoch training loss was 0.8092 and validation loss was 0.8208.\n  - Saved validation loss, epochs 1->2->3: 0.8696 -> 1.4186 -> 0.6663.\n\n### Limitations\n- A similarity or reranker score ranks text; it is not a probability or proof.\n\n### Sources\n**Experiment records and notes**\n- [notes/baseline_gap_001.md](notes/baseline_gap_001.md)\n- [runs/baseline_gap_001.json](runs/baseline_gap_001.json)"
+        },
+        {
+          "kind": "STATE UPDATE",
+          "origin": "PYTHON",
+          "data": {
+            "focused_run_id": "baseline_gap_001",
+            "referenced_run_ids": [
+              "baseline_gap_001"
+            ],
+            "comparison_run_ids": [],
+            "recent_turns": [
+              {
+                "question": "Have we seen unstable validation-loss behavior before?",
+                "resolved_question": "Have we seen unstable validation-loss behavior before?",
+                "tool_decisions": [
+                  {
+                    "tool": "search_notes",
+                    "arguments": {
+                      "query": "Have we seen unstable validation-loss behavior before?",
+                      "top_k": 2,
+                      "rerank": false
+                    },
+                    "origin": "APP POLICY"
+                  },
+                  {
+                    "tool": "get_experiment",
+                    "arguments": {
+                      "run_id": "baseline_gap_001"
+                    },
+                    "origin": "APP POLICY"
+                  }
+                ],
+                "run_ids": [
+                  "baseline_gap_001"
+                ]
+              }
+            ],
+            "history_bound": 4
+          }
+        }
+      ]
+    },
+    {
+      "journey": "4 Investigation",
+      "question": "Investigate why lr_01_seed3 performed worse than lr_005_seed3. Search notes, check previous experiments, retrieve ML knowledge, and propose a controlled follow-up.",
+      "status": "awaiting_approval",
+      "answer": "# Investigation report: INV-9AD591A25E\n\n## 1. Research question\n\nInvestigate why lr_01_seed3 performed worse than lr_005_seed3. Search notes, check previous experiments, retrieve ML knowledge, and propose a controlled follow-up.\n\n## 2. Relevant experiments\n\n- `EXPERIMENT_JSON` runs/lr_005_seed3.json\n- `EXPERIMENT_JSON` runs/lr_01_seed3.json\n- `EXPERIMENT_JSON` runs/lr_005_gap_001.json\n- `EXPERIMENT_JSON` runs/baseline_001.json\n- `EXPERIMENT_JSON` runs/lr_005_seed2.json\n- `EXPERIMENT_JSON` runs/lr_01_seed2.json\n\n## 3. Measured observations\n\n- lr_005_seed3: final validation accuracy **75.90%**, loss **0.6806**, epoch 5. [EXPERIMENT_JSON](../runs/lr_005_seed3.json)\n- lr_01_seed3: final validation accuracy **71.45%**, loss **0.8109**, epoch 5. [EXPERIMENT_JSON](../runs/lr_01_seed3.json)\n- lr_005_gap_001: final validation accuracy **75.15%**, loss **0.6876**, epoch 5. [EXPERIMENT_JSON](../runs/lr_005_gap_001.json)\n- baseline_001: final validation accuracy **71.25%**, loss **0.8208**, epoch 5. [EXPERIMENT_JSON](../runs/baseline_001.json)\n- lr_005_seed2: final validation accuracy **76.05%**, loss **0.6848**, epoch 5. [EXPERIMENT_JSON](../runs/lr_005_seed2.json)\n- lr_01_seed2: final validation accuracy **76.35%**, loss **0.6793**, epoch 5. [EXPERIMENT_JSON](../runs/lr_01_seed2.json)\n\n## 4. Controlled comparisons\n\n### lr_01_seed3 minus lr_005_seed3\n\nControlled learning-rate pair: `True`. Confounded: `False`. Missing controls: `[]`.\n\n- Accuracy difference: **-4.45 percentage points**; validation-loss difference: **+0.1303**.\n\n```json\n{\n  \"baseline_run_id\": \"lr_005_seed3\",\n  \"target_run_id\": \"lr_01_seed3\",\n  \"sources\": [\n    \"runs/lr_005_seed3.json\",\n    \"runs/lr_01_seed3.json\"\n  ],\n  \"source_type\": \"DERIVED_ANALYSIS\",\n  \"changed_settings\": {\n    \"learning_rate\": {\n      \"baseline\": 0.05,\n      \"target\": 0.1\n    }\n  },\n  \"missing_controls\": [],\n  \"curves\": {\n    \"lr_005_seed3\": {\n      \"final_accuracy_percent\": 75.9,\n      \"final_loss\": 0.6806,\n      \"final_epoch\": 5,\n      \"best_accuracy_percent\": 75.9,\n      \"best_epoch\": 5,\n      \"minimum_loss\": 0.6806,\n      \"minimum_loss_epoch\": 5,\n      \"largest_loss_rise\": 0.0,\n      \"recoveries\": [],\n      \"final_loss_gap_val_minus_train\": -0.01233,\n      \"candidate_generalization_intervals\": []\n    },\n    \"lr_01_seed3\": {\n      \"final_accuracy_percent\": 71.45,\n      \"final_loss\": 0.810865,\n      \"final_epoch\": 5,\n      \"best_accuracy_percent\": 73.2,\n      \"best_epoch\": 4,\n      \"minimum_loss\": 0.682841,\n      \"minimum_loss_epoch\": 4,\n      \"largest_loss_rise\": 0.138654,\n      \"recoveries\": [\n        {\n          \"epochs\": [\n            1,\n            2,\n            3\n          ],\n          \"losses\": [\n            0.8865,\n            1.0252,\n            0.8685\n          ]\n        }\n      ],\n      \"final_loss_gap_val_minus_train\": -0.002276,\n      \"candidate_generalization_intervals\": []\n    }\n  },\n  \"matching_scope\": \"All recorded configuration fields; hidden_units and dropout describe architecture settings, not complete architecture provenance.\",\n  \"missing_provenance\": [\n    \"Exact model-class/trainer revision was not recorded in historical JSON.\",\n    \"Hardware and software versions were not recorded in historical JSON.\"\n  ],\n  \"controlled_learning_rate_pair\": true,\n  \"confounded\": false,\n  \"accuracy_delta_pp\": -4.45,\n  \"loss_delta\": 0.130265,\n  \"rise_delta\": 0.138654\n}\n```\n\n## 5. Competing hypotheses\n\n### H1 \u2014 Consistent with current evidence\n\n`HYPOTHESIS` A higher learning rate may contribute to larger validation-loss rises through unstable optimization.\n\n- Supporting experiment evidence: PAIR:0, PAIR:1, PAIR:2, PAIR:3\n- Opposing experiment evidence: None found; absence is not proof\n- General ML knowledge: ML:learning_rates, ML:optimization\n- Assumptions: Recorded configurations and epoch metrics accurately describe the runs.\n- Missing evidence: Independent replication and optimizer-step/gradient measurements are absent. Validation-loss rises cannot directly demonstrate overshooting; gradients and optimizer trajectories were not recorded.\n- Proposed test: Compare maximum positive consecutive-epoch validation-loss rises under matched new seeds and different learning rates.\n- Selected by: APP POLICY; wording: PYTHON evidence-conditioned candidate\n\n### H2 \u2014 Consistent with current evidence\n\n`HYPOTHESIS` Seed-dependent training variability may contribute to differences in final validation accuracy.\n\n- Supporting experiment evidence: PAIR:0, PAIR:1, PAIR:2, PAIR:3\n- Opposing experiment evidence: None found; absence is not proof\n- General ML knowledge: ML:learning_rates, ML:optimization\n- Assumptions: Recorded configurations and epoch metrics accurately describe the runs.\n- Missing evidence: Independent replication and optimizer-step/gradient measurements are absent. A small number of observed seed blocks cannot establish a distribution or separate all sources of randomness.\n- Proposed test: Repeat a controlled learning-rate comparison under a new shared model/shuffle seed block; predefine accuracy and loss-rise comparisons.\n- Selected by: APP POLICY; wording: PYTHON evidence-conditioned candidate\n\n### H3 \u2014 Consistent with current evidence\n\n`HYPOTHESIS` The short recorded training horizon may leave the final-epoch ranking sensitive to transient behavior.\n\n- Supporting experiment evidence: RUN:lr_005_seed3, RUN:lr_01_seed3, RUN:lr_005_gap_001, RUN:baseline_001, RUN:lr_005_seed2, RUN:lr_01_seed2\n- Opposing experiment evidence: None found; absence is not proof\n- General ML knowledge: ML:learning_rates, ML:optimization\n- Assumptions: Recorded configurations and epoch metrics accurately describe the runs.\n- Missing evidence: Independent replication and optimizer-step/gradient measurements are absent. Longer independently approved training and predeclared stopping criteria are unavailable.\n- Proposed test: Replicate the existing horizon first; consider a separately approved longer-horizon study if ambiguity remains.\n- Selected by: APP POLICY; wording: PYTHON evidence-conditioned candidate\n\n### H4 \u2014 Consistent with current evidence\n\n`HYPOTHESIS` A generalization gap may contribute during intervals where training loss improves and validation loss rises.\n\n- Supporting experiment evidence: PAIR:2\n- Opposing experiment evidence: None found; absence is not proof\n- General ML knowledge: ML:learning_rates, ML:optimization\n- Assumptions: Recorded configurations and epoch metrics accurately describe the runs.\n- Missing evidence: Independent replication and optimizer-step/gradient measurements are absent. This interval rule is a diagnostic candidate, not proof of overfitting.\n- Proposed test: Inspect matched train/validation curves and test one regularization change in a separate controlled proposal.\n- Selected by: APP POLICY; wording: PYTHON evidence-conditioned candidate\n\n## 6. Supporting evidence\n\nEvidence identifiers resolve in the source registry below. Hypothesis status is descriptive, not a statistical proof.\n\n## 7. Contradicting evidence\n\n- baseline_001 minus lr_005_gap_001: accuracy -3.9 pp; maximum validation-loss-rise difference 0.548924. Missing controls: ['validation_start', 'dropout']. `DERIVED_ANALYSIS`, sources: runs/lr_005_gap_001.json, runs/baseline_001.json\n- lr_01_seed2 minus lr_005_seed2: accuracy 0.3 pp; maximum validation-loss-rise difference 0.099287. Missing controls: ['validation_start', 'dropout']. `DERIVED_ANALYSIS`, sources: runs/lr_005_seed2.json, runs/lr_01_seed2.json\n- lr_01_seed3 minus lr_005_seed3: accuracy -4.45 pp; maximum validation-loss-rise difference 0.138654. Missing controls: []. `DERIVED_ANALYSIS`, sources: runs/lr_005_seed3.json, runs/lr_01_seed3.json\n\n## 8. Relevant ML knowledge\n\n- `ML_KNOWLEDGE` [Linear regression: Hyperparameters](https://developers.google.com/machine-learning/crash-course/linear-regression/hyperparameters), local `knowledge/learning_rates.md`: The learning rate controls the size of a gradient-descent parameter update. A rate that is too high can make optimization bounce around a minimum or fail to converge; a rate that is too low can make progress slow. The useful rate depends on the model and data. This general mechanism does not establish why any specific Fashion-MNIST run changed.\n- `ML_KNOWLEDGE` [Optimizing Model Parameters](https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html), local `knowledge/optimization.md`: Optimization changes model parameters to reduce error. In PyTorch's training loop, zero_grad clears accumulated gradients, backward computes gradients of loss, and optimizer.step updates parameters. The SGD optimizer receives a learning-rate setting. A saved validation-loss curve records outcomes after those updates; it does not reveal every internal step.\n\nGeneral documentation supports possible mechanisms; it cannot prove the cause of a saved run.\n\n## 9. Missing evidence\n\n- Independent replication and optimizer-step/gradient measurements are absent.\n- Validation-loss rises cannot directly demonstrate overshooting; gradients and optimizer trajectories were not recorded.\n- A small number of observed seed blocks cannot establish a distribution or separate all sources of randomness.\n- Longer independently approved training and predeclared stopping criteria are unavailable.\n- This interval rule is a diagnostic candidate, not proof of overfitting.\n\n## 10. Proposed experiments\n\n```json\n{\n  \"proposal_id\": \"INV-9AD591A25E-P1\",\n  \"investigation_id\": \"INV-9AD591A25E\",\n  \"hypothesis_ids\": [\n    \"H1\",\n    \"H2\"\n  ],\n  \"changed_variable\": \"learning_rate\",\n  \"controlled_variables\": [\n    \"dataset\",\n    \"source_partition\",\n    \"preprocessing\",\n    \"train_size\",\n    \"val_size\",\n    \"validation_start\",\n    \"split_seed\",\n    \"shuffle_seed\",\n    \"model_seed\",\n    \"batch_size\",\n    \"hidden_units\",\n    \"optimizer\",\n    \"epochs\",\n    \"dropout\"\n  ],\n  \"runs\": [\n    {\n      \"run_id\": \"v3_inv_9ad591a25e_control\",\n      \"dataset\": \"FashionMNIST\",\n      \"source_partition\": \"train\",\n      \"preprocessing\": \"ToTensor\",\n      \"train_size\": 10000,\n      \"val_size\": 2000,\n      \"validation_start\": 10000,\n      \"split_seed\": 42,\n      \"shuffle_seed\": 443,\n      \"model_seed\": 444,\n      \"batch_size\": 128,\n      \"hidden_units\": 128,\n      \"dropout\": 0.0,\n      \"optimizer\": \"SGD\",\n      \"learning_rate\": 0.05,\n      \"epochs\": 5\n    },\n    {\n      \"run_id\": \"v3_inv_9ad591a25e_target\",\n      \"dataset\": \"FashionMNIST\",\n      \"source_partition\": \"train\",\n      \"preprocessing\": \"ToTensor\",\n      \"train_size\": 10000,\n      \"val_size\": 2000,\n      \"validation_start\": 10000,\n      \"split_seed\": 42,\n      \"shuffle_seed\": 443,\n      \"model_seed\": 444,\n      \"batch_size\": 128,\n      \"hidden_units\": 128,\n      \"dropout\": 0.0,\n      \"optimizer\": \"SGD\",\n      \"learning_rate\": 0.1,\n      \"epochs\": 5\n    }\n  ],\n  \"rationale\": \"A new shared seed block tests whether the observed loss-rise ordering replicates while all other recorded controls are matched.\",\n  \"seed_rationale\": \"Seeds exceed recorded runs and reserved legacy plans. The same fresh seeds are used by both arms.\",\n  \"primary_metric\": \"largest_positive_consecutive_epoch_validation_loss_rise\",\n  \"secondary_metrics\": [\n    \"final_validation_accuracy_percent\",\n    \"final_validation_loss\"\n  ],\n  \"supported_if\": \"The higher-rate arm has a strictly larger maximum validation-loss rise.\",\n  \"contradicted_if\": \"The higher-rate arm has a smaller maximum rise; equality is inconclusive.\",\n  \"limitations\": [\n    \"One new seed block does not establish general causation.\",\n    \"The same fixed validation split is reused; the official test set is excluded.\",\n    \"Validation metrics do not directly measure overshooting.\",\n    \"Other hypotheses may require separately approved designs.\"\n  ],\n  \"limits\": {\n    \"max_total_seconds\": 600,\n    \"max_runs\": 2,\n    \"cpu_threads\": 2\n  },\n  \"training_code_sha256\": \"a3bde6ef9e2b371fa2ccefb0f278bc910501ba64fb16f9567d0373b9bd72b4ba\"\n}\n```\n\nExact proposal SHA-256: `7c532e569deb01fab66c5607bdc381d04d5bfce849cd82cabc41e08f5561f505`.\n\n## 11. Approval/execution status\n\nInvestigation: **awaiting_approval**.\nProposal: **pending**, mode: `None`.\n\n```json\n[]\n```\n\n## 12. Follow-up results\n\nNo new measured follow-up outcomes. A dry run never creates synthetic measurements.\n\n## 13. Interpretation\n\nThe saved data can support or oppose candidate explanations; it does not establish a unique cause.\n\n## 14. Limitations\n\n- One fixed validation split and a small number of recorded seed blocks limit generalization.\n- Missing historical metadata remains unknown; no default is silently inferred.\n- The model selects bounded plan options and hypotheses; Python calculates, validates, and renders facts.\n- The current executor supports only the existing bounded Fashion-MNIST MLP learning-rate comparison.\n- Live training has not been run during V3 development.\n\n## 15. Sources\n\n- `RUN:lr_005_seed3` \u2014 `EXPERIMENT_JSON` \u2014 runs/lr_005_seed3.json\n- `RUN:lr_01_seed3` \u2014 `EXPERIMENT_JSON` \u2014 runs/lr_01_seed3.json\n- `RUN:lr_005_gap_001` \u2014 `EXPERIMENT_JSON` \u2014 runs/lr_005_gap_001.json\n- `RUN:baseline_001` \u2014 `EXPERIMENT_JSON` \u2014 runs/baseline_001.json\n- `RUN:lr_005_seed2` \u2014 `EXPERIMENT_JSON` \u2014 runs/lr_005_seed2.json\n- `RUN:lr_01_seed2` \u2014 `EXPERIMENT_JSON` \u2014 runs/lr_01_seed2.json\n- `PAIR:0` \u2014 `DERIVED_ANALYSIS` \u2014 runs/lr_005_seed3.json, runs/lr_01_seed3.json\n- `PAIR:1` \u2014 `DERIVED_ANALYSIS` \u2014 runs/lr_005_gap_001.json, runs/baseline_001.json\n- `PAIR:2` \u2014 `DERIVED_ANALYSIS` \u2014 runs/lr_005_seed2.json, runs/lr_01_seed2.json\n- `PAIR:3` \u2014 `DERIVED_ANALYSIS` \u2014 runs/lr_005_seed3.json, runs/lr_01_seed3.json\n- `ML:learning_rates` \u2014 `ML_KNOWLEDGE` \u2014 knowledge/learning_rates.md\n- `ML:optimization` \u2014 `ML_KNOWLEDGE` \u2014 knowledge/optimization.md\n- `NOTE:0` \u2014 `DERIVED_ANALYSIS` \u2014 runs/lr_005_seed3.json\n- `NOTE:1` \u2014 `DERIVED_ANALYSIS` \u2014 runs/lr_01_seed3.json\n- `NOTE:2` \u2014 `EXPERIMENT_NOTE` \u2014 notes/lr_01_seed2.md\n- `NOTE:5` \u2014 `DERIVED_ANALYSIS` \u2014 runs/lr_001.json\n\n## Structured plan\n\n```json\n[\n  {\n    \"id\": \"collect\",\n    \"description\": \"Read exact experiment evidence\",\n    \"tool\": \"get_experiment\",\n    \"depends_on\": [],\n    \"status\": \"completed\",\n    \"proposed_by\": \"PYTHON\"\n  },\n  {\n    \"id\": \"notes\",\n    \"description\": \"Find earlier experiment observations\",\n    \"tool\": \"search_notes\",\n    \"depends_on\": [],\n    \"status\": \"completed\",\n    \"proposed_by\": \"APP POLICY\"\n  },\n  {\n    \"id\": \"analyze\",\n    \"description\": \"Compute curves, controls and seed comparisons\",\n    \"tool\": \"analyze_experiments\",\n    \"depends_on\": [\n      \"collect\"\n    ],\n    \"status\": \"completed\",\n    \"proposed_by\": \"PYTHON\"\n  },\n  {\n    \"id\": \"knowledge\",\n    \"description\": \"Retrieve possible general mechanisms\",\n    \"tool\": \"search_ml_knowledge\",\n    \"depends_on\": [\n      \"analyze\"\n    ],\n    \"status\": \"completed\",\n    \"proposed_by\": \"APP POLICY\"\n  },\n  {\n    \"id\": \"hypotheses\",\n    \"description\": \"Select competing evidence-backed hypotheses\",\n    \"tool\": \"select_hypotheses\",\n    \"depends_on\": [\n      \"analyze\"\n    ],\n    \"status\": \"completed\",\n    \"proposed_by\": \"PYTHON\"\n  },\n  {\n    \"id\": \"validate\",\n    \"description\": \"Validate citations and hypothesis evidence\",\n    \"tool\": \"validate_evidence\",\n    \"depends_on\": [\n      \"hypotheses\"\n    ],\n    \"status\": \"completed\",\n    \"proposed_by\": \"PYTHON\"\n  },\n  {\n    \"id\": \"design\",\n    \"description\": \"Design a new controlled experiment\",\n    \"tool\": \"design_followup\",\n    \"depends_on\": [\n      \"validate\"\n    ],\n    \"status\": \"completed\",\n    \"proposed_by\": \"PYTHON\"\n  },\n  {\n    \"id\": \"approval\",\n    \"description\": \"Wait for an exact human decision\",\n    \"tool\": \"human_approval\",\n    \"depends_on\": [\n      \"design\"\n    ],\n    \"status\": \"waiting\",\n    \"proposed_by\": \"APP POLICY\"\n  },\n  {\n    \"id\": \"execute\",\n    \"description\": \"Execute only an approved configuration\",\n    \"tool\": \"restricted_executor\",\n    \"depends_on\": [\n      \"approval\"\n    ],\n    \"status\": \"pending\",\n    \"proposed_by\": \"APP POLICY\"\n  },\n  {\n    \"id\": \"outcome\",\n    \"description\": \"Analyze new measured outcomes\",\n    \"tool\": \"analyze_outcome\",\n    \"depends_on\": [\n      \"execute\"\n    ],\n    \"status\": \"pending\",\n    \"proposed_by\": \"PYTHON\"\n  },\n  {\n    \"id\": \"report\",\n    \"description\": \"Save sourced investigation report\",\n    \"tool\": \"render_report\",\n    \"depends_on\": [\n      \"validate\"\n    ],\n    \"status\": \"pending\",\n    \"proposed_by\": \"PYTHON\"\n  }\n]\n```\n",
+      "elapsed_seconds": 9.094,
+      "trace": [
+        {
+          "kind": "STATE UPDATE",
+          "origin": "PYTHON",
+          "data": {
+            "original_question": "Investigate why lr_01_seed3 performed worse than lr_005_seed3. Search notes, check previous experiments, retrieve ML knowledge, and propose a controlled follow-up.",
+            "resolved_question": "Investigate why lr_01_seed3 performed worse than lr_005_seed3. Search notes, check previous experiments, retrieve ML knowledge, and propose a controlled follow-up.",
+            "conversation_before": {
+              "focused_run_id": null,
+              "referenced_run_ids": [],
+              "comparison_run_ids": [],
+              "recent_turns": [],
+              "history_bound": 4
+            },
+            "reference_resolution": {
+              "focused_run_id_before": null,
+              "explicit_run_ids": [
+                "lr_01_seed3",
+                "lr_005_seed3"
+              ],
+              "resolved_reference": null,
+              "resolved_question": "Investigate why lr_01_seed3 performed worse than lr_005_seed3. Search notes, check previous experiments, retrieve ML knowledge, and propose a controlled follow-up.",
+              "recent_turns": 0
+            },
+            "explicit_run_ids": [
+              "lr_01_seed3",
+              "lr_005_seed3"
+            ]
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "origin": "PYTHON",
+          "data": {
+            "classification": "investigation"
+          }
+        },
+        {
+          "kind": "TOOL MENU",
+          "origin": "PYTHON",
+          "data": {
+            "type": "function",
+            "function": {
+              "name": "create_investigation_plan",
+              "description": "Objective: Investigate why lr_01_seed3 performed worse than lr_005_seed3. Search notes, check previous experiments, retrieve ML knowledge, and propose a controlled follow-up.. Known mentioned runs: ['lr_01_seed3', 'lr_005_seed3']. Choose useful optional research tools. Choose compare_seed_pairs to check replication/counterevidence; search_notes to find previous observations; retrieve_knowledge for mechanisms. Return a topic from the menu.",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "steps": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "search_notes",
+                        "compare_seed_pairs",
+                        "retrieve_knowledge"
+                      ]
+                    },
+                    "maxItems": 3
+                  },
+                  "knowledge_topic": {
+                    "type": "string",
+                    "enum": [
+                      "high learning rate optimization instability",
+                      "dropout overfitting validation loss",
+                      "training validation loss curves"
+                    ]
+                  }
+                },
+                "required": [
+                  "steps",
+                  "knowledge_topic"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "origin": "PYTHON",
+          "data": {
+            "model_failure": "<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>",
+            "attempt": 1,
+            "maximum_attempts": 2
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "origin": "PYTHON",
+          "data": {
+            "model_failure": "<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>",
+            "attempt": 2,
+            "maximum_attempts": 2
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "origin": "PYTHON",
+          "data": {
+            "fallback": {
+              "steps": [
+                "search_notes",
+                "compare_seed_pairs",
+                "retrieve_knowledge"
+              ],
+              "knowledge_topic": "high learning rate optimization instability"
+            },
+            "reason": "model disabled or exhausted bounded attempts"
+          }
+        },
+        {
+          "kind": "PLANNER DECISION",
+          "origin": "APP POLICY",
+          "data": {
+            "choice": {
+              "steps": [
+                "search_notes",
+                "compare_seed_pairs",
+                "retrieve_knowledge"
+              ],
+              "knowledge_topic": "high learning rate optimization instability"
+            },
+            "plan": [
+              {
+                "id": "collect",
+                "description": "Read exact experiment evidence",
+                "tool": "get_experiment",
+                "depends_on": [],
+                "status": "completed",
+                "proposed_by": "PYTHON"
+              },
+              {
+                "id": "notes",
+                "description": "Find earlier experiment observations",
+                "tool": "search_notes",
+                "depends_on": [],
+                "status": "completed",
+                "proposed_by": "APP POLICY"
+              },
+              {
+                "id": "analyze",
+                "description": "Compute curves, controls and seed comparisons",
+                "tool": "analyze_experiments",
+                "depends_on": [
+                  "collect"
+                ],
+                "status": "completed",
+                "proposed_by": "PYTHON"
+              },
+              {
+                "id": "knowledge",
+                "description": "Retrieve possible general mechanisms",
+                "tool": "search_ml_knowledge",
+                "depends_on": [
+                  "analyze"
+                ],
+                "status": "completed",
+                "proposed_by": "APP POLICY"
+              },
+              {
+                "id": "hypotheses",
+                "description": "Select competing evidence-backed hypotheses",
+                "tool": "select_hypotheses",
+                "depends_on": [
+                  "analyze"
+                ],
+                "status": "completed",
+                "proposed_by": "PYTHON"
+              },
+              {
+                "id": "validate",
+                "description": "Validate citations and hypothesis evidence",
+                "tool": "validate_evidence",
+                "depends_on": [
+                  "hypotheses"
+                ],
+                "status": "completed",
+                "proposed_by": "PYTHON"
+              },
+              {
+                "id": "design",
+                "description": "Design a new controlled experiment",
+                "tool": "design_followup",
+                "depends_on": [
+                  "validate"
+                ],
+                "status": "completed",
+                "proposed_by": "PYTHON"
+              },
+              {
+                "id": "approval",
+                "description": "Wait for an exact human decision",
+                "tool": "human_approval",
+                "depends_on": [
+                  "design"
+                ],
+                "status": "waiting",
+                "proposed_by": "APP POLICY"
+              },
+              {
+                "id": "execute",
+                "description": "Execute only an approved configuration",
+                "tool": "restricted_executor",
+                "depends_on": [
+                  "approval"
+                ],
+                "status": "pending",
+                "proposed_by": "APP POLICY"
+              },
+              {
+                "id": "outcome",
+                "description": "Analyze new measured outcomes",
+                "tool": "analyze_outcome",
+                "depends_on": [
+                  "execute"
+                ],
+                "status": "pending",
+                "proposed_by": "PYTHON"
+              },
+              {
+                "id": "report",
+                "description": "Save sourced investigation report",
+                "tool": "render_report",
+                "depends_on": [
+                  "validate"
+                ],
+                "status": "pending",
+                "proposed_by": "PYTHON"
+              }
+            ],
+            "distinction": "Model selects optional tools; Python prescribes scientific checks and the approval boundary."
+          }
+        },
+        {
+          "kind": "TOOL EXECUTION",
+          "origin": "PYTHON",
+          "data": {
+            "tool": "search_notes",
+            "result": {
+              "query": "Investigate why lr_01_seed3 performed worse than lr_005_seed3. Search notes, check previous experiments, retrieve ML knowledge, and propose a controlled follow-up.",
+              "mode": "keyword + cached MiniLM RRF",
+              "source_policy": "human_first",
+              "reranker": "disabled",
+              "matches": [
+                {
+                  "run_id": "lr_005_seed3",
+                  "source_type": "DERIVED_ANALYSIS",
+                  "source": "runs/lr_005_seed3.json",
+                  "run_source": "runs/lr_005_seed3.json",
+                  "observation": "DERIVED_ANALYSIS machine-generated summary from runs/lr_005_seed3.json. Run lr_005_seed3. Learning rate 0.05, dropout 0.0, train size 10000, model seed 244, shuffle seed 243. Final validation accuracy 75.9 percent; final loss 0.6806; largest validation loss rise 0.0. no recorded rise followed by recovery; validation loss decreased or stayed flat every epoch.",
+                  "keyword_rank": 1,
+                  "semantic_rank": 3,
+                  "cosine_similarity": 0.4726,
+                  "exact_run_id_match": true,
+                  "rrf_score": 0.032266
+                },
+                {
+                  "run_id": "lr_01_seed3",
+                  "source_type": "DERIVED_ANALYSIS",
+                  "source": "runs/lr_01_seed3.json",
+                  "run_source": "runs/lr_01_seed3.json",
+                  "observation": "DERIVED_ANALYSIS machine-generated summary from runs/lr_01_seed3.json. Run lr_01_seed3. Learning rate 0.1, dropout 0.0, train size 10000, model seed 244, shuffle seed 243. Final validation accuracy 71.45 percent; final loss 0.810865; largest validation loss rise 0.138654. validation loss spike and recovery.",
+                  "keyword_rank": 2,
+                  "semantic_rank": 5,
+                  "cosine_similarity": 0.453,
+                  "exact_run_id_match": true,
+                  "rrf_score": 0.031514
+                },
+                {
+                  "run_id": "lr_01_seed2",
+                  "source_type": "EXPERIMENT_NOTE",
+                  "source": "notes/lr_01_seed2.md",
+                  "run_source": "runs/lr_01_seed2.json",
+                  "observation": "With alternate model and shuffle seeds, validation loss rose from 0.7136 at epoch 3 to 0.8142 at epoch 4, then fell to 0.6793 at epoch 5. Final validation accuracy was 76.35%.",
+                  "keyword_rank": null,
+                  "semantic_rank": 1,
+                  "cosine_similarity": 0.3876,
+                  "exact_run_id_match": false,
+                  "rrf_score": 0.016393
+                }
+              ],
+              "supplementary_derived_matches": [
+                {
+                  "run_id": "lr_005_seed3",
+                  "source_type": "DERIVED_ANALYSIS",
+                  "source": "runs/lr_005_seed3.json",
+                  "run_source": "runs/lr_005_seed3.json",
+                  "observation": "DERIVED_ANALYSIS machine-generated summary from runs/lr_005_seed3.json. Run lr_005_seed3. Learning rate 0.05, dropout 0.0, train size 10000, model seed 244, shuffle seed 243. Final validation accuracy 75.9 percent; final loss 0.6806; largest validation loss rise 0.0. no recorded rise followed by recovery; validation loss decreased or stayed flat every epoch.",
+                  "keyword_rank": 1,
+                  "semantic_rank": 3,
+                  "cosine_similarity": 0.4726,
+                  "exact_run_id_match": true,
+                  "rrf_score": 0.032266
+                },
+                {
+                  "run_id": "lr_01_seed3",
+                  "source_type": "DERIVED_ANALYSIS",
+                  "source": "runs/lr_01_seed3.json",
+                  "run_source": "runs/lr_01_seed3.json",
+                  "observation": "DERIVED_ANALYSIS machine-generated summary from runs/lr_01_seed3.json. Run lr_01_seed3. Learning rate 0.1, dropout 0.0, train size 10000, model seed 244, shuffle seed 243. Final validation accuracy 71.45 percent; final loss 0.810865; largest validation loss rise 0.138654. validation loss spike and recovery.",
+                  "keyword_rank": 2,
+                  "semantic_rank": 5,
+                  "cosine_similarity": 0.453,
+                  "exact_run_id_match": true,
+                  "rrf_score": 0.031514
+                },
+                {
+                  "run_id": "lr_001",
+                  "source_type": "DERIVED_ANALYSIS",
+                  "source": "runs/lr_001.json",
+                  "run_source": "runs/lr_001.json",
+                  "observation": "DERIVED_ANALYSIS machine-generated summary from runs/lr_001.json. Run lr_001. Learning rate 0.01, dropout unknown, train size 10000, model seed 44, shuffle seed 43. Final validation accuracy 66.4 percent; final loss 1.030395; largest validation loss rise 0.0. no recorded rise followed by recovery; validation loss decreased or stayed flat every epoch.",
+                  "keyword_rank": 3,
+                  "semantic_rank": 1,
+                  "cosine_similarity": 0.4781,
+                  "exact_run_id_match": false,
+                  "rrf_score": 0.032266
+                }
+              ],
+              "stages": {
+                "keyword": [
+                  "lr_005_seed3",
+                  "lr_01_seed3",
+                  "lr_001",
+                  "lr_005_seed2",
+                  "lr_gap_001"
+                ],
+                "semantic": [
+                  "lr_001",
+                  "lr_gap_001",
+                  "lr_005_seed3",
+                  "lr_005_seed2",
+                  "lr_01_seed3",
+                  "lr_01_seed2",
+                  "baseline_001",
+                  "lr_005_gap_001",
+                  "small_dropout_05_001",
+                  "baseline_gap_001",
+                  "small_no_dropout_001"
+                ],
+                "hybrid": [
+                  "lr_005_seed3",
+                  "lr_01_seed3",
+                  "lr_01_seed2",
+                  "lr_005_gap_001",
+                  "small_dropout_05_001",
+                  "baseline_gap_001",
+                  "small_no_dropout_001",
+                  "lr_001",
+                  "lr_gap_001",
+                  "lr_005_seed2",
+                  "baseline_001"
+                ]
+              },
+              "stage_details": {
+                "query_tokens": [
+                  "005",
+                  "01",
+                  "check",
+                  "controlled",
+                  "follow",
+                  "investigate",
+                  "knowledge",
+                  "lr",
+                  "ml",
+                  "notes",
+                  "performed",
+                  "previous",
+                  "propose",
+                  "retrieve",
+                  "search",
+                  "seed3",
+                  "up",
+                  "worse"
+                ],
+                "keyword": [
+                  {
+                    "run_id": "lr_005_seed3",
+                    "overlap_count": 3,
+                    "rank": 1
+                  },
+                  {
+                    "run_id": "lr_01_seed3",
+                    "overlap_count": 3,
+                    "rank": 2
+                  },
+                  {
+                    "run_id": "lr_001",
+                    "overlap_count": 2,
+                    "rank": 3
+                  },
+                  {
+                    "run_id": "lr_005_seed2",
+                    "overlap_count": 2,
+                    "rank": 4
+                  },
+                  {
+                    "run_id": "lr_gap_001",
+                    "overlap_count": 2,
+                    "rank": 5
+                  }
+                ],
+                "semantic": [
+                  {
+                    "run_id": "lr_001",
+                    "cosine_similarity": 0.478077,
+                    "rank": 1
+                  },
+                  {
+                    "run_id": "lr_gap_001",
+                    "cosine_similarity": 0.473624,
+                    "rank": 2
+                  },
+                  {
+                    "run_id": "lr_005_seed3",
+                    "cosine_similarity": 0.472612,
+                    "rank": 3
+                  },
+                  {
+                    "run_id": "lr_005_seed2",
+                    "cosine_similarity": 0.457537,
+                    "rank": 4
+                  },
+                  {
+                    "run_id": "lr_01_seed3",
+                    "cosine_similarity": 0.453026,
+                    "rank": 5
+                  },
+                  {
+                    "run_id": "lr_01_seed2",
+                    "cosine_similarity": 0.387608,
+                    "rank": 1
+                  },
+                  {
+                    "run_id": "baseline_001",
+                    "cosine_similarity": 0.367395,
+                    "rank": 6
+                  },
+                  {
+                    "run_id": "lr_005_gap_001",
+                    "cosine_similarity": 0.319791,
+                    "rank": 2
+                  },
+                  {
+                    "run_id": "small_dropout_05_001",
+                    "cosine_similarity": 0.282292,
+                    "rank": 3
+                  },
+                  {
+                    "run_id": "baseline_gap_001",
+                    "cosine_similarity": 0.263071,
+                    "rank": 4
+                  },
+                  {
+                    "run_id": "small_no_dropout_001",
+                    "cosine_similarity": 0.242886,
+                    "rank": 5
+                  }
+                ],
+                "fusion": [
+                  {
+                    "run_id": "lr_005_seed3",
+                    "keyword_rank": 1,
+                    "semantic_rank": 3,
+                    "rrf_score": 0.032266,
+                    "source_type": "DERIVED_ANALYSIS"
+                  },
+                  {
+                    "run_id": "lr_01_seed3",
+                    "keyword_rank": 2,
+                    "semantic_rank": 5,
+                    "rrf_score": 0.031514,
+                    "source_type": "DERIVED_ANALYSIS"
+                  },
+                  {
+                    "run_id": "lr_01_seed2",
+                    "keyword_rank": null,
+                    "semantic_rank": 1,
+                    "rrf_score": 0.016393,
+                    "source_type": "EXPERIMENT_NOTE"
+                  },
+                  {
+                    "run_id": "lr_005_gap_001",
+                    "keyword_rank": null,
+                    "semantic_rank": 2,
+                    "rrf_score": 0.016129,
+                    "source_type": "EXPERIMENT_NOTE"
+                  },
+                  {
+                    "run_id": "small_dropout_05_001",
+                    "keyword_rank": null,
+                    "semantic_rank": 3,
+                    "rrf_score": 0.015873,
+                    "source_type": "EXPERIMENT_NOTE"
+                  },
+                  {
+                    "run_id": "baseline_gap_001",
+                    "keyword_rank": null,
+                    "semantic_rank": 4,
+                    "rrf_score": 0.015625,
+                    "source_type": "EXPERIMENT_NOTE"
+                  },
+                  {
+                    "run_id": "small_no_dropout_001",
+                    "keyword_rank": null,
+                    "semantic_rank": 5,
+                    "rrf_score": 0.015385,
+                    "source_type": "EXPERIMENT_NOTE"
+                  },
+                  {
+                    "run_id": "lr_001",
+                    "keyword_rank": 3,
+                    "semantic_rank": 1,
+                    "rrf_score": 0.032266,
+                    "source_type": "DERIVED_ANALYSIS"
+                  },
+                  {
+                    "run_id": "lr_gap_001",
+                    "keyword_rank": 5,
+                    "semantic_rank": 2,
+                    "rrf_score": 0.031514,
+                    "source_type": "DERIVED_ANALYSIS"
+                  },
+                  {
+                    "run_id": "lr_005_seed2",
+                    "keyword_rank": 4,
+                    "semantic_rank": 4,
+                    "rrf_score": 0.03125,
+                    "source_type": "DERIVED_ANALYSIS"
+                  },
+                  {
+                    "run_id": "baseline_001",
+                    "keyword_rank": null,
+                    "semantic_rank": 6,
+                    "rrf_score": 0.015152,
+                    "source_type": "DERIVED_ANALYSIS"
+                  }
+                ]
+              },
+              "corpus": {
+                "human_notes": 5,
+                "derived_summaries": 6
+              }
+            }
+          }
+        },
+        {
+          "kind": "EXPERIMENT EVIDENCE",
+          "origin": "PYTHON",
+          "data": {
+            "tool": "get_experiment",
+            "run_id": "lr_005_seed3",
+            "record": {
+              "config": {
+                "run_id": "lr_005_seed3",
+                "dataset": "FashionMNIST",
+                "source_partition": "train",
+                "preprocessing": "ToTensor",
+                "train_size": 10000,
+                "val_size": 2000,
+                "validation_start": 10000,
+                "split_seed": 42,
+                "shuffle_seed": 243,
+                "model_seed": 244,
+                "batch_size": 128,
+                "hidden_units": 128,
+                "dropout": 0.0,
+                "optimizer": "SGD",
+                "learning_rate": 0.05,
+                "epochs": 5
+              },
+              "metrics": [
+                {
+                  "epoch": 1,
+                  "train_loss_during_epoch": 1.5768690871238709,
+                  "train_loss_after_epoch": 1.0953938115119934,
+                  "train_accuracy_after_epoch": 0.612,
+                  "val_loss": 1.077092869758606,
+                  "val_accuracy": 0.626
+                },
+                {
+                  "epoch": 2,
+                  "train_loss_during_epoch": 0.9157467240333557,
+                  "train_loss_after_epoch": 0.8976822423934937,
+                  "train_accuracy_after_epoch": 0.6745,
+                  "val_loss": 0.8978471145629883,
+                  "val_accuracy": 0.6775
+                },
+                {
+                  "epoch": 3,
+                  "train_loss_during_epoch": 0.7648744816780091,
+                  "train_loss_after_epoch": 0.8522588306427002,
+                  "train_accuracy_after_epoch": 0.6881,
+                  "val_loss": 0.8446058855056763,
+                  "val_accuracy": 0.687
+                },
+                {
+                  "epoch": 4,
+                  "train_loss_during_epoch": 0.6941012891769409,
+                  "train_loss_after_epoch": 0.6855860265254974,
+                  "train_accuracy_after_epoch": 0.7522,
+                  "val_loss": 0.6975534653663635,
+                  "val_accuracy": 0.7305
+                },
+                {
+                  "epoch": 5,
+                  "train_loss_during_epoch": 0.6385964094161988,
+                  "train_loss_after_epoch": 0.6929299505233765,
+                  "train_accuracy_after_epoch": 0.7534,
+                  "val_loss": 0.680600378036499,
+                  "val_accuracy": 0.759
+                }
+              ]
+            }
+          }
+        },
+        {
+          "kind": "EXPERIMENT EVIDENCE",
+          "origin": "PYTHON",
+          "data": {
+            "tool": "get_experiment",
+            "run_id": "lr_01_seed3",
+            "record": {
+              "config": {
+                "run_id": "lr_01_seed3",
+                "dataset": "FashionMNIST",
+                "source_partition": "train",
+                "preprocessing": "ToTensor",
+                "train_size": 10000,
+                "val_size": 2000,
+                "validation_start": 10000,
+                "split_seed": 42,
+                "shuffle_seed": 243,
+                "model_seed": 244,
+                "batch_size": 128,
+                "hidden_units": 128,
+                "dropout": 0.0,
+                "optimizer": "SGD",
+                "learning_rate": 0.1,
+                "epochs": 5
+              },
+              "metrics": [
+                {
+                  "epoch": 1,
+                  "train_loss_during_epoch": 1.2794325910568238,
+                  "train_loss_after_epoch": 0.9111308251380921,
+                  "train_accuracy_after_epoch": 0.6495,
+                  "val_loss": 0.8865399732589722,
+                  "val_accuracy": 0.6645
+                },
+                {
+                  "epoch": 2,
+                  "train_loss_during_epoch": 0.7691367017745971,
+                  "train_loss_after_epoch": 1.0264610683441162,
+                  "train_accuracy_after_epoch": 0.6864,
+                  "val_loss": 1.0251937484741211,
+                  "val_accuracy": 0.6875
+                },
+                {
+                  "epoch": 3,
+                  "train_loss_during_epoch": 0.6635693133354187,
+                  "train_loss_after_epoch": 0.8690615137100219,
+                  "train_accuracy_after_epoch": 0.6762,
+                  "val_loss": 0.8684509625434875,
+                  "val_accuracy": 0.674
+                },
+                {
+                  "epoch": 4,
+                  "train_loss_during_epoch": 0.6114804370880127,
+                  "train_loss_after_epoch": 0.6598312929391861,
+                  "train_accuracy_after_epoch": 0.7469,
+                  "val_loss": 0.6828413162231445,
+                  "val_accuracy": 0.732
+                },
+                {
+                  "epoch": 5,
+                  "train_loss_during_epoch": 0.5592419065475464,
+                  "train_loss_after_epoch": 0.8131413830757142,
+                  "train_accuracy_after_epoch": 0.7162,
+                  "val_loss": 0.810864956855774,
+                  "val_accuracy": 0.7145
+                }
+              ]
+            }
+          }
+        },
+        {
+          "kind": "TOOL EXECUTION",
+          "origin": "PYTHON",
+          "data": {
+            "tool": "analyze_experiments",
+            "result": {
+              "comparisons": [
+                {
+                  "baseline_run_id": "lr_005_seed3",
+                  "target_run_id": "lr_01_seed3",
+                  "sources": [
+                    "runs/lr_005_seed3.json",
+                    "runs/lr_01_seed3.json"
+                  ],
+                  "source_type": "DERIVED_ANALYSIS",
+                  "changed_settings": {
+                    "learning_rate": {
+                      "baseline": 0.05,
+                      "target": 0.1
+                    }
+                  },
+                  "missing_controls": [],
+                  "curves": {
+                    "lr_005_seed3": {
+                      "final_accuracy_percent": 75.9,
+                      "final_loss": 0.6806,
+                      "final_epoch": 5,
+                      "best_accuracy_percent": 75.9,
+                      "best_epoch": 5,
+                      "minimum_loss": 0.6806,
+                      "minimum_loss_epoch": 5,
+                      "largest_loss_rise": 0.0,
+                      "recoveries": [],
+                      "final_loss_gap_val_minus_train": -0.01233,
+                      "candidate_generalization_intervals": []
+                    },
+                    "lr_01_seed3": {
+                      "final_accuracy_percent": 71.45,
+                      "final_loss": 0.810865,
+                      "final_epoch": 5,
+                      "best_accuracy_percent": 73.2,
+                      "best_epoch": 4,
+                      "minimum_loss": 0.682841,
+                      "minimum_loss_epoch": 4,
+                      "largest_loss_rise": 0.138654,
+                      "recoveries": [
+                        {
+                          "epochs": [
+                            1,
+                            2,
+                            3
+                          ],
+                          "losses": [
+                            0.8865,
+                            1.0252,
+                            0.8685
+                          ]
+                        }
+                      ],
+                      "final_loss_gap_val_minus_train": -0.002276,
+                      "candidate_generalization_intervals": []
+                    }
+                  },
+                  "matching_scope": "All recorded configuration fields; hidden_units and dropout describe architecture settings, not complete architecture provenance.",
+                  "missing_provenance": [
+                    "Exact model-class/trainer revision was not recorded in historical JSON.",
+                    "Hardware and software versions were not recorded in historical JSON."
+                  ],
+                  "controlled_learning_rate_pair": true,
+                  "confounded": false,
+                  "accuracy_delta_pp": -4.45,
+                  "loss_delta": 0.130265,
+                  "rise_delta": 0.138654
+                }
+              ],
+              "seed_pairs": [
+                {
+                  "baseline_run_id": "lr_005_gap_001",
+                  "target_run_id": "baseline_001",
+                  "sources": [
+                    "runs/lr_005_gap_001.json",
+                    "runs/baseline_001.json"
+                  ],
+                  "source_type": "DERIVED_ANALYSIS",
+                  "changed_settings": {
+                    "learning_rate": {
+                      "baseline": 0.05,
+                      "target": 0.1
+                    }
+                  },
+                  "missing_controls": [
+                    "validation_start",
+                    "dropout"
+                  ],
+                  "curves": {
+                    "lr_005_gap_001": {
+                      "final_accuracy_percent": 75.15,
+                      "final_loss": 0.687584,
+                      "final_epoch": 5,
+                      "best_accuracy_percent": 75.15,
+                      "best_epoch": 5,
+                      "minimum_loss": 0.687584,
+                      "minimum_loss_epoch": 5,
+                      "largest_loss_rise": 0.0,
+                      "recoveries": [],
+                      "final_loss_gap_val_minus_train": 0.002611,
+                      "candidate_generalization_intervals": []
+                    },
+                    "baseline_001": {
+                      "final_accuracy_percent": 71.25,
+                      "final_loss": 0.820787,
+                      "final_epoch": 5,
+                      "best_accuracy_percent": 75.1,
+                      "best_epoch": 3,
+                      "minimum_loss": 0.666292,
+                      "minimum_loss_epoch": 3,
+                      "largest_loss_rise": 0.548924,
+                      "recoveries": [
+                        {
+                          "epochs": [
+                            1,
+                            2,
+                            3
+                          ],
+                          "losses": [
+                            0.8696,
+                            1.4186,
+                            0.6663
+                          ]
+                        }
+                      ],
+                      "final_loss_gap_val_minus_train": null,
+                      "candidate_generalization_intervals": []
+                    }
+                  },
+                  "matching_scope": "All recorded configuration fields; hidden_units and dropout describe architecture settings, not complete architecture provenance.",
+                  "missing_provenance": [
+                    "Exact model-class/trainer revision was not recorded in historical JSON.",
+                    "Hardware and software versions were not recorded in historical JSON."
+                  ],
+                  "controlled_learning_rate_pair": false,
+                  "confounded": false,
+                  "accuracy_delta_pp": -3.9,
+                  "loss_delta": 0.133203,
+                  "rise_delta": 0.548924
+                },
+                {
+                  "baseline_run_id": "lr_005_seed2",
+                  "target_run_id": "lr_01_seed2",
+                  "sources": [
+                    "runs/lr_005_seed2.json",
+                    "runs/lr_01_seed2.json"
+                  ],
+                  "source_type": "DERIVED_ANALYSIS",
+                  "changed_settings": {
+                    "learning_rate": {
+                      "baseline": 0.05,
+                      "target": 0.1
+                    }
+                  },
+                  "missing_controls": [
+                    "validation_start",
+                    "dropout"
+                  ],
+                  "curves": {
+                    "lr_005_seed2": {
+                      "final_accuracy_percent": 76.05,
+                      "final_loss": 0.684773,
+                      "final_epoch": 5,
+                      "best_accuracy_percent": 76.55,
+                      "best_epoch": 3,
+                      "minimum_loss": 0.684773,
+                      "minimum_loss_epoch": 5,
+                      "largest_loss_rise": 0.001241,
+                      "recoveries": [
+                        {
+                          "epochs": [
+                            3,
+                            4,
+                            5
+                          ],
+                          "losses": [
+                            0.7457,
+                            0.7469,
+                            0.6848
+                          ]
+                        }
+                      ],
+                      "final_loss_gap_val_minus_train": -0.008717,
+                      "candidate_generalization_intervals": [
+                        [
+                          3,
+                          4
+                        ]
+                      ]
+                    },
+                    "lr_01_seed2": {
+                      "final_accuracy_percent": 76.35,
+                      "final_loss": 0.679277,
+                      "final_epoch": 5,
+                      "best_accuracy_percent": 76.35,
+                      "best_epoch": 5,
+                      "minimum_loss": 0.679277,
+                      "minimum_loss_epoch": 5,
+                      "largest_loss_rise": 0.100527,
+                      "recoveries": [
+                        {
+                          "epochs": [
+                            3,
+                            4,
+                            5
+                          ],
+                          "losses": [
+                            0.7136,
+                            0.8142,
+                            0.6793
+                          ]
+                        }
+                      ],
+                      "final_loss_gap_val_minus_train": -0.012381,
+                      "candidate_generalization_intervals": []
+                    }
+                  },
+                  "matching_scope": "All recorded configuration fields; hidden_units and dropout describe architecture settings, not complete architecture provenance.",
+                  "missing_provenance": [
+                    "Exact model-class/trainer revision was not recorded in historical JSON.",
+                    "Hardware and software versions were not recorded in historical JSON."
+                  ],
+                  "controlled_learning_rate_pair": false,
+                  "confounded": false,
+                  "accuracy_delta_pp": 0.3,
+                  "loss_delta": -0.005496,
+                  "rise_delta": 0.099287
+                },
+                {
+                  "baseline_run_id": "lr_005_seed3",
+                  "target_run_id": "lr_01_seed3",
+                  "sources": [
+                    "runs/lr_005_seed3.json",
+                    "runs/lr_01_seed3.json"
+                  ],
+                  "source_type": "DERIVED_ANALYSIS",
+                  "changed_settings": {
+                    "learning_rate": {
+                      "baseline": 0.05,
+                      "target": 0.1
+                    }
+                  },
+                  "missing_controls": [],
+                  "curves": {
+                    "lr_005_seed3": {
+                      "final_accuracy_percent": 75.9,
+                      "final_loss": 0.6806,
+                      "final_epoch": 5,
+                      "best_accuracy_percent": 75.9,
+                      "best_epoch": 5,
+                      "minimum_loss": 0.6806,
+                      "minimum_loss_epoch": 5,
+                      "largest_loss_rise": 0.0,
+                      "recoveries": [],
+                      "final_loss_gap_val_minus_train": -0.01233,
+                      "candidate_generalization_intervals": []
+                    },
+                    "lr_01_seed3": {
+                      "final_accuracy_percent": 71.45,
+                      "final_loss": 0.810865,
+                      "final_epoch": 5,
+                      "best_accuracy_percent": 73.2,
+                      "best_epoch": 4,
+                      "minimum_loss": 0.682841,
+                      "minimum_loss_epoch": 4,
+                      "largest_loss_rise": 0.138654,
+                      "recoveries": [
+                        {
+                          "epochs": [
+                            1,
+                            2,
+                            3
+                          ],
+                          "losses": [
+                            0.8865,
+                            1.0252,
+                            0.8685
+                          ]
+                        }
+                      ],
+                      "final_loss_gap_val_minus_train": -0.002276,
+                      "candidate_generalization_intervals": []
+                    }
+                  },
+                  "matching_scope": "All recorded configuration fields; hidden_units and dropout describe architecture settings, not complete architecture provenance.",
+                  "missing_provenance": [
+                    "Exact model-class/trainer revision was not recorded in historical JSON.",
+                    "Hardware and software versions were not recorded in historical JSON."
+                  ],
+                  "controlled_learning_rate_pair": true,
+                  "confounded": false,
+                  "accuracy_delta_pp": -4.45,
+                  "loss_delta": 0.130265,
+                  "rise_delta": 0.138654
+                }
+              ],
+              "seed_summary": {
+                "distinct_recorded_blocks": 3,
+                "mean_accuracy_delta_pp": -2.6833,
+                "population_sd_delta_pp": 2.1215,
+                "limit": "Descriptive observed blocks; missing controls and reuse of one split limit causal interpretation."
+              },
+              "incomplete_records": [],
+              "selected_records": [
+                {
+                  "config": {
+                    "run_id": "lr_005_seed3",
+                    "dataset": "FashionMNIST",
+                    "source_partition": "train",
+                    "preprocessing": "ToTensor",
+                    "train_size": 10000,
+                    "val_size": 2000,
+                    "validation_start": 10000,
+                    "split_seed": 42,
+                    "shuffle_seed": 243,
+                    "model_seed": 244,
+                    "batch_size": 128,
+                    "hidden_units": 128,
+                    "dropout": 0.0,
+                    "optimizer": "SGD",
+                    "learning_rate": 0.05,
+                    "epochs": 5
+                  },
+                  "metrics": [
+                    {
+                      "epoch": 1,
+                      "train_loss_during_epoch": 1.5768690871238709,
+                      "train_loss_after_epoch": 1.0953938115119934,
+                      "train_accuracy_after_epoch": 0.612,
+                      "val_loss": 1.077092869758606,
+                      "val_accuracy": 0.626
+                    },
+                    {
+                      "epoch": 2,
+                      "train_loss_during_epoch": 0.9157467240333557,
+                      "train_loss_after_epoch": 0.8976822423934937,
+                      "train_accuracy_after_epoch": 0.6745,
+                      "val_loss": 0.8978471145629883,
+                      "val_accuracy": 0.6775
+                    },
+                    {
+                      "epoch": 3,
+                      "train_loss_during_epoch": 0.7648744816780091,
+                      "train_loss_after_epoch": 0.8522588306427002,
+                      "train_accuracy_after_epoch": 0.6881,
+                      "val_loss": 0.8446058855056763,
+                      "val_accuracy": 0.687
+                    },
+                    {
+                      "epoch": 4,
+                      "train_loss_during_epoch": 0.6941012891769409,
+                      "train_loss_after_epoch": 0.6855860265254974,
+                      "train_accuracy_after_epoch": 0.7522,
+                      "val_loss": 0.6975534653663635,
+                      "val_accuracy": 0.7305
+                    },
+                    {
+                      "epoch": 5,
+                      "train_loss_during_epoch": 0.6385964094161988,
+                      "train_loss_after_epoch": 0.6929299505233765,
+                      "train_accuracy_after_epoch": 0.7534,
+                      "val_loss": 0.680600378036499,
+                      "val_accuracy": 0.759
+                    }
+                  ]
+                },
+                {
+                  "config": {
+                    "run_id": "lr_01_seed3",
+                    "dataset": "FashionMNIST",
+                    "source_partition": "train",
+                    "preprocessing": "ToTensor",
+                    "train_size": 10000,
+                    "val_size": 2000,
+                    "validation_start": 10000,
+                    "split_seed": 42,
+                    "shuffle_seed": 243,
+                    "model_seed": 244,
+                    "batch_size": 128,
+                    "hidden_units": 128,
+                    "dropout": 0.0,
+                    "optimizer": "SGD",
+                    "learning_rate": 0.1,
+                    "epochs": 5
+                  },
+                  "metrics": [
+                    {
+                      "epoch": 1,
+                      "train_loss_during_epoch": 1.2794325910568238,
+                      "train_loss_after_epoch": 0.9111308251380921,
+                      "train_accuracy_after_epoch": 0.6495,
+                      "val_loss": 0.8865399732589722,
+                      "val_accuracy": 0.6645
+                    },
+                    {
+                      "epoch": 2,
+                      "train_loss_during_epoch": 0.7691367017745971,
+                      "train_loss_after_epoch": 1.0264610683441162,
+                      "train_accuracy_after_epoch": 0.6864,
+                      "val_loss": 1.0251937484741211,
+                      "val_accuracy": 0.6875
+                    },
+                    {
+                      "epoch": 3,
+                      "train_loss_during_epoch": 0.6635693133354187,
+                      "train_loss_after_epoch": 0.8690615137100219,
+                      "train_accuracy_after_epoch": 0.6762,
+                      "val_loss": 0.8684509625434875,
+                      "val_accuracy": 0.674
+                    },
+                    {
+                      "epoch": 4,
+                      "train_loss_during_epoch": 0.6114804370880127,
+                      "train_loss_after_epoch": 0.6598312929391861,
+                      "train_accuracy_after_epoch": 0.7469,
+                      "val_loss": 0.6828413162231445,
+                      "val_accuracy": 0.732
+                    },
+                    {
+                      "epoch": 5,
+                      "train_loss_during_epoch": 0.5592419065475464,
+                      "train_loss_after_epoch": 0.8131413830757142,
+                      "train_accuracy_after_epoch": 0.7162,
+                      "val_loss": 0.810864956855774,
+                      "val_accuracy": 0.7145
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "kind": "KNOWLEDGE RETRIEVAL",
+          "origin": "PYTHON",
+          "data": {
+            "query": "high learning rate optimization instability",
+            "source_category": "general ML knowledge",
+            "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+            "ranking_method": "keyword + MiniLM reciprocal rank fusion",
+            "matches": [
+              {
+                "id": "learning_rates",
+                "path": "knowledge/learning_rates.md",
+                "source_title": "Linear regression: Hyperparameters",
+                "source_url": "https://developers.google.com/machine-learning/crash-course/linear-regression/hyperparameters",
+                "topic": "learning rates and optimization",
+                "source_type": "ML_KNOWLEDGE",
+                "text": "The learning rate controls the size of a gradient-descent parameter update. A rate that is too high can make optimization bounce around a minimum or fail to converge; a rate that is too low can make progress slow. The useful rate depends on the model and data. This general mechanism does not establish why any specific Fashion-MNIST run changed.",
+                "semantic_rank": 1,
+                "keyword_rank": 1,
+                "cosine_similarity": 0.5258,
+                "hybrid_score": 0.032787,
+                "rank": 1
+              },
+              {
+                "id": "optimization",
+                "path": "knowledge/optimization.md",
+                "source_title": "Optimizing Model Parameters",
+                "source_url": "https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html",
+                "topic": "SGD, loss, and weight updates",
+                "source_type": "ML_KNOWLEDGE",
+                "text": "Optimization changes model parameters to reduce error. In PyTorch's training loop, zero_grad clears accumulated gradients, backward computes gradients of loss, and optimizer.step updates parameters. The SGD optimizer receives a learning-rate setting. A saved validation-loss curve records outcomes after those updates; it does not reveal every internal step.",
+                "semantic_rank": 2,
+                "keyword_rank": 2,
+                "cosine_similarity": 0.4475,
+                "hybrid_score": 0.032258,
+                "rank": 2
+              }
+            ]
+          }
+        },
+        {
+          "kind": "TOOL MENU",
+          "origin": "PYTHON",
+          "data": {
+            "type": "function",
+            "function": {
+              "name": "select_hypotheses",
+              "description": "Select and order competing hypotheses for the objective. These are candidate mechanisms, never facts. [{'hypothesis_id': 'H1', 'statement': 'A higher learning rate may contribute to larger validation-loss rises through unstable optimization.', 'supporting_experiment_evidence': ['PAIR:0', 'PAIR:1', 'PAIR:2', 'PAIR:3'], 'contradicting_experiment_evidence': []}, {'hypothesis_id': 'H2', 'statement': 'Seed-dependent training variability may contribute to differences in final validation accuracy.', 'supporting_experiment_evidence': ['PAIR:0', 'PAIR:1', 'PAIR:2', 'PAIR:3'], 'contradicting_experiment_evidence': []}, {'hypothesis_id': 'H3', 'statement': 'The short recorded training horizon may leave the final-epoch ranking sensitive to transient behavior.', 'supporting_experiment_evidence': ['RUN:lr_005_seed3', 'RUN:lr_01_seed3', 'RUN:lr_005_gap_001', 'RUN:baseline_001', 'RUN:lr_005_seed2', 'RUN:lr_01_seed2'], 'contradicting_experiment_evidence': []}, {'hypothesis_id': 'H4', 'statement': 'A generalization gap may contribute during intervals where training loss improves and validation loss rises.', 'supporting_experiment_evidence': ['PAIR:2'], 'contradicting_experiment_evidence': []}]",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "hypothesis_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "H1",
+                        "H2",
+                        "H3",
+                        "H4"
+                      ]
+                    },
+                    "minItems": 2,
+                    "maxItems": 4
+                  }
+                },
+                "required": [
+                  "hypothesis_ids"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "origin": "PYTHON",
+          "data": {
+            "model_failure": "<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>",
+            "attempt": 1,
+            "maximum_attempts": 2
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "origin": "PYTHON",
+          "data": {
+            "model_failure": "<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>",
+            "attempt": 2,
+            "maximum_attempts": 2
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "origin": "PYTHON",
+          "data": {
+            "fallback": {
+              "hypothesis_ids": [
+                "H1",
+                "H2",
+                "H3",
+                "H4"
+              ]
+            },
+            "reason": "model disabled or exhausted bounded attempts"
+          }
+        },
+        {
+          "kind": "HYPOTHESIS GENERATED",
+          "origin": "APP POLICY",
+          "data": [
+            {
+              "source_type": "HYPOTHESIS",
+              "relevant_ml_knowledge": [
+                "ML:learning_rates",
+                "ML:optimization"
+              ],
+              "assumptions": [
+                "Recorded configurations and epoch metrics accurately describe the runs."
+              ],
+              "missing_evidence": [
+                "Independent replication and optimizer-step/gradient measurements are absent.",
+                "Validation-loss rises cannot directly demonstrate overshooting; gradients and optimizer trajectories were not recorded."
+              ],
+              "status": "Consistent with current evidence",
+              "hypothesis_id": "H1",
+              "statement": "A higher learning rate may contribute to larger validation-loss rises through unstable optimization.",
+              "supporting_experiment_evidence": [
+                "PAIR:0",
+                "PAIR:1",
+                "PAIR:2",
+                "PAIR:3"
+              ],
+              "contradicting_experiment_evidence": [],
+              "proposed_test": "Compare maximum positive consecutive-epoch validation-loss rises under matched new seeds and different learning rates.",
+              "selected_by": "APP POLICY",
+              "statement_origin": "PYTHON evidence-conditioned candidate"
+            },
+            {
+              "source_type": "HYPOTHESIS",
+              "relevant_ml_knowledge": [
+                "ML:learning_rates",
+                "ML:optimization"
+              ],
+              "assumptions": [
+                "Recorded configurations and epoch metrics accurately describe the runs."
+              ],
+              "missing_evidence": [
+                "Independent replication and optimizer-step/gradient measurements are absent.",
+                "A small number of observed seed blocks cannot establish a distribution or separate all sources of randomness."
+              ],
+              "status": "Consistent with current evidence",
+              "hypothesis_id": "H2",
+              "statement": "Seed-dependent training variability may contribute to differences in final validation accuracy.",
+              "supporting_experiment_evidence": [
+                "PAIR:0",
+                "PAIR:1",
+                "PAIR:2",
+                "PAIR:3"
+              ],
+              "contradicting_experiment_evidence": [],
+              "proposed_test": "Repeat a controlled learning-rate comparison under a new shared model/shuffle seed block; predefine accuracy and loss-rise comparisons.",
+              "selected_by": "APP POLICY",
+              "statement_origin": "PYTHON evidence-conditioned candidate"
+            },
+            {
+              "source_type": "HYPOTHESIS",
+              "relevant_ml_knowledge": [
+                "ML:learning_rates",
+                "ML:optimization"
+              ],
+              "assumptions": [
+                "Recorded configurations and epoch metrics accurately describe the runs."
+              ],
+              "missing_evidence": [
+                "Independent replication and optimizer-step/gradient measurements are absent.",
+                "Longer independently approved training and predeclared stopping criteria are unavailable."
+              ],
+              "status": "Consistent with current evidence",
+              "hypothesis_id": "H3",
+              "statement": "The short recorded training horizon may leave the final-epoch ranking sensitive to transient behavior.",
+              "supporting_experiment_evidence": [
+                "RUN:lr_005_seed3",
+                "RUN:lr_01_seed3",
+                "RUN:lr_005_gap_001",
+                "RUN:baseline_001",
+                "RUN:lr_005_seed2",
+                "RUN:lr_01_seed2"
+              ],
+              "contradicting_experiment_evidence": [],
+              "proposed_test": "Replicate the existing horizon first; consider a separately approved longer-horizon study if ambiguity remains.",
+              "selected_by": "APP POLICY",
+              "statement_origin": "PYTHON evidence-conditioned candidate"
+            },
+            {
+              "source_type": "HYPOTHESIS",
+              "relevant_ml_knowledge": [
+                "ML:learning_rates",
+                "ML:optimization"
+              ],
+              "assumptions": [
+                "Recorded configurations and epoch metrics accurately describe the runs."
+              ],
+              "missing_evidence": [
+                "Independent replication and optimizer-step/gradient measurements are absent.",
+                "This interval rule is a diagnostic candidate, not proof of overfitting."
+              ],
+              "status": "Consistent with current evidence",
+              "hypothesis_id": "H4",
+              "statement": "A generalization gap may contribute during intervals where training loss improves and validation loss rises.",
+              "supporting_experiment_evidence": [
+                "PAIR:2"
+              ],
+              "contradicting_experiment_evidence": [],
+              "proposed_test": "Inspect matched train/validation curves and test one regularization change in a separate controlled proposal.",
+              "selected_by": "APP POLICY",
+              "statement_origin": "PYTHON evidence-conditioned candidate"
+            }
+          ]
+        },
+        {
+          "kind": "HYPOTHESIS VALIDATION",
+          "origin": "PYTHON",
+          "data": {
+            "valid": true,
+            "errors": [],
+            "unsupported_structured_citations": 0,
+            "scope": "Structured evidence links and recorded snapshots; not a proof of causal mechanisms."
+          }
+        },
+        {
+          "kind": "APPROVAL REQUEST",
+          "origin": "APP POLICY",
+          "data": {
+            "proposal_id": "INV-9AD591A25E-P1",
+            "hash": "7c532e569deb01fab66c5607bdc381d04d5bfce849cd82cabc41e08f5561f505",
+            "payload": {
+              "proposal_id": "INV-9AD591A25E-P1",
+              "investigation_id": "INV-9AD591A25E",
+              "hypothesis_ids": [
+                "H1",
+                "H2"
+              ],
+              "changed_variable": "learning_rate",
+              "controlled_variables": [
+                "dataset",
+                "source_partition",
+                "preprocessing",
+                "train_size",
+                "val_size",
+                "validation_start",
+                "split_seed",
+                "shuffle_seed",
+                "model_seed",
+                "batch_size",
+                "hidden_units",
+                "optimizer",
+                "epochs",
+                "dropout"
+              ],
+              "runs": [
+                {
+                  "run_id": "v3_inv_9ad591a25e_control",
+                  "dataset": "FashionMNIST",
+                  "source_partition": "train",
+                  "preprocessing": "ToTensor",
+                  "train_size": 10000,
+                  "val_size": 2000,
+                  "validation_start": 10000,
+                  "split_seed": 42,
+                  "shuffle_seed": 443,
+                  "model_seed": 444,
+                  "batch_size": 128,
+                  "hidden_units": 128,
+                  "dropout": 0.0,
+                  "optimizer": "SGD",
+                  "learning_rate": 0.05,
+                  "epochs": 5
+                },
+                {
+                  "run_id": "v3_inv_9ad591a25e_target",
+                  "dataset": "FashionMNIST",
+                  "source_partition": "train",
+                  "preprocessing": "ToTensor",
+                  "train_size": 10000,
+                  "val_size": 2000,
+                  "validation_start": 10000,
+                  "split_seed": 42,
+                  "shuffle_seed": 443,
+                  "model_seed": 444,
+                  "batch_size": 128,
+                  "hidden_units": 128,
+                  "dropout": 0.0,
+                  "optimizer": "SGD",
+                  "learning_rate": 0.1,
+                  "epochs": 5
+                }
+              ],
+              "rationale": "A new shared seed block tests whether the observed loss-rise ordering replicates while all other recorded controls are matched.",
+              "seed_rationale": "Seeds exceed recorded runs and reserved legacy plans. The same fresh seeds are used by both arms.",
+              "primary_metric": "largest_positive_consecutive_epoch_validation_loss_rise",
+              "secondary_metrics": [
+                "final_validation_accuracy_percent",
+                "final_validation_loss"
+              ],
+              "supported_if": "The higher-rate arm has a strictly larger maximum validation-loss rise.",
+              "contradicted_if": "The higher-rate arm has a smaller maximum rise; equality is inconclusive.",
+              "limitations": [
+                "One new seed block does not establish general causation.",
+                "The same fixed validation split is reused; the official test set is excluded.",
+                "Validation metrics do not directly measure overshooting.",
+                "Other hypotheses may require separately approved designs."
+              ],
+              "limits": {
+                "max_total_seconds": 600,
+                "max_runs": 2,
+                "cpu_threads": 2
+              },
+              "training_code_sha256": "a3bde6ef9e2b371fa2ccefb0f278bc910501ba64fb16f9567d0373b9bd72b4ba"
+            }
+          }
+        },
+        {
+          "kind": "STATE UPDATE",
+          "origin": "PYTHON",
+          "data": {
+            "focused_run_id": null,
+            "referenced_run_ids": [
+              "lr_01_seed3",
+              "lr_005_seed3"
+            ],
+            "comparison_run_ids": [],
+            "recent_turns": [
+              {
+                "question": "Investigate why lr_01_seed3 performed worse than lr_005_seed3. Search notes, check previous experiments, retrieve ML knowledge, and propose a controlled follow-up.",
+                "resolved_question": "Investigate why lr_01_seed3 performed worse than lr_005_seed3. Search notes, check previous experiments, retrieve ML knowledge, and propose a controlled follow-up.",
+                "tool_decisions": [],
+                "run_ids": [
+                  "lr_01_seed3",
+                  "lr_005_seed3"
+                ]
+              }
+            ],
+            "history_bound": 4
+          }
+        }
+      ]
+    },
+    {
+      "journey": "5 Human approval",
+      "blocked_states": [
+        "pending",
+        "rejected"
+      ],
+      "outcome": "dry_run_completed",
+      "live_training": false
+    },
+    {
+      "journey": "6 Error handling",
+      "question": "Who won the football World Cup?",
+      "status": "completed",
+      "answer": "This assistant specializes in saved ML experiments and their analysis. I don't have an appropriate tool or source for that question.",
+      "elapsed_seconds": 0.063,
+      "trace": [
+        {
+          "kind": "STATE UPDATE",
+          "origin": "PYTHON",
+          "data": {
+            "original_question": "Who won the football World Cup?",
+            "resolved_question": "Who won the football World Cup?",
+            "conversation_before": {
+              "focused_run_id": null,
+              "referenced_run_ids": [],
+              "comparison_run_ids": [],
+              "recent_turns": [],
+              "history_bound": 4
+            },
+            "reference_resolution": {
+              "focused_run_id_before": null,
+              "explicit_run_ids": [],
+              "resolved_reference": null,
+              "resolved_question": "Who won the football World Cup?",
+              "recent_turns": 0
+            },
+            "explicit_run_ids": []
+          }
+        },
+        {
+          "kind": "APP POLICY",
+          "origin": "PYTHON",
+          "data": {
+            "classification": "unsupported"
+          }
+        },
+        {
+          "kind": "STATE UPDATE",
+          "origin": "PYTHON",
+          "data": {
+            "focused_run_id": null,
+            "referenced_run_ids": [],
+            "comparison_run_ids": [],
+            "recent_turns": [
+              {
+                "question": "Who won the football World Cup?",
+                "resolved_question": "Who won the football World Cup?",
+                "tool_decisions": [],
+                "run_ids": []
+              }
+            ],
+            "history_bound": 4
+          }
+        }
+      ]
+    },
+    {
+      "journey": "6 Error handling",
+      "question": "Show lr_01_seed33",
+      "status": "invalid_request",
+      "answer": "Unknown experiment ID(s): lr_01_seed33. Available alternatives: {'lr_01_seed33': ['lr_01_seed3', 'lr_01_seed2', 'lr_005_seed3']}. Browse Experiment Explorer to choose a saved run.",
+      "elapsed_seconds": 0.0,
+      "trace": [
+        {
+          "kind": "APP POLICY",
+          "data": {
+            "unknown_ids": [
+              "lr_01_seed33"
+            ],
+            "alternatives": {
+              "lr_01_seed33": [
+                "lr_01_seed3",
+                "lr_01_seed2",
+                "lr_005_seed3"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "journey": "6 Error handling",
+      "question": "Plot it.",
+      "status": "clarification_needed",
+      "answer": "Which run do you mean? Select a run or name one; the current conversation has no unambiguous single-run focus.",
+      "elapsed_seconds": 0.0,
+      "trace": [
+        {
+          "kind": "APP POLICY",
+          "data": {
+            "clarification": "Which run do you mean? Select a run or name one; the current conversation has no unambiguous single-run focus."
+          }
+        }
+      ]
+    }
+  ]
+}
