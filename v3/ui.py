@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pandas as pd
 import streamlit as st
+from concurrent.futures import ThreadPoolExecutor
 
 from v3.service import Investigator
 
@@ -13,9 +14,17 @@ EXAMPLE = "Investigate why lr_01_seed3 had worse final validation accuracy than 
 
 def render_investigations():
     app = Investigator()
-    st.title("ML Experiment Detective V3")
+    future = st.session_state.get("execution_future")
+    if future is not None and future.done():
+        try:
+            future.result()
+        except Exception as exc:
+            st.error(f"Execution stopped: {exc}")
+        st.session_state.execution_pool.shutdown(wait=False)
+        del st.session_state.execution_future
+    st.title("Investigation Workspace")
     st.caption("Investigate saved evidence, compare explanations, and review controlled follow-ups. Training requires your explicit approval.")
-    with st.expander("Start a new investigation", expanded=not bool(app.store.list())):
+    with st.expander("Start a new investigation", expanded=not bool(app.store.list(research_only=True))):
         with st.form("new_investigation"):
             question = st.text_area("Research question", value=EXAMPLE)
             model = st.checkbox("Use local Ollama for planning and hypothesis selection", value=True)
@@ -29,7 +38,7 @@ def render_investigations():
                 st.rerun()
             except (ValueError, RuntimeError, OSError) as exc:
                 st.error(str(exc))
-    items = app.store.list()
+    items = app.store.list(research_only=True)
     if not items:
         st.info("Start an investigation to save its plan, evidence, proposals, and report locally.")
         return
@@ -86,6 +95,12 @@ def render_investigations():
             st.write(f"Proposal **{row['id']}** — **{row['status']}**")
             st.code(row["hash"], language=None)
             st.json(row["payload"])
+            if row["status"] == "running":
+                st.info("Training is running. Refresh to inspect saved progress or request cancellation.")
+                if st.button("Refresh execution status"):
+                    st.rerun()
+                if st.button("Cancel execution"):
+                    st.info(app.cancel(identifier))
             if row["status"] in {"pending", "approved", "rejected", "deferred", "failed", "interrupted"}:
                 st.caption("Dry runs validate the execution path without training. Live approval authorizes this exact two-run configuration for up to 600 seconds total.")
                 live = st.checkbox("I explicitly authorize live training for this exact proposal", key=f"live_{identifier}")
@@ -95,7 +110,12 @@ def render_investigations():
                     if column.button(label, key=f"{decision}_{identifier}"):
                         try:
                             with st.spinner("Applying your decision..."):
-                                app.decide(identifier, row["hash"], decision, mode="live" if live else "dry_run")
+                                if live and decision == "approved":
+                                    pool = ThreadPoolExecutor(max_workers=1)
+                                    st.session_state.execution_pool = pool
+                                    st.session_state.execution_future = pool.submit(app.decide, identifier, row["hash"], decision, mode="live")
+                                else:
+                                    app.decide(identifier, row["hash"], decision, mode="dry_run")
                             st.rerun()
                         except (ValueError, PermissionError, RuntimeError, OSError) as exc:
                             st.error(str(exc))
@@ -110,10 +130,11 @@ def render_investigations():
                             st.error(str(exc))
             st.json(app.store.decisions(row["id"]))
     with tabs[4]:
-        st.json(state.get("execution", {"status": "No execution"}))
+        current_execution = app.store.proposal(state["proposal_id"])["execution"] if state.get("proposal_id") else None
+        st.json(current_execution or state.get("execution", {"status": "No execution"}))
         if state.get("outcome"):
             st.json(state["outcome"])
-        for log in state.get("execution", {}).get("logs", []):
+        for log in (current_execution or state.get("execution", {})).get("logs", []):
             path = Path(log)
             if path.is_file():
                 with st.expander(path.name):
@@ -128,5 +149,5 @@ def render_investigations():
             st.success(str(app.export(identifier)))
     with tabs[6]:
         for i, e in enumerate(state.get("trace", [])):
-            with st.expander(f"{i + 1}. {e['kind']} — {e.get('origin', 'V2 trace')}"):
+            with st.expander(f"{i + 1}. {e['kind']} — {e.get('origin', 'tool trace')}"):
                 st.json(e["data"])
